@@ -1,0 +1,31 @@
+.related-section {
+
+    margin-top: 60px;
+
+}
+
+.related-title {
+
+    font-weight: 700;
+
+    margin-bottom: 30px;
+
+}
+
+.related-section .row {
+
+    row-gap: 20px;
+
+}
+
+@media(max-width:768px) {
+
+    .related-title {
+
+        font-size: 24px;
+
+        text-align: center;
+
+    }
+
+}

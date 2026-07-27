@@ -1,0 +1,39 @@
+.filter-card {
+    background: #fff;
+    padding: 18px 22px;
+    border-radius: 14px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, .08);
+    margin-bottom: 25px;
+}
+
+.filter-title {
+    font-size: 24px;
+    font-weight: 700;
+}
+
+.filter-card label {
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 6px;
+}
+
+.filter-card .form-select,
+.filter-card .form-control {
+    height: 42px;
+    font-size: 14px;
+    border-radius: 10px;
+}
+
+.filter-card .btn {
+    height: 42px;
+    border-radius: 10px;
+    font-size: 14px;
+}
+
+@media(max-width:768px) {
+
+    .filter-card {
+        padding: 16px;
+    }
+
+}

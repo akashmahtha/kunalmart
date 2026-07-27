@@ -1,0 +1,63 @@
+.quantity-selector {
+
+    display: flex;
+
+    align-items: center;
+
+    width: 150px;
+
+    border: 1px solid #ddd;
+
+    border-radius: 8px;
+
+    overflow: hidden;
+
+}
+
+.quantity-selector button {
+
+    width: 45px;
+
+    height: 45px;
+
+    border: none;
+
+    background: #0E8A3E;
+
+    color: #fff;
+
+    font-size: 20px;
+
+    cursor: pointer;
+
+}
+
+.quantity-selector button:hover {
+
+    background: #087132;
+
+}
+
+.quantity-selector button:disabled {
+
+    background: #ccc;
+
+    cursor: not-allowed;
+
+}
+
+.quantity-selector input {
+
+    width: 60px;
+
+    text-align: center;
+
+    border: none;
+
+    outline: none;
+
+    font-weight: 600;
+
+    font-size: 18px;
+
+}
