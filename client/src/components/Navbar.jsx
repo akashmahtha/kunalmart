@@ -46,18 +46,19 @@ const Navbar = () => {
     }, []);
 
     const fetchCategories = async () => {
+
         try {
+
             const res = await api.get("/categories");
 
-            const categoryData = res.data?.categories || [];
-
-            setCategories(categoryData);
+            setCategories(res.data.categories);
 
         } catch (error) {
-            console.error("Categories Error:", error);
 
-            setCategories([]);
+            console.log(error);
+
         }
+
     };
 
     const handleSearch = (e) => {
@@ -207,14 +208,22 @@ const Navbar = () => {
 
                             </option>
 
-                            {(categories || []).map((category) => (
-                                <option
-                                    key={category._id}
-                                    value={category._id}
-                                >
-                                    {category.name}
-                                </option>
-                            ))}
+                            {
+
+                                categories.map((category) => (
+
+                                    <option
+                                        key={category._id}
+                                        value={category._id}
+                                    >
+
+                                        {category.name}
+
+                                    </option>
+
+                                ))
+
+                            }
 
                         </select>
 
