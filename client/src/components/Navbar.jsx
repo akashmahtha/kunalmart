@@ -13,37 +13,48 @@ import {
     FaBars,
 } from "react-icons/fa";
 
-import { toast } from "react-toastify";
-
 import api from "../services/api";
 
 import logo from "../assets/logo.png";
 
 import "./Navbar.css";
 
+
 const Navbar = () => {
 
     const navigate = useNavigate();
+
+
+    // ================= STATES =================
 
     const [search, setSearch] = useState("");
 
     const [categories, setCategories] = useState([]);
 
-    // Future Ready
-    const [cartCount] = useState(0);
+    const [cartCount, setCartCount] = useState(0);
 
     const [wishlistCount] = useState(0);
 
-    // Login Check
+
+    // ================= LOGIN CHECK =================
+
     const token = localStorage.getItem("token");
 
     const user = !!token;
+
+
+    // ================= FETCH DATA =================
 
     useEffect(() => {
 
         fetchCategories();
 
+        fetchCartCount();
+
     }, []);
+
+
+    // ================= FETCH CATEGORIES =================
 
     const fetchCategories = async () => {
 
@@ -51,27 +62,91 @@ const Navbar = () => {
 
             const res = await api.get("/categories");
 
-            setCategories(res.data.categories);
+            setCategories(
+
+                res.data?.categories || []
+
+            );
 
         } catch (error) {
 
-            console.log(error);
+            console.log(
+
+                "Category Error:",
+
+                error
+
+            );
+
+            setCategories([]);
 
         }
 
     };
 
+
+    // ================= FETCH CART COUNT =================
+
+    const fetchCartCount = async () => {
+
+        try {
+
+            const res = await api.get("/cart");
+
+            const items =
+
+                res.data?.cart?.items || [];
+
+
+            const totalQuantity = items.reduce(
+
+                (total, item) =>
+
+                    total + (item.quantity || 0),
+
+                0
+
+            );
+
+
+            setCartCount(totalQuantity);
+
+        } catch (error) {
+
+            console.log(
+
+                "Cart Count Error:",
+
+                error
+
+            );
+
+            setCartCount(0);
+
+        }
+
+    };
+
+
+    // ================= SEARCH =================
+
     const handleSearch = (e) => {
 
         e.preventDefault();
 
-        if (search.trim()) {
 
-            navigate(`/products?keyword=${search}`);
+        const keyword = search.trim();
 
-        }
 
-        else {
+        if (keyword) {
+
+            navigate(
+
+                `/products?keyword=${encodeURIComponent(keyword)}`
+
+            );
+
+        } else {
 
             navigate("/products");
 
@@ -79,22 +154,55 @@ const Navbar = () => {
 
     };
 
+
+    // ================= CATEGORY =================
+
+    const handleCategoryChange = (e) => {
+
+        const categoryId = e.target.value;
+
+
+        if (categoryId) {
+
+            navigate(
+
+                `/products?category=${categoryId}`
+
+            );
+
+        } else {
+
+            navigate("/products");
+
+        }
+
+    };
+
+
+    // ================= LOGOUT =================
+
     const handleLogout = () => {
 
         localStorage.removeItem("token");
+
         localStorage.removeItem("user");
 
+
         navigate("/");
+
 
         window.location.reload();
 
     };
 
+
     return (
 
         <>
 
-            {/* Offer Bar */}
+            {/* ================================================= */}
+            {/* OFFER BAR */}
+            {/* ================================================= */}
 
             <div className="offer-bar">
 
@@ -102,24 +210,42 @@ const Navbar = () => {
 
             </div>
 
-            <nav className="navbar navbar-expand-lg custom-navbar sticky-top shadow">
+
+            {/* ================================================= */}
+            {/* NAVBAR */}
+            {/* ================================================= */}
+
+            <nav className="navbar navbar-expand-lg custom-navbar sticky-top shadow-sm">
+
 
                 <div className="container">
 
-                    {/* ================= Logo ================= */}
+
+                    {/* ================================================= */}
+                    {/* LOGO */}
+                    {/* ================================================= */}
 
                     <Link
+
                         to="/"
+
                         className="navbar-brand d-flex align-items-center"
+
                     >
 
                         <img
+
                             src={logo}
+
                             alt="Kunal Mart"
+
                             className="logo-img"
+
                         />
 
+
                         <div className="ms-2">
+
 
                             <h5 className="logo-title mb-0">
 
@@ -127,80 +253,109 @@ const Navbar = () => {
 
                             </h5>
 
+
                             <small className="logo-subtitle">
 
                                 Fresh Grocery
 
                             </small>
 
+
                         </div>
+
 
                     </Link>
 
-                    {/* Mobile Toggle */}
+
+                    {/* ================================================= */}
+                    {/* MOBILE BUTTON */}
+                    {/* ================================================= */}
 
                     <button
+
                         className="navbar-toggler"
+
                         type="button"
+
                         data-bs-toggle="collapse"
+
                         data-bs-target="#navbarContent"
+
+                        aria-controls="navbarContent"
+
+                        aria-expanded="false"
+
+                        aria-label="Toggle navigation"
+
                     >
 
                         <FaBars />
 
                     </button>
 
+
+                    {/* ================================================= */}
+                    {/* NAVBAR CONTENT */}
+                    {/* ================================================= */}
+
                     <div
+
                         className="collapse navbar-collapse"
+
                         id="navbarContent"
+
                     >
 
-                        {/* Delivery */}
+
+                        {/* ================================================= */}
+                        {/* DELIVERY LOCATION */}
+                        {/* ================================================= */}
 
                         <div className="delivery-box ms-lg-4">
 
-                            <FaMapMarkerAlt className="delivery-icon me-2" />
+
+                            <FaMapMarkerAlt
+
+                                className="delivery-icon me-2"
+
+                            />
+
 
                             <div>
 
-                                <small className="text-white-50">
+
+                                <small className="delivery-label">
 
                                     Deliver To
 
                                 </small>
 
-                                <div className="fw-bold text-white">
 
-                                    Pune
+                                <div className="delivery-city">
+
+                                    Kolkata
 
                                 </div>
 
+
                             </div>
+
 
                         </div>
 
-                        {/* Category */}
+
+                        {/* ================================================= */}
+                        {/* CATEGORY */}
+                        {/* ================================================= */}
 
                         <select
+
                             className="form-select category-select mx-lg-3"
-                            onChange={(e) => {
 
-                                if (e.target.value) {
+                            onChange={handleCategoryChange}
 
-                                    navigate(
-                                        `/products?category=${e.target.value}`
-                                    );
-
-                                }
-
-                                else {
-
-                                    navigate("/products");
-
-                                }
-
-                            }}
                         >
+
 
                             <option value="">
 
@@ -208,75 +363,116 @@ const Navbar = () => {
 
                             </option>
 
+
                             {
 
-                                categories.map((category) => (
+                                categories.map(
 
-                                    <option
-                                        key={category._id}
-                                        value={category._id}
-                                    >
+                                    (category) => (
 
-                                        {category.name}
+                                        <option
 
-                                    </option>
+                                            key={category._id}
 
-                                ))
+                                            value={category._id}
+
+                                        >
+
+                                            {category.name}
+
+                                        </option>
+
+                                    )
+
+                                )
 
                             }
 
+
                         </select>
 
-                        {/* Search */}
+
+                        {/* ================================================= */}
+                        {/* SEARCH */}
+                        {/* ================================================= */}
 
                         <form
+
                             className="search-box flex-grow-1"
+
                             onSubmit={handleSearch}
+
                         >
 
+
                             <input
+
                                 type="text"
+
                                 className="form-control"
+
                                 placeholder="Search Products..."
+
                                 value={search}
+
                                 onChange={(e) =>
-                                    setSearch(e.target.value)
+
+                                    setSearch(
+
+                                        e.target.value
+
+                                    )
+
                                 }
+
                             />
 
+
                             <button
-                                className="btn btn-warning"
+
+                                className="btn btn-success"
+
                                 type="submit"
+
                             >
 
                                 <FaSearch />
 
                             </button>
 
+
                         </form>
 
-                        {/* ========================= */}
-                        {/* Right Side */}
-                        {/* ========================= */}
 
-                        {/* ================= Right Side ================= */}
+                        {/* ================================================= */}
+                        {/* RIGHT SIDE */}
+                        {/* ================================================= */}
 
                         <ul className="navbar-nav align-items-center ms-lg-4">
 
-                            {/* Wishlist */}
+
+                            {/* ================= WISHLIST ================= */}
 
                             <li className="nav-item mx-2">
 
+
                                 <Link
+
                                     to="/wishlist"
+
                                     className="nav-link icon-link"
+
                                 >
+
 
                                     <div className="icon-wrapper">
 
+
                                         <FaHeart />
 
+
                                         {
+
                                             wishlistCount > 0 && (
 
                                                 <span className="nav-badge">
@@ -286,9 +482,12 @@ const Navbar = () => {
                                                 </span>
 
                                             )
+
                                         }
 
+
                                     </div>
+
 
                                     <small>
 
@@ -296,24 +495,35 @@ const Navbar = () => {
 
                                     </small>
 
+
                                 </Link>
+
 
                             </li>
 
-                            {/* Cart */}
+
+                            {/* ================= CART ================= */}
 
                             <li className="nav-item mx-2">
 
+
                                 <Link
+
                                     to="/cart"
+
                                     className="nav-link icon-link"
+
                                 >
+
 
                                     <div className="icon-wrapper">
 
+
                                         <FaShoppingCart />
 
+
                                         {
+
                                             cartCount > 0 && (
 
                                                 <span className="nav-badge">
@@ -323,9 +533,12 @@ const Navbar = () => {
                                                 </span>
 
                                             )
+
                                         }
 
+
                                     </div>
+
 
                                     <small>
 
@@ -333,25 +546,39 @@ const Navbar = () => {
 
                                     </small>
 
+
                                 </Link>
+
 
                             </li>
 
-                            {/* User */}
+
+                            {/* ================= ACCOUNT ================= */}
 
                             <li className="nav-item dropdown ms-3">
 
+
                                 <a
+
                                     href="/#"
+
                                     className="nav-link icon-link dropdown-toggle"
+
                                     data-bs-toggle="dropdown"
+
+                                    role="button"
+
                                 >
+
 
                                     <div className="icon-wrapper">
 
+
                                         <FaUserCircle />
 
+
                                     </div>
+
 
                                     <small>
 
@@ -359,9 +586,12 @@ const Navbar = () => {
 
                                     </small>
 
+
                                 </a>
 
+
                                 <ul className="dropdown-menu dropdown-menu-end shadow border-0 rounded-4">
+
 
                                     {
 
@@ -369,56 +599,93 @@ const Navbar = () => {
 
                                             <>
 
+
+                                                {/* PROFILE */}
+
                                                 <li>
 
+
                                                     <Link
+
                                                         to="/profile"
+
                                                         className="dropdown-item"
+
                                                     >
+
 
                                                         <FaUser className="me-2" />
 
+
                                                         My Profile
+
 
                                                     </Link>
 
+
                                                 </li>
+
+
+                                                {/* ORDERS */}
 
                                                 <li>
 
+
                                                     <Link
+
                                                         to="/orders"
+
                                                         className="dropdown-item"
+
                                                     >
+
 
                                                         <FaBoxOpen className="me-2" />
 
+
                                                         My Orders
+
 
                                                     </Link>
 
+
                                                 </li>
 
+
                                                 <li>
+
 
                                                     <hr className="dropdown-divider" />
 
+
                                                 </li>
+
+
+                                                {/* LOGOUT */}
 
                                                 <li>
 
+
                                                     <button
+
                                                         className="dropdown-item text-danger"
+
                                                         onClick={handleLogout}
+
                                                     >
+
 
                                                         <FaSignOutAlt className="me-2" />
 
+
                                                         Logout
+
 
                                                     </button>
 
+
                                                 </li>
+
 
                                             </>
 
@@ -426,31 +693,48 @@ const Navbar = () => {
 
                                             <>
 
+
+                                                {/* LOGIN */}
+
                                                 <li>
 
+
                                                     <Link
+
                                                         to="/login"
+
                                                         className="dropdown-item"
+
                                                     >
 
                                                         Login
 
                                                     </Link>
 
+
                                                 </li>
+
+
+                                                {/* REGISTER */}
 
                                                 <li>
 
+
                                                     <Link
+
                                                         to="/register"
+
                                                         className="dropdown-item"
+
                                                     >
 
                                                         Register
 
                                                     </Link>
 
+
                                                 </li>
+
 
                                             </>
 
@@ -458,22 +742,30 @@ const Navbar = () => {
 
                                     }
 
+
                                 </ul>
+
 
                             </li>
 
+
                         </ul>
+
 
                     </div>
 
+
                 </div>
 
+
             </nav>
+
 
         </>
 
     );
 
 };
+
 
 export default Navbar;

@@ -1,10 +1,13 @@
 import { useEffect, useState } from "react";
+
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import CartItem from "../components/CartItem";
 import CartSummary from "../components/CartSummary";
 import EmptyCart from "../components/EmptyCart";
+
 import api from "../services/api";
+
 
 const Cart = () => {
 
@@ -12,11 +15,15 @@ const Cart = () => {
 
     const [loading, setLoading] = useState(true);
 
+
+    // ================= FETCH CART =================
+
     useEffect(() => {
 
         fetchCart();
 
     }, []);
+
 
     const fetchCart = async () => {
 
@@ -24,11 +31,29 @@ const Cart = () => {
 
             const res = await api.get("/cart");
 
-            setCart(res.data.cart);
+            console.log("Cart API Response:", res.data);
+
+
+            setCart(
+
+                res.data?.cart || {
+
+                    items: [],
+
+                }
+
+            );
 
         } catch (error) {
 
-            console.log(error);
+            console.log("Cart Error:", error);
+
+
+            setCart({
+
+                items: [],
+
+            });
 
         } finally {
 
@@ -38,6 +63,9 @@ const Cart = () => {
 
     };
 
+
+    // ================= LOADING =================
+
     if (loading) {
 
         return (
@@ -46,11 +74,19 @@ const Cart = () => {
 
                 <Navbar />
 
+
                 <div className="container py-5 text-center">
 
                     <div className="spinner-border text-success"></div>
 
+                    <p className="mt-3">
+
+                        Loading Cart...
+
+                    </p>
+
                 </div>
+
 
                 <Footer />
 
@@ -60,7 +96,15 @@ const Cart = () => {
 
     }
 
-    if (!cart || cart.items.length === 0) {
+
+    // ================= SAFE CART ITEMS =================
+
+    const cartItems = cart?.items || [];
+
+
+    // ================= EMPTY CART =================
+
+    if (cartItems.length === 0) {
 
         return (
 
@@ -78,11 +122,15 @@ const Cart = () => {
 
     }
 
+
+    // ================= CART =================
+
     return (
 
         <>
 
             <Navbar />
+
 
             <div className="container py-5">
 
@@ -92,17 +140,26 @@ const Cart = () => {
 
                 </h2>
 
+
                 <div className="row">
 
+
+                    {/* LEFT SIDE */}
+
                     <div className="col-lg-8">
+
                         {
 
-                            cart.items.map((item) => (
+                            cartItems.map((item) => (
 
                                 <CartItem
-                                    key={item.product._id}
+
+                                    key={item.product?._id}
+
                                     item={item}
+
                                     fetchCart={fetchCart}
+
                                 />
 
                             ))
@@ -111,21 +168,23 @@ const Cart = () => {
 
                     </div>
 
-                    {/* Right Side */}
+
+                    {/* RIGHT SIDE */}
 
                     <div className="col-lg-4">
 
                         <CartSummary
+
                             cart={cart}
+
                         />
 
                     </div>
 
+
                 </div>
 
             </div>
-
-
 
 
             <Footer />
@@ -135,5 +194,6 @@ const Cart = () => {
     );
 
 };
+
 
 export default Cart;

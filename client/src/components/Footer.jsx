@@ -5,7 +5,7 @@ import {
     FaFacebookF,
     FaInstagram,
     FaTwitter,
-    FaLinkedinIn,
+    // FaLinkedinIn,
     FaPhoneAlt,
     FaEnvelope,
     FaMapMarkerAlt,
@@ -197,15 +197,6 @@ const Footer = () => {
                             </a>
 
 
-                            <a
-                                href="https://linkedin.com"
-                                target="_blank"
-                                rel="noreferrer"
-                            >
-
-                                <FaLinkedinIn />
-
-                            </a>
 
 
                         </div>
