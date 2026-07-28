@@ -3,6 +3,7 @@ import {
     Modal,
     Button,
     Form,
+    Image,
 } from "react-bootstrap";
 import { toast } from "react-toastify";
 
@@ -16,14 +17,12 @@ const EditCategoryModal = ({
 }) => {
 
     const [formData, setFormData] = useState({
-
         name: "",
-
-        image: "",
-
         description: "",
-
     });
+
+    const [image, setImage] = useState(null);
+    const [preview, setPreview] = useState("");
 
     const [loading, setLoading] = useState(false);
 
@@ -32,14 +31,12 @@ const EditCategoryModal = ({
         if (category) {
 
             setFormData({
-
                 name: category.name || "",
-
-                image: category.image || "",
-
                 description: category.description || "",
-
             });
+
+            setPreview(category.image || "");
+            setImage(null);
 
         }
 
@@ -48,12 +45,20 @@ const EditCategoryModal = ({
     const handleChange = (e) => {
 
         setFormData({
-
             ...formData,
-
             [e.target.name]: e.target.value,
-
         });
+
+    };
+
+    const handleFileChange = (e) => {
+
+        const file = e.target.files[0];
+
+        if (file) {
+            setImage(file);
+            setPreview(URL.createObjectURL(file));
+        }
 
     };
 
@@ -65,12 +70,23 @@ const EditCategoryModal = ({
 
             setLoading(true);
 
+            const data = new FormData();
+
+            data.append("name", formData.name);
+            data.append("description", formData.description);
+
+            if (image) {
+                data.append("image", image);
+            }
+
             const res = await api.put(
-
                 `/categories/${category._id}`,
-
-                formData
-
+                data,
+                {
+                    headers: {
+                        "Content-Type": "multipart/form-data",
+                    },
+                }
             );
 
             toast.success(res.data.message);
@@ -82,11 +98,8 @@ const EditCategoryModal = ({
         } catch (error) {
 
             toast.error(
-
                 error.response?.data?.message ||
-
                 "Failed to update category"
-
             );
 
         } finally {
@@ -108,9 +121,7 @@ const EditCategoryModal = ({
             <Modal.Header closeButton>
 
                 <Modal.Title>
-
                     Edit Category
-
                 </Modal.Title>
 
             </Modal.Header>
@@ -122,9 +133,7 @@ const EditCategoryModal = ({
                     <Form.Group className="mb-3">
 
                         <Form.Label>
-
                             Category Name
-
                         </Form.Label>
 
                         <Form.Control
@@ -140,26 +149,39 @@ const EditCategoryModal = ({
                     <Form.Group className="mb-3">
 
                         <Form.Label>
-
-                            Image URL
-
+                            Category Image
                         </Form.Label>
 
                         <Form.Control
-                            type="text"
-                            name="image"
-                            value={formData.image}
-                            onChange={handleChange}
+                            type="file"
+                            accept="image/*"
+                            onChange={handleFileChange}
                         />
 
                     </Form.Group>
 
+                    {preview && (
+
+                        <div className="mb-3 text-center">
+
+                            <Image
+                                src={preview}
+                                thumbnail
+                                style={{
+                                    width: "120px",
+                                    height: "120px",
+                                    objectFit: "cover",
+                                }}
+                            />
+
+                        </div>
+
+                    )}
+
                     <Form.Group>
 
                         <Form.Label>
-
                             Description
-
                         </Form.Label>
 
                         <Form.Control
@@ -180,9 +202,7 @@ const EditCategoryModal = ({
                         variant="secondary"
                         onClick={handleClose}
                     >
-
                         Cancel
-
                     </Button>
 
                     <Button
@@ -190,17 +210,9 @@ const EditCategoryModal = ({
                         variant="warning"
                         disabled={loading}
                     >
-
-                        {
-
-                            loading
-
-                                ? "Updating..."
-
-                                : "Update Category"
-
-                        }
-
+                        {loading
+                            ? "Updating..."
+                            : "Update Category"}
                     </Button>
 
                 </Modal.Footer>

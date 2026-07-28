@@ -119,11 +119,8 @@ export const getCategory = async (req, res) => {
 // Update Category
 export const updateCategory = async (req, res) => {
     try {
-        const category = await Category.findByIdAndUpdate(
-            req.params.id,
-            req.body,
-            { new: true, runValidators: true }
-        );
+
+        const category = await Category.findById(req.params.id);
 
         if (!category) {
             return res.status(404).json({
@@ -132,16 +129,41 @@ export const updateCategory = async (req, res) => {
             });
         }
 
+        const { name, description } = req.body;
+
+        let image = category.image;
+
+        if (req.file) {
+
+            // Upload new image
+            const uploadedImage = await uploadToCloudinary(
+                req.file.buffer
+            );
+
+            image = uploadedImage.secure_url;
+        }
+
+        category.name = name;
+        category.description = description;
+        category.image = image;
+
+        await category.save();
+
         res.status(200).json({
             success: true,
             message: "Category updated successfully",
             category,
         });
+
     } catch (error) {
+
+        console.log(error);
+
         res.status(500).json({
             success: false,
             message: error.message,
         });
+
     }
 };
 
