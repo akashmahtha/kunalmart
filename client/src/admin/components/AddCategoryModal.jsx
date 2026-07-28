@@ -15,25 +15,20 @@ const AddCategoryModal = ({
 }) => {
 
     const [formData, setFormData] = useState({
-
         name: "",
-
-        image: "",
-
+        image: null,
         description: "",
-
     });
 
     const [loading, setLoading] = useState(false);
 
     const handleChange = (e) => {
 
+        const { name, value, files } = e.target;
+
         setFormData({
-
             ...formData,
-
-            [e.target.name]: e.target.value,
-
+            [name]: files ? files[0] : value,
         });
 
     };
@@ -46,9 +41,23 @@ const AddCategoryModal = ({
 
             setLoading(true);
 
+            const data = new FormData();
+
+            data.append("name", formData.name);
+            data.append("description", formData.description);
+
+            if (formData.image) {
+                data.append("image", formData.image);
+            }
+
             const res = await api.post(
                 "/categories",
-                formData
+                data,
+                {
+                    headers: {
+                        "Content-Type": "multipart/form-data",
+                    },
+                }
             );
 
             toast.success(res.data.message);
@@ -56,13 +65,9 @@ const AddCategoryModal = ({
             fetchCategories();
 
             setFormData({
-
                 name: "",
-
-                image: "",
-
+                image: null,
                 description: "",
-
             });
 
             handleClose();
@@ -70,11 +75,8 @@ const AddCategoryModal = ({
         } catch (error) {
 
             toast.error(
-
                 error.response?.data?.message ||
-
                 "Failed to create category"
-
             );
 
         } finally {
@@ -107,6 +109,8 @@ const AddCategoryModal = ({
 
                 <Modal.Body>
 
+                    {/* Category Name */}
+
                     <Form.Group className="mb-3">
 
                         <Form.Label>
@@ -120,27 +124,32 @@ const AddCategoryModal = ({
                             name="name"
                             value={formData.name}
                             onChange={handleChange}
+                            placeholder="Enter category name"
                             required
                         />
 
                     </Form.Group>
 
+                    {/* Category Image */}
+
                     <Form.Group className="mb-3">
 
                         <Form.Label>
 
-                            Image URL
+                            Category Image
 
                         </Form.Label>
 
                         <Form.Control
-                            type="text"
+                            type="file"
                             name="image"
-                            value={formData.image}
+                            accept="image/*"
                             onChange={handleChange}
                         />
 
                     </Form.Group>
+
+                    {/* Description */}
 
                     <Form.Group>
 
@@ -156,6 +165,7 @@ const AddCategoryModal = ({
                             name="description"
                             value={formData.description}
                             onChange={handleChange}
+                            placeholder="Enter category description"
                         />
 
                     </Form.Group>
@@ -179,15 +189,9 @@ const AddCategoryModal = ({
                         disabled={loading}
                     >
 
-                        {
-
-                            loading
-
-                                ? "Saving..."
-
-                                : "Add Category"
-
-                        }
+                        {loading
+                            ? "Saving..."
+                            : "Add Category"}
 
                     </Button>
 

@@ -1,51 +1,68 @@
 import Navbar from "../components/Navbar";
 import Hero from "../components/Hero";
 import CategorySection from "../components/CategorySection";
+import FlashSale from "../components/FlashSale";
 import ProductSection from "../components/ProductSection";
 import OfferBanner from "../components/OfferBanner";
 import WhyChooseUs from "../components/WhyChooseUs";
 import Newsletter from "../components/Newsletter";
 import Footer from "../components/Footer";
-import FlashSale from "../components/FlashSale";
 
 const Home = () => {
     return (
-        <>
+        <div className="home-page">
+
             <Navbar />
 
-            <Hero />
+            <main>
 
-            <CategorySection />
-            <FlashSale />
+                {/* Main Promotional Banner */}
+                <Hero />
 
-            <ProductSection
-                title="Featured Products"
-                endpoint="/products/featured"
-            />
+                {/* Shop By Category */}
+                <CategorySection />
 
-            <ProductSection
-                title="Trending Products"
-                endpoint="/products/trending"
-            />
+                {/* Flash Sale */}
+                <FlashSale />
 
-            <ProductSection
-                title="Best Sellers"
-                endpoint="/products/bestseller"
-            />
+                {/* Featured Products */}
+                <ProductSection
+                    title="Popular Products"
+                    endpoint="/products/featured"
+                />
 
-            <ProductSection
-                title="Latest Products"
-                endpoint="/products/latest"
-            />
+                {/* Offer Banner */}
+                <OfferBanner />
 
-            <OfferBanner />
+                {/* Trending Products */}
+                <ProductSection
+                    title="Trending Products"
+                    endpoint="/products/trending"
+                />
 
-            <WhyChooseUs />
+                {/* Best Sellers */}
+                <ProductSection
+                    title="Best Sellers"
+                    endpoint="/products/bestseller"
+                />
 
-            <Newsletter />
+                {/* Latest Products */}
+                <ProductSection
+                    title="Fresh Arrivals"
+                    endpoint="/products/latest"
+                />
+
+                {/* Why Choose Us */}
+                <WhyChooseUs />
+
+                {/* Newsletter */}
+                <Newsletter />
+
+            </main>
 
             <Footer />
-        </>
+
+        </div>
     );
 };
 

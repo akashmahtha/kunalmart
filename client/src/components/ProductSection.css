@@ -1,0 +1,340 @@
+/* =====================================
+   PRODUCT SECTION
+===================================== */
+
+.product-section {
+
+    padding: 35px 0;
+
+    background: #ffffff;
+
+}
+
+
+/* =====================================
+   HEADER
+===================================== */
+
+.product-section-header {
+
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    margin-bottom: 22px;
+
+}
+
+
+.product-section-title {
+
+    margin: 0;
+
+    font-size: 28px;
+
+    font-weight: 700;
+
+    color: #1d1d1d;
+
+}
+
+
+.product-section-subtitle {
+
+    margin: 5px 0 0;
+
+    font-size: 15px;
+
+    color: #777;
+
+}
+
+
+.view-all-btn {
+
+    display: inline-block;
+
+    padding: 8px 18px;
+
+    border: 1px solid #0b8f3c;
+
+    border-radius: 6px;
+
+    color: #0b8f3c;
+
+    text-decoration: none;
+
+    font-size: 14px;
+
+    transition: all 0.25s ease;
+
+}
+
+
+.view-all-btn:hover {
+
+    background: #0b8f3c;
+
+    color: #ffffff;
+
+}
+
+
+/* =====================================
+   CAROUSEL WRAPPER
+===================================== */
+
+.product-carousel-wrapper {
+
+    position: relative;
+
+    width: 100%;
+
+}
+
+
+/* =====================================
+   HORIZONTAL PRODUCT LIST
+===================================== */
+
+.product-carousel {
+
+    display: flex;
+
+    flex-wrap: nowrap;
+
+    gap: 16px;
+
+    width: 100%;
+
+    overflow-x: auto;
+
+    overflow-y: hidden;
+
+    scroll-behavior: smooth;
+
+    scrollbar-width: none;
+
+    padding: 5px 3px 15px;
+
+}
+
+
+.product-carousel::-webkit-scrollbar {
+
+    display: none;
+
+}
+
+
+/* =====================================
+   PRODUCT SLIDE
+===================================== */
+
+.product-slide {
+
+    flex: 0 0 220px;
+
+    width: 220px;
+
+    min-width: 220px;
+
+}
+
+
+/* =====================================
+   ARROWS
+===================================== */
+
+.product-arrow {
+
+    position: absolute;
+
+    top: 50%;
+
+    transform: translateY(-50%);
+
+    z-index: 20;
+
+    width: 42px;
+
+    height: 42px;
+
+    border: none;
+
+    border-radius: 50%;
+
+    background: #ffffff;
+
+    color: #222222;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    cursor: pointer;
+
+    box-shadow:
+        0 4px 12px rgba(0, 0, 0, 0.18);
+
+    transition: all 0.25s ease;
+
+}
+
+
+.product-arrow:hover {
+
+    background: #0b8f3c;
+
+    color: #ffffff;
+
+}
+
+
+.product-arrow-left {
+
+    left: -20px;
+
+}
+
+
+.product-arrow-right {
+
+    right: -20px;
+
+}
+
+
+/* =====================================
+   LOADING
+===================================== */
+
+.product-loading {
+
+    min-height: 180px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+}
+
+
+/* =====================================
+   RESPONSIVE
+===================================== */
+
+@media (max-width: 992px) {
+
+    .product-slide {
+
+        flex: 0 0 210px;
+
+        width: 210px;
+
+        min-width: 210px;
+
+    }
+
+}
+
+
+@media (max-width: 768px) {
+
+    .product-section {
+
+        padding: 28px 0;
+
+    }
+
+
+    .product-section-header {
+
+        align-items: flex-start;
+
+    }
+
+
+    .product-section-title {
+
+        font-size: 23px;
+
+    }
+
+
+    .product-section-subtitle {
+
+        font-size: 13px;
+
+    }
+
+
+    .product-slide {
+
+        flex: 0 0 190px;
+
+        width: 190px;
+
+        min-width: 190px;
+
+    }
+
+
+    .product-arrow-left {
+
+        left: 5px;
+
+    }
+
+
+    .product-arrow-right {
+
+        right: 5px;
+
+    }
+
+}
+
+
+@media (max-width: 480px) {
+
+    .product-section-header {
+
+        gap: 10px;
+
+    }
+
+
+    .product-section-title {
+
+        font-size: 20px;
+
+    }
+
+
+    .view-all-btn {
+
+        padding: 6px 12px;
+
+        font-size: 12px;
+
+    }
+
+
+    .product-slide {
+
+        flex: 0 0 170px;
+
+        width: 170px;
+
+        min-width: 170px;
+
+    }
+
+}

@@ -1,4 +1,6 @@
 import express from "express";
+import upload from "../middleware/upload.middleware.js";
+
 import {
     createCategory,
     getCategories,
@@ -12,13 +14,26 @@ import { adminOnly } from "../middleware/admin.middleware.js";
 
 const router = express.Router();
 
-// Public Routes
 router.get("/", getCategories);
 router.get("/:id", getCategory);
 
-// Admin Routes
-router.post("/", protect, adminOnly, createCategory);
-router.put("/:id", protect, adminOnly, updateCategory);
+// ✅ upload.single("image") MUST be here
+router.post(
+    "/",
+    protect,
+    adminOnly,
+    upload.single("image"),
+    createCategory
+);
+
+router.put(
+    "/:id",
+    protect,
+    adminOnly,
+    upload.single("image"),
+    updateCategory
+);
+
 router.delete("/:id", protect, adminOnly, deleteCategory);
 
 export default router;

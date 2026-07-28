@@ -1,9 +1,16 @@
-// 📁 src/components/FlashSale.jsx
-
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
+
+import {
+    FaChevronLeft,
+    FaChevronRight,
+} from "react-icons/fa";
+
 import api from "../services/api";
 import ProductCard from "./ProductCard";
+
+import "./FlashSale.css";
+
 
 const FlashSale = () => {
 
@@ -11,60 +18,120 @@ const FlashSale = () => {
 
     const [loading, setLoading] = useState(true);
 
+
     const [timeLeft, setTimeLeft] = useState({
+
         hours: 12,
+
         minutes: 0,
+
         seconds: 0,
+
     });
+
+
+    const scrollRef = useRef(null);
+
+
+    const [canScrollLeft, setCanScrollLeft] =
+        useState(false);
+
+
+    const [canScrollRight, setCanScrollRight] =
+        useState(false);
+
+
+    // =========================
+    // Fetch Products
+    // =========================
 
     useEffect(() => {
 
         fetchFlashProducts();
 
+
         const timer = setInterval(() => {
+
 
             setTimeLeft((prev) => {
 
-                let { hours, minutes, seconds } = prev;
+
+                let {
+
+                    hours,
+
+                    minutes,
+
+                    seconds,
+
+                } = prev;
+
 
                 if (seconds > 0) {
 
                     seconds--;
 
-                } else if (minutes > 0) {
+                }
+
+                else if (minutes > 0) {
 
                     minutes--;
-                    seconds = 59;
 
-                } else if (hours > 0) {
-
-                    hours--;
-                    minutes = 59;
                     seconds = 59;
 
                 }
 
+                else if (hours > 0) {
+
+                    hours--;
+
+                    minutes = 59;
+
+                    seconds = 59;
+
+                }
+
+
                 return {
+
                     hours,
+
                     minutes,
+
                     seconds,
+
                 };
 
             });
 
+
         }, 1000);
+
 
         return () => clearInterval(timer);
 
+
     }, []);
+
 
     const fetchFlashProducts = async () => {
 
         try {
 
-            const res = await api.get("/products/trending");
+            const res = await api.get(
 
-            setProducts(res.data.products.slice(0, 4));
+                "/products/trending"
+
+            );
+
+
+            setProducts(
+
+                (res.data.products || [])
+                    .slice(0, 10)
+
+            );
+
 
         } catch (error) {
 
@@ -77,6 +144,114 @@ const FlashSale = () => {
         }
 
     };
+
+
+    // =========================
+    // Check Scroll
+    // =========================
+
+    const checkScroll = () => {
+
+        const element = scrollRef.current;
+
+        if (!element) return;
+
+
+        setCanScrollLeft(
+
+            element.scrollLeft > 5
+
+        );
+
+
+        setCanScrollRight(
+
+            element.scrollLeft +
+            element.clientWidth <
+            element.scrollWidth - 5
+
+        );
+
+    };
+
+
+    useEffect(() => {
+
+        const element = scrollRef.current;
+
+        if (!element) return;
+
+
+        checkScroll();
+
+
+        element.addEventListener(
+
+            "scroll",
+
+            checkScroll
+
+        );
+
+
+        window.addEventListener(
+
+            "resize",
+
+            checkScroll
+
+        );
+
+
+        return () => {
+
+            element.removeEventListener(
+
+                "scroll",
+
+                checkScroll
+
+            );
+
+
+            window.removeEventListener(
+
+                "resize",
+
+                checkScroll
+
+            );
+
+        };
+
+    }, [products]);
+
+
+    const scrollLeft = () => {
+
+        scrollRef.current?.scrollBy({
+
+            left: -600,
+
+            behavior: "smooth",
+
+        });
+
+    };
+
+
+    const scrollRight = () => {
+
+        scrollRef.current?.scrollBy({
+
+            left: 600,
+
+            behavior: "smooth",
+
+        });
+
+    };
+
 
     if (loading) {
 
@@ -92,23 +267,38 @@ const FlashSale = () => {
 
     }
 
+
+    if (!products.length) {
+
+        return null;
+
+    }
+
+
     return (
 
-        <section className="container my-5">
+        <section className="flash-sale-section">
 
-            <div className="bg-danger rounded-4 p-4 text-white">
+            <div className="container">
 
-                <div className="d-flex justify-content-between align-items-center flex-wrap">
+
+                {/* =========================
+                    Sale Header
+                ========================= */}
+
+                <div className="flash-sale-header">
+
 
                     <div>
 
-                        <h2 className="fw-bold mb-1">
+                        <h2>
 
                             🔥 Flash Sale
 
                         </h2>
 
-                        <p className="mb-0">
+
+                        <p>
 
                             Hurry! Limited time offers.
 
@@ -116,27 +306,45 @@ const FlashSale = () => {
 
                     </div>
 
-                    <div className="text-center">
 
-                        <h5 className="mb-1">
+                    <div className="flash-timer">
+
+                        <small>
 
                             Ends In
 
-                        </h5>
+                        </small>
 
-                        <h3 className="fw-bold">
 
-                            {String(timeLeft.hours).padStart(2, "0")} :
-                            {String(timeLeft.minutes).padStart(2, "0")} :
-                            {String(timeLeft.seconds).padStart(2, "0")}
+                        <strong>
 
-                        </h3>
+                            {String(
+                                timeLeft.hours
+                            ).padStart(2, "0")}
+
+                            :
+
+                            {String(
+                                timeLeft.minutes
+                            ).padStart(2, "0")}
+
+                            :
+
+                            {String(
+                                timeLeft.seconds
+                            ).padStart(2, "0")}
+
+                        </strong>
 
                     </div>
 
+
                     <Link
+
                         to="/products"
-                        className="btn btn-light fw-bold"
+
+                        className="flash-view-all"
+
                     >
 
                         View All
@@ -145,26 +353,97 @@ const FlashSale = () => {
 
                 </div>
 
-            </div>
 
-            <div className="row mt-4">
+                {/* =========================
+                    Product Carousel
+                ========================= */}
 
-                {
+                <div className="flash-carousel-wrapper">
 
-                    products.map((product) => (
 
-                        <div
-                            key={product._id}
-                            className="col-lg-3 col-md-6 mb-4"
-                        >
+                    {
 
-                            <ProductCard product={product} />
+                        canScrollLeft && (
 
-                        </div>
+                            <button
 
-                    ))
+                                className="
+                                    flash-arrow
+                                    flash-arrow-left
+                                "
 
-                }
+                                onClick={scrollLeft}
+
+                            >
+
+                                <FaChevronLeft />
+
+                            </button>
+
+                        )
+
+                    }
+
+
+                    <div
+
+                        className="flash-product-carousel"
+
+                        ref={scrollRef}
+
+                    >
+
+                        {
+
+                            products.map((product) => (
+
+                                <div
+
+                                    className="flash-product-slide"
+
+                                    key={product._id}
+
+                                >
+
+                                    <ProductCard
+
+                                        product={product}
+
+                                    />
+
+                                </div>
+
+                            ))
+
+                        }
+
+                    </div>
+
+
+                    {
+
+                        canScrollRight && (
+
+                            <button
+
+                                className="
+                                    flash-arrow
+                                    flash-arrow-right
+                                "
+
+                                onClick={scrollRight}
+
+                            >
+
+                                <FaChevronRight />
+
+                            </button>
+
+                        )
+
+                    }
+
+                </div>
 
             </div>
 
@@ -173,5 +452,6 @@ const FlashSale = () => {
     );
 
 };
+
 
 export default FlashSale;

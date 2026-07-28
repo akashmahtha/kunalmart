@@ -1,72 +1,101 @@
 .newsletter {
-    padding: 80px 0;
-    background: #198754;
+    padding: 70px 0;
+    background: #fffaf2;
 }
 
 .newsletter-box {
-    max-width: 800px;
+    max-width: 900px;
     margin: auto;
     text-align: center;
-    color: #fff;
+    background: linear-gradient(135deg, #fffdf8, #fff3df);
+    border: 1px solid #f2e7d5;
+    border-radius: 22px;
+    padding: 55px 45px;
+    box-shadow: 0 12px 35px rgba(0, 0, 0, .06);
 }
 
 .newsletter-box h2 {
-    font-size: 2.5rem;
+    font-size: 2.3rem;
     font-weight: 700;
-    margin-bottom: 15px;
+    color: #2b2b2b;
+    margin-bottom: 12px;
 }
 
 .newsletter-box p {
-    font-size: 18px;
+    font-size: 17px;
+    color: #6b6b6b;
     margin-bottom: 35px;
 }
 
 .newsletter-box form {
     display: flex;
     justify-content: center;
-    gap: 15px;
+    gap: 14px;
     flex-wrap: wrap;
 }
 
 .newsletter-box input {
     width: 420px;
     max-width: 100%;
-    padding: 15px;
-    border: none;
-    border-radius: 10px;
+    height: 54px;
+    padding: 0 18px;
+    border: 1px solid #e8dcc8;
+    border-radius: 12px;
     outline: none;
+    background: #fff;
+    font-size: 15px;
+    transition: .3s;
+}
+
+.newsletter-box input:focus {
+    border-color: #f4a940;
+    box-shadow: 0 0 0 3px rgba(244, 169, 64, .15);
 }
 
 .newsletter-box button {
-    background: #ffc107;
-    color: #000;
+    height: 54px;
+    padding: 0 28px;
     border: none;
-    padding: 15px 28px;
-    border-radius: 10px;
+    border-radius: 12px;
+    background: #f4a940;
+    color: #fff;
     font-weight: 600;
     display: flex;
     align-items: center;
     gap: 8px;
+    cursor: pointer;
     transition: .3s;
 }
 
 .newsletter-box button:hover {
-    background: #ffca2c;
+    background: #e68a15;
+    transform: translateY(-2px);
 }
 
-@media(max-width:768px) {
+@media (max-width:768px) {
+
+    .newsletter {
+        padding: 50px 15px;
+    }
+
+    .newsletter-box {
+        padding: 35px 22px;
+    }
 
     .newsletter-box h2 {
-        font-size: 2rem;
+        font-size: 1.8rem;
+    }
+
+    .newsletter-box p {
+        font-size: 15px;
     }
 
     .newsletter-box form {
         flex-direction: column;
     }
 
+    .newsletter-box input,
     .newsletter-box button {
         width: 100%;
-        justify-content: center;
     }
-
 }

@@ -5,49 +5,55 @@ import {
     FaLeaf,
     FaClock,
 } from "react-icons/fa";
-import hero from "../assets/images/hero.png";
+
 import "./Hero.css";
 
 const Hero = () => {
+
+    const heroImage =
+        "https://images.unsplash.com/photo-1542838132-92c53300491e?auto=format&fit=crop&w=1200&q=80";
+
     return (
-        <section className="hero">
+
+        <section className="hero-section">
 
             <div className="container">
 
-                <div className="row align-items-center gy-5">
+                <div className="hero-banner">
 
-                    {/* Left */}
+                    {/* Left Content */}
 
-                    <div className="col-lg-6">
+                    <div className="hero-content">
 
-                        <span className="hero-offer">
+                        <span className="hero-badge">
                             🎉 Flat 30% OFF on Your First Order
                         </span>
 
-                        <h1 className="hero-title">
+                        <h1>
                             Fresh Groceries
-                            <span> Delivered Fast</span>
+                            <br />
+                            <span>Delivered Fast</span>
                         </h1>
 
-                        <p className="hero-description">
+                        <p>
                             Fresh fruits, vegetables, dairy products,
                             snacks and daily essentials delivered
-                            straight to your doorstep with lightning-fast delivery.
+                            straight to your doorstep in minutes.
                         </p>
 
                         <div className="hero-buttons">
 
                             <Link
                                 to="/products"
-                                className="btn btn-success btn-lg px-4"
+                                className="shop-now-btn"
                             >
                                 Shop Now
-                                <FaArrowRight className="ms-2" />
+                                <FaArrowRight />
                             </Link>
 
                             <Link
                                 to="/products"
-                                className="btn btn-outline-success btn-lg px-4"
+                                className="browse-btn"
                             >
                                 Browse Products
                             </Link>
@@ -56,62 +62,45 @@ const Hero = () => {
 
                         <div className="hero-features">
 
-                            <div>
-
-                                <FaTruck className="feature-icon" />
-
+                            <div className="hero-feature">
+                                <FaTruck />
                                 <div>
-
-                                    <h6>Fast Delivery</h6>
-
+                                    <strong>Fast Delivery</strong>
                                     <small>Within 30 Minutes</small>
-
                                 </div>
-
                             </div>
 
-                            <div>
-
-                                <FaLeaf className="feature-icon" />
-
+                            <div className="hero-feature">
+                                <FaLeaf />
                                 <div>
-
-                                    <h6>100% Fresh</h6>
-
-                                    <small>Direct From Farm</small>
-
+                                    <strong>100% Fresh</strong>
+                                    <small>Farm Fresh Products</small>
                                 </div>
-
                             </div>
 
-                            <div>
-
-                                <FaClock className="feature-icon" />
-
+                            <div className="hero-feature">
+                                <FaClock />
                                 <div>
-
-                                    <h6>24/7 Service</h6>
-
-                                    <small>Always Available</small>
-
+                                    <strong>Open Everyday</strong>
+                                    <small>7 AM - 11 PM</small>
                                 </div>
-
                             </div>
 
                         </div>
 
                     </div>
 
-                    {/* Right */}
+                    {/* Right Image */}
 
-                    <div className="col-lg-6 text-center position-relative">
+                    <div className="hero-image-wrapper">
 
                         <div className="hero-circle"></div>
 
                         <img
-                            src={hero}
-                            alt="hero"
+                            src={heroImage}
+                            alt="Fresh Groceries"
                             className="hero-image"
+                            loading="lazy"
                         />
 
                     </div>
@@ -121,7 +110,9 @@ const Hero = () => {
             </div>
 
         </section>
+
     );
+
 };
 
 export default Hero;

@@ -1,80 +1,124 @@
-/* ============================= */
-/* Offer Bar */
-/* ============================= */
+/* =========================================
+   KUNAL MART - LIGHT GROCERY NAVBAR
+========================================= */
+
+:root {
+
+    --nav-bg: #fffdf8;
+
+    --nav-white: #ffffff;
+
+    --nav-text: #252525;
+
+    --nav-muted: #777;
+
+    --nav-border: #eee8dc;
+
+    --nav-orange: #f28c28;
+
+    --nav-orange-dark: #df7415;
+
+    --nav-yellow: #fff1d6;
+
+    --nav-soft: #f8f5ee;
+
+}
+
+
+/* =========================================
+   OFFER BAR
+========================================= */
 
 .offer-bar {
 
-    background: linear-gradient(90deg, #0a7d35, #11a64a);
+    width: 100%;
 
-    color: #fff;
+    background: #fff1d6;
+
+    color: #8b541b;
 
     text-align: center;
 
-    padding: 8px 0;
-
-    font-size: 14px;
+    font-size: 13px;
 
     font-weight: 600;
 
-    letter-spacing: .3px;
+    padding: 8px 15px;
+
+    letter-spacing: 0.2px;
 
 }
 
-/* ============================= */
-/* Navbar */
-/* ============================= */
+
+/* =========================================
+   MAIN NAVBAR
+========================================= */
 
 .custom-navbar {
 
-    background: #0f8b3e;
+    min-height: 76px;
 
-    padding: 12px 0;
+    background: var(--nav-bg) !important;
 
-    transition: .3s;
+    border-bottom: 1px solid var(--nav-border);
 
-    z-index: 999;
+    padding: 10px 0;
+
+    z-index: 1000;
 
 }
 
-/* ============================= */
-/* Logo */
-/* ============================= */
+
+/* =========================================
+   LOGO
+========================================= */
+
+.navbar-brand {
+
+    text-decoration: none;
+
+    min-width: 180px;
+
+}
 
 .logo-img {
 
-    width: 55px;
+    width: 48px;
 
-    height: 55px;
+    height: 48px;
 
     object-fit: contain;
+
+    border-radius: 12px;
 
 }
 
 .logo-title {
 
-    color: #fff;
+    color: var(--nav-text);
 
-    font-size: 22px;
+    font-size: 20px;
 
-    font-weight: 700;
+    font-weight: 800;
 
-    line-height: 1;
+    letter-spacing: -0.3px;
 
 }
 
 .logo-subtitle {
 
-    color: #d8ffe6;
+    color: var(--nav-orange);
 
-    font-size: 12px;
+    font-size: 11px;
 
-    letter-spacing: .5px;
+    font-weight: 600;
 
 }
 
-/* ============================= */
-/* Delivery */
-/* ============================= */
+
+/* =========================================
+   DELIVERY LOCATION
+========================================= */
 
 .delivery-box {
 
@@ -82,56 +126,95 @@
 
     align-items: center;
 
-    color: white;
+    gap: 8px;
 
-    margin-left: 30px;
+    min-width: 145px;
+
+    padding: 8px 12px;
+
+    border-radius: 10px;
+
+    background: #fff7e8;
+
+    border: 1px solid #f5dfb9;
 
 }
 
 .delivery-icon {
 
-    color: #ffc107;
+    color: var(--nav-orange);
 
-    font-size: 22px;
-
-}
-
-.delivery-box small {
-
-    color: #d6ffd9;
+    font-size: 18px;
 
 }
 
-.delivery-box h6,
-.delivery-box div {
+.delivery-label {
 
-    margin: 0;
+    display: block;
 
-    font-weight: 600;
+    color: #999;
+
+    font-size: 10px;
+
+    line-height: 1;
+
+    margin-bottom: 4px;
 
 }
 
-/* ============================= */
-/* Category */
-/* ============================= */
+.delivery-city {
+
+    color: var(--nav-text);
+
+    font-size: 13px;
+
+    font-weight: 700;
+
+    line-height: 1;
+
+}
+
+
+/* =========================================
+   CATEGORY SELECT
+========================================= */
 
 .category-select {
 
-    width: 200px;
+    width: 155px;
 
-    border: none;
+    height: 44px;
+
+    border: 1px solid var(--nav-border);
 
     border-radius: 10px;
 
-    height: 45px;
+    background-color: white;
 
-    margin-left: 20px;
+    color: #444;
+
+    font-size: 13px;
+
+    font-weight: 500;
+
+    cursor: pointer;
+
+    box-shadow: none !important;
 
 }
 
-/* ============================= */
-/* Search Box */
-/* ============================= */
+.category-select:focus {
+
+    border-color: var(--nav-orange);
+
+    box-shadow: 0 0 0 3px rgba(242, 140, 40, 0.12) !important;
+
+}
+
+
+/* =========================================
+   SEARCH BOX
+========================================= */
 
 .search-box {
 
@@ -139,123 +222,177 @@
 
     align-items: center;
 
-    width: 100%;
+    height: 44px;
 
     max-width: 550px;
 
-    margin-left: 20px;
+    min-width: 220px;
+
+    background: #f8f6f1;
+
+    border: 1px solid #ebe5da;
+
+    border-radius: 10px;
+
+    overflow: hidden;
+
+    transition: all 0.25s ease;
+
+}
+
+.search-box:focus-within {
+
+    background: white;
+
+    border-color: var(--nav-orange);
+
+    box-shadow: 0 0 0 3px rgba(242, 140, 40, 0.1);
 
 }
 
 .search-box input {
 
-    height: 46px;
+    flex: 1;
 
-    border: none;
+    height: 100%;
 
-    border-radius: 10px 0 0 10px;
+    border: none !important;
 
-    box-shadow: none;
+    outline: none !important;
+
+    background: transparent !important;
+
+    box-shadow: none !important;
 
     padding: 0 15px;
 
-    font-size: 15px;
+    color: #333;
+
+    font-size: 13px;
 
 }
 
-.search-box input:focus {
+.search-box input::placeholder {
 
-    box-shadow: none;
-
-    border: none;
+    color: #999;
 
 }
 
 .search-box button {
 
-    width: 60px;
+    width: 48px;
 
-    height: 46px;
-
-    border-radius: 0 10px 10px 0;
+    height: 100%;
 
     border: none;
 
-    font-size: 18px;
+    border-radius: 0;
 
-    transition: .3s;
+    background: var(--nav-orange);
+
+    color: white;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    transition: background 0.2s ease;
 
 }
 
 .search-box button:hover {
 
-    transform: scale(1.05);
+    background: var(--nav-orange-dark);
 
 }
 
-/* ============================= */
-/* Right Icons */
-/* ============================= */
+
+/* =========================================
+   RIGHT NAVIGATION
+========================================= */
 
 .navbar-nav {
 
-    align-items: center;
+    gap: 4px;
 
 }
 
-.nav-icon {
+.icon-link {
 
     position: relative;
 
-    display: flex;
+    display: flex !important;
+
+    flex-direction: column;
 
     align-items: center;
 
     justify-content: center;
 
-    width: 42px;
+    gap: 3px;
 
-    height: 42px;
+    min-width: 62px;
 
-    border-radius: 50%;
+    padding: 6px 8px !important;
 
-    color: #fff !important;
+    color: #555 !important;
 
-    transition: .3s;
+    text-decoration: none;
 
-}
+    border-radius: 10px;
 
-.nav-icon:hover {
-
-    background: rgba(255, 255, 255, .15);
-
-    color: #ffd54f !important;
-
-    transform: translateY(-2px);
+    transition: all 0.2s ease;
 
 }
 
-/* ============================= */
-/* Badge */
-/* ============================= */
+.icon-link:hover {
+
+    background: #fff3df;
+
+    color: var(--nav-orange) !important;
+
+}
+
+.icon-wrapper {
+
+    position: relative;
+
+    font-size: 20px;
+
+    line-height: 1;
+
+}
+
+.icon-link small {
+
+    font-size: 10px;
+
+    font-weight: 600;
+
+    white-space: nowrap;
+
+}
+
+
+/* =========================================
+   BADGE
+========================================= */
 
 .nav-badge {
 
     position: absolute;
 
-    top: -4px;
+    top: -9px;
 
-    right: -6px;
+    right: -10px;
 
-    background: #ff3b30;
+    min-width: 17px;
 
-    color: #fff;
+    height: 17px;
 
-    border-radius: 50%;
-
-    min-width: 18px;
-
-    height: 18px;
+    padding: 0 4px;
 
     display: flex;
 
@@ -263,97 +400,155 @@
 
     justify-content: center;
 
-    font-size: 10px;
+    background: #e85d4a;
+
+    color: white;
+
+    font-size: 9px;
 
     font-weight: 700;
 
+    border-radius: 50%;
+
+    border: 2px solid var(--nav-bg);
+
 }
 
-/* ============================= */
-/* User Dropdown */
-/* ============================= */
+
+/* =========================================
+   ACCOUNT DROPDOWN
+========================================= */
 
 .dropdown-menu {
 
-    min-width: 220px;
+    min-width: 190px;
 
-    border: none;
+    margin-top: 12px !important;
 
-    border-radius: 15px;
+    padding: 8px;
 
-    padding: 10px 0;
+    background: white;
 
-    margin-top: 12px;
+    border: 1px solid var(--nav-border) !important;
 
-    box-shadow: 0 10px 25px rgba(0, 0, 0, .15);
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.1) !important;
 
 }
 
 .dropdown-item {
 
-    padding: 12px 18px;
+    padding: 10px 12px;
 
-    font-size: 15px;
+    border-radius: 8px;
 
-    transition: .3s;
+    color: #444;
+
+    font-size: 13px;
 
 }
 
 .dropdown-item:hover {
 
-    background: #e8f8ee;
+    background: #fff3df;
 
-    color: #0f8b3e;
-
-    padding-left: 24px;
+    color: var(--nav-orange);
 
 }
 
-.dropdown-divider {
 
-    margin: 8px 0;
+/* =========================================
+   MOBILE TOGGLE
+========================================= */
+
+.navbar-toggler {
+
+    border: 1px solid #e7dfd2 !important;
+
+    background: white;
+
+    color: #444;
+
+    padding: 8px 10px;
+
+    border-radius: 8px;
+
+    box-shadow: none !important;
 
 }
 
-/* ============================= */
-/* Logout */
-/* ============================= */
+.navbar-toggler:focus {
 
-.dropdown-item.text-danger:hover {
-
-    background: #ffeaea;
-
-    color: #dc3545 !important;
+    box-shadow: 0 0 0 3px rgba(242, 140, 40, 0.12) !important;
 
 }
 
-/* ========================================= */
-/* Responsive */
-/* ========================================= */
 
-@media (max-width: 991px) {
+/* =========================================
+   RESPONSIVE TABLET
+========================================= */
 
-    .custom-navbar {
+@media (max-width: 1200px) {
 
-        padding: 12px 0;
+    .navbar-brand {
 
-    }
-
-    .navbar-collapse {
-
-        margin-top: 20px;
-
-        background: #0f8b3e;
-
-        border-radius: 15px;
-
-        padding: 20px;
+        min-width: auto;
 
     }
 
     .delivery-box {
 
-        margin: 15px 0;
+        min-width: 125px;
+
+    }
+
+    .category-select {
+
+        width: 135px;
+
+    }
+
+    .icon-link {
+
+        min-width: 55px;
+
+    }
+
+}
+
+
+/* =========================================
+   RESPONSIVE MOBILE
+========================================= */
+
+@media (max-width: 991px) {
+
+    .custom-navbar {
+
+        padding: 10px 15px;
+
+    }
+
+    .navbar-collapse {
+
+        margin-top: 15px;
+
+        padding: 15px;
+
+        background: white;
+
+        border: 1px solid var(--nav-border);
+
+        border-radius: 14px;
+
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.06);
+
+    }
+
+    .delivery-box {
+
+        width: 100%;
+
+        margin: 0 0 12px 0 !important;
 
     }
 
@@ -361,89 +556,48 @@
 
         width: 100%;
 
-        margin: 15px 0;
+        margin: 0 0 12px 0 !important;
 
     }
 
     .search-box {
 
-        width: 100%;
-
         max-width: 100%;
 
-        margin: 15px 0;
+        width: 100%;
+
+        margin-bottom: 15px;
 
     }
 
     .navbar-nav {
 
-        margin-top: 20px;
+        flex-direction: row;
 
         justify-content: center;
 
-    }
+        border-top: 1px solid var(--nav-border);
 
-    .navbar-nav .nav-item {
+        padding-top: 12px;
 
-        margin: 8px 0;
+        margin-left: 0 !important;
 
     }
 
 }
 
-/* Mobile */
 
-@media (max-width: 768px) {
+/* =========================================
+   SMALL MOBILE
+========================================= */
+
+@media (max-width: 480px) {
 
     .logo-img {
 
-        width: 45px;
+        width: 42px;
 
-        height: 45px;
-
-    }
-
-    .logo-title {
-
-        font-size: 18px;
-
-    }
-
-    .logo-subtitle {
-
-        font-size: 11px;
-
-    }
-
-    .offer-bar {
-
-        font-size: 12px;
-
-        padding: 7px;
-
-    }
-
-    .search-box input {
-
-        font-size: 14px;
-
-    }
-
-    .search-box button {
-
-        width: 55px;
-
-    }
-
-}
-
-/* Small Mobile */
-
-@media (max-width: 576px) {
-
-    .navbar-collapse {
-
-        padding: 15px;
+        height: 42px;
 
     }
 
@@ -455,106 +609,36 @@
 
     .logo-subtitle {
 
-        display: none;
+        font-size: 9px;
 
     }
 
-    .delivery-box {
+    .offer-bar {
 
-        justify-content: flex-start;
+        font-size: 11px;
 
-    }
-
-    .nav-icon {
-
-        width: 40px;
-
-        height: 40px;
+        padding: 7px 8px;
 
     }
 
-}
+    .icon-link {
 
-/* ========================================= */
-/* Smooth Animation */
-/* ========================================= */
+        min-width: 55px;
 
-* {
+        padding: 5px 4px !important;
 
-    transition: all .25s ease;
+    }
 
-}
+    .icon-wrapper {
 
-/* ========================================= */
-/* Scrollbar */
-/* ========================================= */
+        font-size: 18px;
 
-::-webkit-scrollbar {
+    }
 
-    width: 8px;
+    .icon-link small {
 
-}
+        font-size: 9px;
 
-::-webkit-scrollbar-thumb {
-
-    background: #0f8b3e;
-
-    border-radius: 20px;
-
-}
-
-::-webkit-scrollbar-track {
-
-    background: #f5f5f5;
-
-}
-
-/* ============================= */
-/* Icon + Text */
-/* ============================= */
-
-.icon-link {
-
-    display: flex;
-
-    flex-direction: column;
-
-    align-items: center;
-
-    text-decoration: none;
-
-    color: white !important;
-
-    font-size: 13px;
-
-    font-weight: 500;
-
-}
-
-.icon-wrapper {
-
-    position: relative;
-
-    font-size: 22px;
-
-    margin-bottom: 4px;
-
-}
-
-.icon-link small {
-
-    color: white;
-
-}
-
-.icon-link:hover {
-
-    color: #FFD54F !important;
-
-}
-
-.icon-link:hover small {
-
-    color: #FFD54F;
+    }
 
 }

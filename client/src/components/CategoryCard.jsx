@@ -6,16 +6,18 @@ const CategoryCard = ({ category }) => {
     const image =
         category.image?.url ||
         category.image ||
-        "https://placehold.co/150x150?text=Category";
+        "https://placehold.co/200x200?text=Category";
 
     return (
 
         <Link
             to={`/products?category=${category.slug || category._id}`}
-            className="text-decoration-none"
+            className="category-card-link"
         >
 
             <div className="category-card">
+
+                {/* Category Image */}
 
                 <div className="category-image-box">
 
@@ -23,9 +25,13 @@ const CategoryCard = ({ category }) => {
                         src={image}
                         alt={category.name}
                         className="category-image"
+                        loading="lazy"
                     />
 
                 </div>
+
+
+                {/* Category Name */}
 
                 <h6 className="category-name">
 
@@ -33,15 +39,22 @@ const CategoryCard = ({ category }) => {
 
                 </h6>
 
-                {category.productCount && (
 
-                    <small className="text-muted">
+                {/* Product Count */}
 
-                        {category.productCount} Products
+                {
 
-                    </small>
+                    category.productCount !== undefined && (
 
-                )}
+                        <small className="category-product-count">
+
+                            {category.productCount} Products
+
+                        </small>
+
+                    )
+
+                }
 
             </div>
 

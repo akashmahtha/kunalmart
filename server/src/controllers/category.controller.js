@@ -1,9 +1,33 @@
 import Category from "../models/Category.js";
+import cloudinary from "../config/cloudinary.js";
+import streamifier from "streamifier";
 
 // Add Category
+
+const uploadToCloudinary = (buffer) => {
+    return new Promise((resolve, reject) => {
+
+        const stream = cloudinary.uploader.upload_stream(
+            {
+                folder: "kunalmart/categories",
+            },
+            (error, result) => {
+                if (error) {
+                    reject(error);
+                } else {
+                    resolve(result);
+                }
+            }
+        );
+
+        streamifier.createReadStream(buffer).pipe(stream);
+
+    });
+};
 export const createCategory = async (req, res) => {
     try {
-        const { name, image, description } = req.body;
+
+        const { name, description } = req.body;
 
         const exists = await Category.findOne({ name });
 
@@ -12,6 +36,18 @@ export const createCategory = async (req, res) => {
                 success: false,
                 message: "Category already exists",
             });
+        }
+
+        let image = "";
+
+        if (req.file) {
+
+            const uploadedImage = await uploadToCloudinary(
+                req.file.buffer
+            );
+
+            image = uploadedImage.secure_url;
+
         }
 
         const category = await Category.create({
@@ -25,11 +61,16 @@ export const createCategory = async (req, res) => {
             message: "Category created successfully",
             category,
         });
+
     } catch (error) {
+
+        console.log(error);
+
         res.status(500).json({
             success: false,
             message: error.message,
         });
+
     }
 };
 

@@ -1,106 +1,353 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
+import {
+    FaChevronLeft,
+    FaChevronRight,
+} from "react-icons/fa";
+
 import api from "../services/api";
 import ProductCard from "./ProductCard";
+
+import "./ProductSection.css";
+
 
 const ProductSection = ({ title, endpoint }) => {
 
     const [products, setProducts] = useState([]);
+
     const [loading, setLoading] = useState(true);
 
+    const scrollRef = useRef(null);
+
+    const [canScrollLeft, setCanScrollLeft] = useState(false);
+
+    const [canScrollRight, setCanScrollRight] = useState(false);
+
+
+    // =========================
+    // Fetch Products
+    // =========================
+
     useEffect(() => {
+
         fetchProducts();
+
     }, [endpoint]);
 
+
     const fetchProducts = async () => {
+
         try {
 
             const res = await api.get(endpoint);
 
-            setProducts(res.data.products || []);
+            setProducts(
+                res.data.products || []
+            );
 
         } catch (error) {
 
-            console.log(error);
+            console.error(
+                "Error fetching products:",
+                error
+            );
 
         } finally {
 
             setLoading(false);
 
         }
+
     };
+
+
+    // =========================
+    // Check Scroll Position
+    // =========================
+
+    const checkScroll = () => {
+
+        const element = scrollRef.current;
+
+        if (!element) return;
+
+
+        setCanScrollLeft(
+
+            element.scrollLeft > 5
+
+        );
+
+
+        setCanScrollRight(
+
+            element.scrollLeft +
+            element.clientWidth <
+            element.scrollWidth - 5
+
+        );
+
+    };
+
+
+    // =========================
+    // Scroll Event
+    // =========================
+
+    useEffect(() => {
+
+        const element = scrollRef.current;
+
+        if (!element) return;
+
+
+        checkScroll();
+
+
+        element.addEventListener(
+            "scroll",
+            checkScroll
+        );
+
+
+        window.addEventListener(
+            "resize",
+            checkScroll
+        );
+
+
+        return () => {
+
+            element.removeEventListener(
+                "scroll",
+                checkScroll
+            );
+
+
+            window.removeEventListener(
+                "resize",
+                checkScroll
+            );
+
+        };
+
+    }, [products]);
+
+
+    // =========================
+    // Left Scroll
+    // =========================
+
+    const scrollLeft = () => {
+
+        if (!scrollRef.current) return;
+
+
+        scrollRef.current.scrollBy({
+
+            left: -650,
+
+            behavior: "smooth",
+
+        });
+
+    };
+
+
+    // =========================
+    // Right Scroll
+    // =========================
+
+    const scrollRight = () => {
+
+        if (!scrollRef.current) return;
+
+
+        scrollRef.current.scrollBy({
+
+            left: 650,
+
+            behavior: "smooth",
+
+        });
+
+    };
+
+
+    // =========================
+    // Loading
+    // =========================
 
     if (loading) {
 
         return (
-            <div className="container py-5 text-center">
 
-                <div className="spinner-border text-success"></div>
+            <section className="product-section">
 
-            </div>
+                <div className="container">
+
+                    <div className="product-loading">
+
+                        <div className="spinner-border text-success"></div>
+
+                    </div>
+
+                </div>
+
+            </section>
+
         );
 
     }
 
+
+    // =========================
+    // No Products
+    // =========================
+
+    if (!products.length) {
+
+        return null;
+
+    }
+
+
     return (
 
-        <section className="container my-5">
+        <section className="product-section">
 
-            <div className="d-flex justify-content-between align-items-center mb-4">
+            <div className="container">
 
-                <div>
 
-                    <h2 className="fw-bold">
-                        {title}
-                    </h2>
+                {/* =========================
+                    Section Header
+                ========================= */}
 
-                    <p className="text-muted mb-0">
-                        Fresh products specially selected for you
-                    </p>
+                <div className="product-section-header">
 
-                </div>
 
-                <Link
-                    to="/products"
-                    className="btn btn-outline-success"
-                >
-                    View All
-                </Link>
+                    <div>
 
-            </div>
+                        <h2 className="product-section-title">
 
-            <div className="row g-4">
+                            {title}
 
-                {products.length > 0 ? (
+                        </h2>
 
-                    products.map((product) => (
 
-                        <div
-                            className="col-lg-3 col-md-4 col-sm-6"
-                            key={product._id}
-                        >
+                        <p className="product-section-subtitle">
 
-                            <ProductCard product={product} />
+                            Fresh products specially selected for you
 
-                        </div>
-
-                    ))
-
-                ) : (
-
-                    <div className="text-center">
-
-                        No Products Found
+                        </p>
 
                     </div>
 
-                )}
+
+                    <Link
+                        to="/products"
+                        className="view-all-btn"
+                    >
+
+                        View All
+
+                    </Link>
+
+                </div>
+
+
+                {/* =========================
+                    Product Carousel
+                ========================= */}
+
+                <div className="product-carousel-wrapper">
+
+
+                    {/* LEFT ARROW */}
+
+                    {
+
+                        canScrollLeft && (
+
+                            <button
+                                className="
+                                    product-arrow
+                                    product-arrow-left
+                                "
+                                onClick={scrollLeft}
+                                aria-label="Previous products"
+                            >
+
+                                <FaChevronLeft />
+
+                            </button>
+
+                        )
+
+                    }
+
+
+                    {/* PRODUCTS */}
+
+                    <div
+                        className="product-carousel"
+                        ref={scrollRef}
+                    >
+
+                        {
+
+                            products.map((product) => (
+
+                                <div
+                                    className="product-slide"
+                                    key={product._id}
+                                >
+
+                                    <ProductCard
+                                        product={product}
+                                    />
+
+                                </div>
+
+                            ))
+
+                        }
+
+                    </div>
+
+
+                    {/* RIGHT ARROW */}
+
+                    {
+
+                        canScrollRight && (
+
+                            <button
+                                className="
+                                    product-arrow
+                                    product-arrow-right
+                                "
+                                onClick={scrollRight}
+                                aria-label="Next products"
+                            >
+
+                                <FaChevronRight />
+
+                            </button>
+
+                        )
+
+                    }
+
+                </div>
 
             </div>
 
         </section>
 
     );
+
 };
+
 
 export default ProductSection;
