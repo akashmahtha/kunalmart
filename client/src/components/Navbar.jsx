@@ -1,20 +1,25 @@
 import { useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
 
 import {
-    FaHeart,
-    FaShoppingCart,
-    FaUser,
+    Link,
+    useNavigate,
+    useLocation,
+} from "react-router-dom";
+
+import {
     FaSearch,
     FaMapMarkerAlt,
+    FaTruck,
+    FaUser,
     FaBoxOpen,
+    FaShoppingCart,
+    FaHeart,
     FaSignOutAlt,
-    FaUserCircle,
     FaBars,
+    FaChevronDown,
 } from "react-icons/fa";
 
 import api from "../services/api";
-
 import logo from "../assets/logo.png";
 
 import "./Navbar.css";
@@ -24,8 +29,12 @@ const Navbar = () => {
 
     const navigate = useNavigate();
 
+    const location = useLocation();
 
-    // ================= STATES =================
+
+    // =====================================================
+    // STATES
+    // =====================================================
 
     const [search, setSearch] = useState("");
 
@@ -36,14 +45,18 @@ const Navbar = () => {
     const [wishlistCount] = useState(0);
 
 
-    // ================= LOGIN CHECK =================
+    // =====================================================
+    // LOGIN CHECK
+    // =====================================================
 
     const token = localStorage.getItem("token");
 
     const user = !!token;
 
 
-    // ================= FETCH DATA =================
+    // =====================================================
+    // FETCH DATA
+    // =====================================================
 
     useEffect(() => {
 
@@ -54,7 +67,9 @@ const Navbar = () => {
     }, []);
 
 
-    // ================= FETCH CATEGORIES =================
+    // =====================================================
+    // FETCH CATEGORIES
+    // =====================================================
 
     const fetchCategories = async () => {
 
@@ -63,19 +78,14 @@ const Navbar = () => {
             const res = await api.get("/categories");
 
             setCategories(
-
                 res.data?.categories || []
-
             );
 
         } catch (error) {
 
             console.log(
-
                 "Category Error:",
-
                 error
-
             );
 
             setCategories([]);
@@ -85,7 +95,9 @@ const Navbar = () => {
     };
 
 
-    // ================= FETCH CART COUNT =================
+    // =====================================================
+    // FETCH CART COUNT
+    // =====================================================
 
     const fetchCartCount = async () => {
 
@@ -94,7 +106,6 @@ const Navbar = () => {
             const res = await api.get("/cart");
 
             const items =
-
                 res.data?.cart?.items || [];
 
 
@@ -114,11 +125,8 @@ const Navbar = () => {
         } catch (error) {
 
             console.log(
-
                 "Cart Count Error:",
-
                 error
-
             );
 
             setCartCount(0);
@@ -128,12 +136,13 @@ const Navbar = () => {
     };
 
 
-    // ================= SEARCH =================
+    // =====================================================
+    // SEARCH
+    // =====================================================
 
     const handleSearch = (e) => {
 
         e.preventDefault();
-
 
         const keyword = search.trim();
 
@@ -141,9 +150,9 @@ const Navbar = () => {
         if (keyword) {
 
             navigate(
-
-                `/products?keyword=${encodeURIComponent(keyword)}`
-
+                `/products?keyword=${encodeURIComponent(
+                    keyword
+                )}`
             );
 
         } else {
@@ -155,19 +164,16 @@ const Navbar = () => {
     };
 
 
-    // ================= CATEGORY =================
+    // =====================================================
+    // CATEGORY CLICK
+    // =====================================================
 
-    const handleCategoryChange = (e) => {
-
-        const categoryId = e.target.value;
-
+    const handleCategoryClick = (categoryId) => {
 
         if (categoryId) {
 
             navigate(
-
                 `/products?category=${categoryId}`
-
             );
 
         } else {
@@ -179,7 +185,21 @@ const Navbar = () => {
     };
 
 
-    // ================= LOGOUT =================
+    // =====================================================
+    // ACTIVE CATEGORY
+    // =====================================================
+
+    const params = new URLSearchParams(
+        location.search
+    );
+
+    const activeCategoryId =
+        params.get("category");
+
+
+    // =====================================================
+    // LOGOUT
+    // =====================================================
 
     const handleLogout = () => {
 
@@ -187,9 +207,7 @@ const Navbar = () => {
 
         localStorage.removeItem("user");
 
-
         navigate("/");
-
 
         window.location.reload();
 
@@ -198,171 +216,478 @@ const Navbar = () => {
 
     return (
 
-        <>
+        <header className="km-header">
 
-            {/* ================================================= */}
-            {/* OFFER BAR */}
-            {/* ================================================= */}
 
-            <div className="offer-bar">
+            {/* =====================================================
+                TOP GREEN BAR
+            ===================================================== */}
 
-                🚚 Free Delivery on Orders Above ₹499
+            <div className="km-topbar">
+
+                <div className="km-container km-topbar-inner">
+
+
+                    <div className="km-top-item">
+
+                        <FaMapMarkerAlt />
+
+                        <span>
+
+                            Delivering to:
+                            Rishra, Serampore, Konnagar
+
+                        </span>
+
+                    </div>
+
+
+                    <div className="km-top-item km-launch-offer">
+
+                        <span>
+
+                            🎉
+
+                        </span>
+
+                        <span>
+
+                            Launch Offer:
+                            Potatoes @ $1/kg*
+
+                        </span>
+
+                    </div>
+
+
+                    <div className="km-top-item">
+
+                        <FaTruck />
+
+                        <span>
+
+                            Free Delivery on orders above $499
+
+                        </span>
+
+                    </div>
+
+
+                    <div className="km-top-item">
+
+                        <span>
+
+                            ☎
+
+                        </span>
+
+                        <span>
+
+                            Customer Support: 6291234567
+
+                        </span>
+
+                    </div>
+
+
+                </div>
 
             </div>
 
 
-            {/* ================================================= */}
-            {/* NAVBAR */}
-            {/* ================================================= */}
+            {/* =====================================================
+                MAIN HEADER
+            ===================================================== */}
 
-            <nav className="navbar navbar-expand-lg custom-navbar sticky-top shadow-sm">
+            <div className="km-main-header">
+
+                <div className="km-container km-main-inner">
 
 
-                <div className="container">
-
-
-                    {/* ================================================= */}
-                    {/* LOGO */}
-                    {/* ================================================= */}
+                    {/* =================================================
+                        LOGO
+                    ================================================= */}
 
                     <Link
-
                         to="/"
-
-                        className="navbar-brand d-flex align-items-center"
-
+                        className="km-logo"
                     >
 
                         <img
-
                             src={logo}
-
                             alt="Kunal Mart"
-
-                            className="logo-img"
-
+                            className="km-logo-img"
                         />
 
 
-                        <div className="ms-2">
+                        <div className="km-logo-text">
+
+                            <h2>
+
+                                Kunal<span>Mart</span>
+
+                            </h2>
 
 
-                            <h5 className="logo-title mb-0">
+                            <small>
 
-                                Kunal Mart
-
-                            </h5>
-
-
-                            <small className="logo-subtitle">
-
-                                Fresh Grocery
+                                Your Daily Grocery Partner
 
                             </small>
 
-
                         </div>
-
 
                     </Link>
 
 
-                    {/* ================================================= */}
-                    {/* MOBILE BUTTON */}
-                    {/* ================================================= */}
+                    {/* =================================================
+                        SEARCH
+                    ================================================= */}
 
-                    <button
-
-                        className="navbar-toggler"
-
-                        type="button"
-
-                        data-bs-toggle="collapse"
-
-                        data-bs-target="#navbarContent"
-
-                        aria-controls="navbarContent"
-
-                        aria-expanded="false"
-
-                        aria-label="Toggle navigation"
-
+                    <form
+                        className="km-search"
+                        onSubmit={handleSearch}
                     >
 
-                        <FaBars />
-
-                    </button>
-
-
-                    {/* ================================================= */}
-                    {/* NAVBAR CONTENT */}
-                    {/* ================================================= */}
-
-                    <div
-
-                        className="collapse navbar-collapse"
-
-                        id="navbarContent"
-
-                    >
+                        <input
+                            type="text"
+                            placeholder="Search for fruits, vegetables, groceries..."
+                            value={search}
+                            onChange={(e) =>
+                                setSearch(e.target.value)
+                            }
+                        />
 
 
-                        {/* ================================================= */}
-                        {/* DELIVERY LOCATION */}
-                        {/* ================================================= */}
+                        <button type="submit">
 
-                        <div className="delivery-box ms-lg-4">
+                            <FaSearch />
 
+                        </button>
 
-                            <FaMapMarkerAlt
-
-                                className="delivery-icon me-2"
-
-                            />
+                    </form>
 
 
-                            <div>
+                    {/* =================================================
+                        RIGHT MENU
+                    ================================================= */}
+
+                    <div className="km-main-actions">
 
 
-                                <small className="delivery-label">
+                        {/* =================================================
+                            ACCOUNT
+                        ================================================= */}
 
-                                    Deliver To
+                        <div className="km-account dropdown">
 
-                                </small>
+                            <button
+                                type="button"
+                                className="km-action-button"
+                                data-bs-toggle="dropdown"
+                                aria-expanded="false"
+                            >
+
+                                <FaUser />
+
+                                <span>
+
+                                    {
+                                        user
+                                            ? "Account"
+                                            : "Login / Signup"
+                                    }
+
+                                </span>
+
+                            </button>
 
 
-                                <div className="delivery-city">
-
-                                    Kolkata
-
-                                </div>
+                            <ul className="dropdown-menu dropdown-menu-end km-dropdown">
 
 
-                            </div>
+                                {
 
+                                    user ? (
+
+                                        <>
+
+
+                                            {/* PROFILE */}
+
+                                            <li>
+
+                                                <Link
+                                                    to="/profile"
+                                                    className="dropdown-item"
+                                                >
+
+                                                    <FaUser className="me-2" />
+
+                                                    My Profile
+
+                                                </Link>
+
+                                            </li>
+
+
+                                            {/* ORDERS */}
+
+                                            <li>
+
+                                                <Link
+                                                    to="/orders"
+                                                    className="dropdown-item"
+                                                >
+
+                                                    <FaBoxOpen className="me-2" />
+
+                                                    My Orders
+
+                                                </Link>
+
+                                            </li>
+
+
+                                            <li>
+
+                                                <hr className="dropdown-divider" />
+
+                                            </li>
+
+
+                                            {/* LOGOUT */}
+
+                                            <li>
+
+                                                <button
+                                                    type="button"
+                                                    className="dropdown-item text-danger"
+                                                    onClick={handleLogout}
+                                                >
+
+                                                    <FaSignOutAlt className="me-2" />
+
+                                                    Logout
+
+                                                </button>
+
+                                            </li>
+
+
+                                        </>
+
+                                    ) : (
+
+                                        <>
+
+
+                                            {/* LOGIN */}
+
+                                            <li>
+
+                                                <Link
+                                                    to="/login"
+                                                    className="dropdown-item"
+                                                >
+
+                                                    Login
+
+                                                </Link>
+
+                                            </li>
+
+
+                                            {/* REGISTER */}
+
+                                            <li>
+
+                                                <Link
+                                                    to="/register"
+                                                    className="dropdown-item"
+                                                >
+
+                                                    Register
+
+                                                </Link>
+
+                                            </li>
+
+
+                                        </>
+
+                                    )
+
+                                }
+
+
+                            </ul>
 
                         </div>
 
 
-                        {/* ================================================= */}
-                        {/* CATEGORY */}
-                        {/* ================================================= */}
+                        {/* =================================================
+                            ORDERS
+                        ================================================= */}
 
-                        <select
-
-                            className="form-select category-select mx-lg-3"
-
-                            onChange={handleCategoryChange}
-
+                        <Link
+                            to="/orders"
+                            className="km-action-button"
                         >
 
+                            <FaBoxOpen />
 
-                            <option value="">
+                            <span>
+
+                                My Orders
+
+                            </span>
+
+                        </Link>
+
+
+                        {/* =================================================
+                            WISHLIST
+                        ================================================= */}
+
+                        <Link
+                            to="/wishlist"
+                            className="km-action-button km-wishlist"
+                        >
+
+                            <span className="km-icon-wrap">
+
+                                <FaHeart />
+
+
+                                {
+
+                                    wishlistCount > 0 && (
+
+                                        <span className="km-badge">
+
+                                            {wishlistCount}
+
+                                        </span>
+
+                                    )
+
+                                }
+
+                            </span>
+
+
+                            <span>
+
+                                Wishlist
+
+                            </span>
+
+                        </Link>
+
+
+                        {/* =================================================
+                            CART
+                        ================================================= */}
+
+                        <Link
+                            to="/cart"
+                            className="km-action-button km-cart"
+                        >
+
+                            <span className="km-icon-wrap">
+
+                                <FaShoppingCart />
+
+
+                                {
+
+                                    cartCount > 0 && (
+
+                                        <span className="km-badge">
+
+                                            {cartCount}
+
+                                        </span>
+
+                                    )
+
+                                }
+
+                            </span>
+
+
+                            <span>
+
+                                Cart
+
+                            </span>
+
+                        </Link>
+
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            {/* =====================================================
+                CATEGORY NAVIGATION
+            ===================================================== */}
+
+            <nav className="km-category-nav">
+
+                <div className="km-container km-category-inner">
+
+
+                    {/* =================================================
+                        ALL CATEGORIES
+                    ================================================= */}
+
+                    <div className="km-all-categories dropdown">
+
+                        <button
+                            type="button"
+                            className="km-all-category-btn"
+                            data-bs-toggle="dropdown"
+                            aria-expanded="false"
+                        >
+
+                            <FaBars />
+
+                            <span>
 
                                 All Categories
 
-                            </option>
+                            </span>
 
+                            <FaChevronDown />
+
+                        </button>
+
+
+                        <ul className="dropdown-menu km-category-dropdown">
+
+
+                            {/* ALL PRODUCTS */}
+
+                            <li>
+
+                                <Link
+                                    to="/products"
+                                    className="dropdown-item"
+                                >
+
+                                    All Products
+
+                                </Link>
+
+                            </li>
+
+
+                            {/* DATABASE CATEGORIES */}
 
                             {
 
@@ -370,17 +695,25 @@ const Navbar = () => {
 
                                     (category) => (
 
-                                        <option
-
+                                        <li
                                             key={category._id}
-
-                                            value={category._id}
-
                                         >
 
-                                            {category.name}
+                                            <button
+                                                type="button"
+                                                className="dropdown-item"
+                                                onClick={() =>
+                                                    handleCategoryClick(
+                                                        category._id
+                                                    )
+                                                }
+                                            >
 
-                                        </option>
+                                                {category.name}
+
+                                            </button>
+
+                                        </li>
 
                                     )
 
@@ -389,379 +722,163 @@ const Navbar = () => {
                             }
 
 
-                        </select>
-
-
-                        {/* ================================================= */}
-                        {/* SEARCH */}
-                        {/* ================================================= */}
-
-                        <form
-
-                            className="search-box flex-grow-1"
-
-                            onSubmit={handleSearch}
-
-                        >
-
-
-                            <input
-
-                                type="text"
-
-                                className="form-control"
-
-                                placeholder="Search Products..."
-
-                                value={search}
-
-                                onChange={(e) =>
-
-                                    setSearch(
-
-                                        e.target.value
-
-                                    )
-
-                                }
-
-                            />
-
-
-                            <button
-
-                                className="btn btn-success"
-
-                                type="submit"
-
-                            >
-
-                                <FaSearch />
-
-                            </button>
-
-
-                        </form>
-
-
-                        {/* ================================================= */}
-                        {/* RIGHT SIDE */}
-                        {/* ================================================= */}
-
-                        <ul className="navbar-nav align-items-center ms-lg-4">
-
-
-                            {/* ================= WISHLIST ================= */}
-
-                            <li className="nav-item mx-2">
-
-
-                                <Link
-
-                                    to="/wishlist"
-
-                                    className="nav-link icon-link"
-
-                                >
-
-
-                                    <div className="icon-wrapper">
-
-
-                                        <FaHeart />
-
-
-                                        {
-
-                                            wishlistCount > 0 && (
-
-                                                <span className="nav-badge">
-
-                                                    {wishlistCount}
-
-                                                </span>
-
-                                            )
-
-                                        }
-
-
-                                    </div>
-
-
-                                    <small>
-
-                                        Wishlist
-
-                                    </small>
-
-
-                                </Link>
-
-
-                            </li>
-
-
-                            {/* ================= CART ================= */}
-
-                            <li className="nav-item mx-2">
-
-
-                                <Link
-
-                                    to="/cart"
-
-                                    className="nav-link icon-link"
-
-                                >
-
-
-                                    <div className="icon-wrapper">
-
-
-                                        <FaShoppingCart />
-
-
-                                        {
-
-                                            cartCount > 0 && (
-
-                                                <span className="nav-badge">
-
-                                                    {cartCount}
-
-                                                </span>
-
-                                            )
-
-                                        }
-
-
-                                    </div>
-
-
-                                    <small>
-
-                                        Cart
-
-                                    </small>
-
-
-                                </Link>
-
-
-                            </li>
-
-
-                            {/* ================= ACCOUNT ================= */}
-
-                            <li className="nav-item dropdown ms-3">
-
-
-                                <a
-
-                                    href="/#"
-
-                                    className="nav-link icon-link dropdown-toggle"
-
-                                    data-bs-toggle="dropdown"
-
-                                    role="button"
-
-                                >
-
-
-                                    <div className="icon-wrapper">
-
-
-                                        <FaUserCircle />
-
-
-                                    </div>
-
-
-                                    <small>
-
-                                        Account
-
-                                    </small>
-
-
-                                </a>
-
-
-                                <ul className="dropdown-menu dropdown-menu-end shadow border-0 rounded-4">
-
-
-                                    {
-
-                                        user ? (
-
-                                            <>
-
-
-                                                {/* PROFILE */}
-
-                                                <li>
-
-
-                                                    <Link
-
-                                                        to="/profile"
-
-                                                        className="dropdown-item"
-
-                                                    >
-
-
-                                                        <FaUser className="me-2" />
-
-
-                                                        My Profile
-
-
-                                                    </Link>
-
-
-                                                </li>
-
-
-                                                {/* ORDERS */}
-
-                                                <li>
-
-
-                                                    <Link
-
-                                                        to="/orders"
-
-                                                        className="dropdown-item"
-
-                                                    >
-
-
-                                                        <FaBoxOpen className="me-2" />
-
-
-                                                        My Orders
-
-
-                                                    </Link>
-
-
-                                                </li>
-
-
-                                                <li>
-
-
-                                                    <hr className="dropdown-divider" />
-
-
-                                                </li>
-
-
-                                                {/* LOGOUT */}
-
-                                                <li>
-
-
-                                                    <button
-
-                                                        className="dropdown-item text-danger"
-
-                                                        onClick={handleLogout}
-
-                                                    >
-
-
-                                                        <FaSignOutAlt className="me-2" />
-
-
-                                                        Logout
-
-
-                                                    </button>
-
-
-                                                </li>
-
-
-                                            </>
-
-                                        ) : (
-
-                                            <>
-
-
-                                                {/* LOGIN */}
-
-                                                <li>
-
-
-                                                    <Link
-
-                                                        to="/login"
-
-                                                        className="dropdown-item"
-
-                                                    >
-
-                                                        Login
-
-                                                    </Link>
-
-
-                                                </li>
-
-
-                                                {/* REGISTER */}
-
-                                                <li>
-
-
-                                                    <Link
-
-                                                        to="/register"
-
-                                                        className="dropdown-item"
-
-                                                    >
-
-                                                        Register
-
-                                                    </Link>
-
-
-                                                </li>
-
-
-                                            </>
-
-                                        )
-
-                                    }
-
-
-                                </ul>
-
-
-                            </li>
-
-
                         </ul>
-
 
                     </div>
 
 
-                </div>
+                    {/* =================================================
+                        NAV LINKS
+                    ================================================= */}
 
+                    <div className="km-nav-links">
+
+
+                        {/* HOME */}
+
+                        <Link
+                            to="/"
+                            className={`km-nav-link ${location.pathname === "/"
+                                    ? "active"
+                                    : ""
+                                }`}
+                        >
+
+                            Home
+
+                        </Link>
+
+
+                        {/* CATEGORIES */}
+
+                        {
+
+                            categories
+                                .slice(0, 6)
+                                .map(
+
+                                    (category) => (
+
+                                        <button
+                                            key={category._id}
+                                            type="button"
+                                            className={`km-nav-link ${activeCategoryId ===
+                                                    category._id
+                                                    ? "active"
+                                                    : ""
+                                                }`}
+                                            onClick={() =>
+                                                handleCategoryClick(
+                                                    category._id
+                                                )
+                                            }
+                                        >
+
+                                            {category.name}
+
+                                        </button>
+
+                                    )
+
+                                )
+
+                        }
+
+
+                        {/* OFFERS */}
+
+                        <Link
+                            to="/products"
+                            className={`km-nav-link ${location.pathname ===
+                                    "/products" &&
+                                    !activeCategoryId
+                                    ? "active"
+                                    : ""
+                                }`}
+                        >
+
+                            Offers
+
+                        </Link>
+
+
+                        {/* MORE */}
+
+                        <Link
+                            to="/products"
+                            className="km-nav-link"
+                        >
+
+                            More
+
+                        </Link>
+
+
+                    </div>
+
+                </div>
 
             </nav>
 
 
-        </>
+            {/* =====================================================
+                MOBILE NAV
+            ===================================================== */}
+
+            <div className="km-mobile-nav">
+
+
+                <Link
+                    to="/"
+                    className={
+                        location.pathname === "/"
+                            ? "active"
+                            : ""
+                    }
+                >
+
+                    Home
+
+                </Link>
+
+
+                <Link
+                    to="/products"
+                    className={
+                        location.pathname === "/products" &&
+                            !activeCategoryId
+                            ? "active"
+                            : ""
+                    }
+                >
+
+                    Products
+
+                </Link>
+
+
+                <Link
+                    to="/wishlist"
+                >
+
+                    Wishlist
+
+                </Link>
+
+
+                <Link
+                    to="/cart"
+                >
+
+                    Cart
+
+                </Link>
+
+
+            </div>
+
+
+        </header>
 
     );
 

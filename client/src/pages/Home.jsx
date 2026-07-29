@@ -16,7 +16,7 @@ const Home = () => {
 
             <main>
 
-                {/* Main Promotional Banner */}
+                {/* Hero */}
                 <Hero />
 
                 {/* Shop By Category */}
@@ -25,13 +25,13 @@ const Home = () => {
                 {/* Flash Sale */}
                 <FlashSale />
 
-                {/* Featured Products */}
+                {/* Popular Products */}
                 <ProductSection
                     title="Popular Products"
                     endpoint="/products/featured"
                 />
 
-                {/* Offer Banner */}
+                {/* Offer */}
                 <OfferBanner />
 
                 {/* Trending Products */}
@@ -46,7 +46,7 @@ const Home = () => {
                     endpoint="/products/bestseller"
                 />
 
-                {/* Latest Products */}
+                {/* Fresh Arrivals */}
                 <ProductSection
                     title="Fresh Arrivals"
                     endpoint="/products/latest"

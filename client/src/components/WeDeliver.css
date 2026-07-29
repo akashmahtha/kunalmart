@@ -1,0 +1,139 @@
+.we-deliver-section {
+    padding: 70px 0;
+    background: #f8f9fa;
+}
+
+.we-deliver-section .section-heading {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.we-deliver-section .section-heading h2 {
+    font-size: 32px;
+    font-weight: 700;
+    color: #222;
+    margin-bottom: 8px;
+}
+
+.we-deliver-section .section-heading p {
+    color: #777;
+    margin: 0;
+}
+
+.delivery-card {
+    position: relative;
+    height: 220px;
+    overflow: hidden;
+    border-radius: 15px;
+    background: #fff;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+}
+
+.delivery-card img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.4s ease;
+}
+
+.delivery-card:hover img {
+    transform: scale(1.06);
+}
+
+.delivery-overlay {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    padding: 18px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    color: #fff;
+    background: linear-gradient(transparent,
+            rgba(0, 0, 0, 0.8));
+}
+
+.delivery-overlay svg {
+    font-size: 24px;
+    color: #ffc107;
+}
+
+.delivery-overlay h5 {
+    margin: 0;
+    font-size: 20px;
+    font-weight: 700;
+}
+
+.delivery-overlay span {
+    font-size: 13px;
+    opacity: 0.9;
+}
+
+.coming-soon-card {
+    height: 220px;
+    border-radius: 15px;
+    background: #eaf7ef;
+    border: 2px dashed #198754;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    text-align: center;
+    padding: 20px;
+}
+
+.coming-soon-card svg {
+    font-size: 35px;
+    color: #198754;
+    margin-bottom: 10px;
+}
+
+.coming-soon-card h5 {
+    margin: 0 0 5px;
+    font-size: 20px;
+    font-weight: 700;
+}
+
+.coming-soon-card p {
+    color: #777;
+    margin-bottom: 15px;
+}
+
+.coming-soon-card button {
+    border: none;
+    background: #198754;
+    color: #fff;
+    padding: 8px 20px;
+    border-radius: 8px;
+    font-weight: 600;
+}
+
+.coming-soon-card button:hover {
+    background: #146c43;
+}
+
+
+/* =========================
+   MOBILE
+========================= */
+
+@media (max-width: 768px) {
+
+    .we-deliver-section {
+        padding: 50px 15px;
+    }
+
+    .we-deliver-section .section-heading h2 {
+        font-size: 26px;
+    }
+
+    .delivery-card,
+    .coming-soon-card {
+        height: 190px;
+    }
+
+}

@@ -1,118 +1,203 @@
+import { useState } from "react";
 import { Link } from "react-router-dom";
+
 import {
-    FaArrowRight,
+    FaShoppingBag,
+    FaDownload,
     FaTruck,
-    FaLeaf,
-    FaClock,
+    FaTag,
+    FaShieldAlt,
+    FaUndo,
 } from "react-icons/fa";
+
+import heroImage from "../assets/hero-grocery.png";
 
 import "./Hero.css";
 
 const Hero = () => {
 
-    const heroImage =
-        "https://images.unsplash.com/photo-1542838132-92c53300491e?auto=format&fit=crop&w=1200&q=80";
+    const [showComingSoon, setShowComingSoon] = useState(false);
+
+    const handleDownloadApp = () => {
+        setShowComingSoon(true);
+
+        setTimeout(() => {
+            setShowComingSoon(false);
+        }, 4000);
+    };
 
     return (
 
-        <section className="hero-section">
+        <section className="km-hero">
 
-            <div className="container">
+            <div className="km-hero-container">
 
-                <div className="hero-banner">
+                {/* ================= LEFT ================= */}
 
-                    {/* Left Content */}
+                <div className="km-hero-content">
 
-                    <div className="hero-content">
+                    <h1>
+                        Fresh Groceries
+                        <br />
+                        <span>Delivered in Minutes</span>
+                    </h1>
 
-                        <span className="hero-badge">
-                            🎉 Flat 30% OFF on Your First Order
-                        </span>
+                    <p>
+                        Fruits, Vegetables, Dairy, Snacks & Daily
+                        <br />
+                        Essentials at the Best Prices.
+                    </p>
 
-                        <h1>
-                            Fresh Groceries
-                            <br />
-                            <span>Delivered Fast</span>
-                        </h1>
 
-                        <p>
-                            Fresh fruits, vegetables, dairy products,
-                            snacks and daily essentials delivered
-                            straight to your doorstep in minutes.
-                        </p>
+                    {/* BUTTONS */}
 
-                        <div className="hero-buttons">
+                    <div className="km-hero-buttons">
 
-                            <Link
-                                to="/products"
-                                className="shop-now-btn"
-                            >
-                                Shop Now
-                                <FaArrowRight />
-                            </Link>
+                        <Link
+                            to="/products"
+                            className="km-shop-btn"
+                        >
+                            <FaShoppingBag />
+                            Shop Now
+                        </Link>
 
-                            <Link
-                                to="/products"
-                                className="browse-btn"
-                            >
-                                Browse Products
-                            </Link>
 
-                        </div>
-
-                        <div className="hero-features">
-
-                            <div className="hero-feature">
-                                <FaTruck />
-                                <div>
-                                    <strong>Fast Delivery</strong>
-                                    <small>Within 30 Minutes</small>
-                                </div>
-                            </div>
-
-                            <div className="hero-feature">
-                                <FaLeaf />
-                                <div>
-                                    <strong>100% Fresh</strong>
-                                    <small>Farm Fresh Products</small>
-                                </div>
-                            </div>
-
-                            <div className="hero-feature">
-                                <FaClock />
-                                <div>
-                                    <strong>Open Everyday</strong>
-                                    <small>7 AM - 11 PM</small>
-                                </div>
-                            </div>
-
-                        </div>
+                        <button
+                            type="button"
+                            className="km-download-btn"
+                            onClick={handleDownloadApp}
+                        >
+                            <FaDownload />
+                            Download App
+                        </button>
 
                     </div>
 
-                    {/* Right Image */}
 
-                    <div className="hero-image-wrapper">
+                    {/* COMING SOON */}
 
-                        <div className="hero-circle"></div>
+                    {showComingSoon && (
 
-                        <img
-                            src={heroImage}
-                            alt="Fresh Groceries"
-                            className="hero-image"
-                            loading="lazy"
-                        />
+                        <div className="km-coming-soon">
+
+                            <div className="km-coming-icon">
+                                ✓
+                            </div>
+
+                            <div>
+
+                                <strong>
+                                    App Coming Soon!
+                                </strong>
+
+                                <p>
+                                    Our app is on the way. Stay tuned!
+                                </p>
+
+                            </div>
+
+                        </div>
+
+                    )}
+
+
+                    {/* FEATURES */}
+
+                    <div className="km-hero-features">
+
+                        <div className="km-feature">
+
+                            <FaTruck />
+
+                            <div>
+                                <strong>
+                                    Fast Delivery
+                                </strong>
+
+                                <small>
+                                    Quick doorstep delivery
+                                </small>
+                            </div>
+
+                        </div>
+
+
+                        <div className="km-feature">
+
+                            <FaTag />
+
+                            <div>
+                                <strong>
+                                    Best Prices
+                                </strong>
+
+                                <small>
+                                    Unbeatable prices
+                                </small>
+                            </div>
+
+                        </div>
+
+
+                        <div className="km-feature">
+
+                            <FaShieldAlt />
+
+                            <div>
+                                <strong>
+                                    Fresh & Quality
+                                </strong>
+
+                                <small>
+                                    100% quality guarantee
+                                </small>
+                            </div>
+
+                        </div>
+
+
+                        <div className="km-feature">
+
+                            <FaUndo />
+
+                            <div>
+                                <strong>
+                                    Easy Returns
+                                </strong>
+
+                                <small>
+                                    Hassle-free returns
+                                </small>
+                            </div>
+
+                        </div>
 
                     </div>
 
                 </div>
 
+
+                {/* ================= RIGHT IMAGE ================= */}
+
+                <div className="km-hero-image">
+
+                    <img
+                        src={heroImage}
+                        alt="KunalMart Fresh Groceries"
+                    />
+
+                </div>
+
             </div>
+
+
+            {/* SLIDER DOTS */}
+
+
 
         </section>
 
     );
-
 };
 
 export default Hero;

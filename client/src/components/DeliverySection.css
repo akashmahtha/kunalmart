@@ -1,0 +1,387 @@
+/* =========================================
+   DELIVERY SECTION
+========================================= */
+
+.delivery-section {
+    width: 100%;
+    background: #ffffff;
+    padding: 25px 0 35px;
+}
+
+.delivery-container {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+
+/* =========================================
+   HEADING
+========================================= */
+
+.delivery-heading-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 14px;
+}
+
+.delivery-heading-row h2 {
+    margin: 0;
+    font-size: 22px;
+    font-weight: 800;
+    color: #18221c;
+}
+
+.delivery-view-all {
+    color: #078743;
+    font-size: 12px;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+
+/* =========================================
+   GRID
+========================================= */
+
+.delivery-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+}
+
+
+/* =========================================
+   CARD
+========================================= */
+
+.delivery-card {
+    height: 105px;
+    display: flex;
+    align-items: stretch;
+
+    background: #f4f9f6;
+
+    border: 1px solid #e0e9e3;
+    border-radius: 7px;
+
+    overflow: hidden;
+
+    transition: all 0.25s ease;
+}
+
+.delivery-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0, 80, 40, 0.10);
+}
+
+
+/* =========================================
+   IMAGE
+========================================= */
+
+.delivery-image {
+    position: relative;
+
+    width: 55%;
+    min-width: 55%;
+
+    overflow: hidden;
+}
+
+.delivery-image img {
+    width: 100%;
+    height: 100%;
+
+    display: block;
+
+    object-fit: cover;
+}
+
+
+/* Location Pin */
+
+.delivery-pin {
+    position: absolute;
+
+    right: 7px;
+    bottom: 7px;
+
+    width: 20px;
+    height: 20px;
+
+    border-radius: 50%;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background: #ffffff;
+    color: #078743;
+
+    font-size: 10px;
+
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
+}
+
+
+/* =========================================
+   INFO
+========================================= */
+
+.delivery-info {
+    flex: 1;
+
+    padding: 12px 8px;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.delivery-info h3 {
+    margin: 0 0 7px;
+
+    color: #202820;
+
+    font-size: 13px;
+    font-weight: 800;
+}
+
+.delivery-info p {
+    margin: 0;
+
+    display: flex;
+    align-items: flex-start;
+    gap: 4px;
+
+    color: #657168;
+
+    font-size: 8px;
+    line-height: 1.35;
+}
+
+.delivery-info p svg {
+    margin-top: 2px;
+
+    flex-shrink: 0;
+
+    color: #078743;
+
+    font-size: 8px;
+}
+
+
+/* =========================================
+   COMING SOON CARD
+========================================= */
+
+.coming-card {
+    background: #f1f8f4;
+
+    justify-content: center;
+    align-items: center;
+
+    text-align: center;
+}
+
+.coming-content {
+    width: 100%;
+    padding: 10px;
+}
+
+.coming-icon {
+    width: 25px;
+    height: 25px;
+
+    margin: 0 auto 5px;
+
+    border-radius: 50%;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background: #dcefe3;
+    color: #078743;
+
+    font-size: 11px;
+}
+
+.coming-content h3 {
+    margin: 0 0 7px;
+
+    color: #263029;
+
+    font-size: 11px;
+    line-height: 1.25;
+    font-weight: 700;
+}
+
+.coming-content button {
+    border: none;
+
+    background: #078743;
+    color: #ffffff;
+
+    padding: 5px 12px;
+
+    border-radius: 4px;
+
+    font-size: 8px;
+    font-weight: 700;
+
+    cursor: pointer;
+
+    transition: 0.2s ease;
+}
+
+.coming-content button:hover {
+    background: #056f36;
+}
+
+
+/* =========================================
+   LARGE SCREEN
+========================================= */
+
+@media (min-width: 1400px) {
+
+    .delivery-container {
+        max-width: 1300px;
+    }
+
+    .delivery-card {
+        height: 115px;
+    }
+
+    .delivery-heading-row h2 {
+        font-size: 24px;
+    }
+}
+
+
+/* =========================================
+   TABLET
+========================================= */
+
+@media (max-width: 1000px) {
+
+    .delivery-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .delivery-card {
+        height: 110px;
+    }
+}
+
+
+/* =========================================
+   MOBILE
+========================================= */
+
+@media (max-width: 600px) {
+
+    .delivery-section {
+        padding: 22px 0 28px;
+    }
+
+    .delivery-container {
+        padding: 0 14px;
+    }
+
+    .delivery-heading-row {
+        margin-bottom: 12px;
+    }
+
+    .delivery-heading-row h2 {
+        font-size: 19px;
+    }
+
+    .delivery-view-all {
+        font-size: 10px;
+    }
+
+    .delivery-grid {
+        grid-template-columns: 1fr 1fr;
+        gap: 8px;
+    }
+
+    .delivery-card {
+        height: 90px;
+        border-radius: 6px;
+    }
+
+    .delivery-image {
+        width: 50%;
+        min-width: 50%;
+    }
+
+    .delivery-info {
+        padding: 7px 6px;
+    }
+
+    .delivery-info h3 {
+        font-size: 11px;
+        margin-bottom: 4px;
+    }
+
+    .delivery-info p {
+        font-size: 7px;
+    }
+
+    .delivery-info p svg {
+        font-size: 7px;
+    }
+
+    .coming-content {
+        padding: 6px;
+    }
+
+    .coming-icon {
+        width: 21px;
+        height: 21px;
+        font-size: 9px;
+    }
+
+    .coming-content h3 {
+        font-size: 9px;
+        margin-bottom: 5px;
+    }
+
+    .coming-content button {
+        padding: 4px 9px;
+        font-size: 7px;
+    }
+}
+
+
+/* =========================================
+   SMALL MOBILE
+========================================= */
+
+@media (max-width: 400px) {
+
+    .delivery-grid {
+        gap: 6px;
+    }
+
+    .delivery-card {
+        height: 82px;
+    }
+
+    .delivery-info h3 {
+        font-size: 10px;
+    }
+
+    .delivery-info p {
+        font-size: 6.5px;
+    }
+
+    .coming-content h3 {
+        font-size: 8px;
+    }
+}

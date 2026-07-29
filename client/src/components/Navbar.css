@@ -1,644 +1,782 @@
-/* =========================================
-   KUNAL MART - LIGHT GROCERY NAVBAR
-========================================= */
+/* =========================================================
+   GLOBAL
+========================================================= */
 
-:root {
-
-    --nav-bg: #fffdf8;
-
-    --nav-white: #ffffff;
-
-    --nav-text: #252525;
-
-    --nav-muted: #777;
-
-    --nav-border: #eee8dc;
-
-    --nav-orange: #f28c28;
-
-    --nav-orange-dark: #df7415;
-
-    --nav-yellow: #fff1d6;
-
-    --nav-soft: #f8f5ee;
-
+* {
+    box-sizing: border-box;
 }
 
-
-/* =========================================
-   OFFER BAR
-========================================= */
-
-.offer-bar {
-
+.km-header {
     width: 100%;
+    background: #fff;
+    font-family: Arial, Helvetica, sans-serif;
+}
 
-    background: #fff1d6;
+.km-container {
+    width: 100%;
+    max-width: 1400px;
+    margin: 0 auto;
+    padding-left: 25px;
+    padding-right: 25px;
+}
 
-    color: #8b541b;
 
-    text-align: center;
+/* =========================================================
+   TOP GREEN BAR
+========================================================= */
 
+.km-topbar {
+    width: 100%;
+    background: #087f3f;
+    color: #fff;
+    min-height: 40px;
+}
+
+.km-topbar-inner {
+    min-height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+}
+
+.km-top-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
     font-size: 13px;
+    font-weight: 500;
+    white-space: nowrap;
+}
 
-    font-weight: 600;
+.km-top-item svg {
+    font-size: 13px;
+}
 
-    padding: 8px 15px;
-
-    letter-spacing: 0.2px;
-
+.km-launch-offer {
+    color: #ffd54f;
+    font-weight: 700;
 }
 
 
-/* =========================================
-   MAIN NAVBAR
-========================================= */
+/* =========================================================
+   MAIN HEADER
+========================================================= */
 
-.custom-navbar {
+.km-main-header {
+    background: #fff;
+    border-bottom: 1px solid #e8e8e8;
+}
 
-    min-height: 76px;
-
-    background: var(--nav-bg) !important;
-
-    border-bottom: 1px solid var(--nav-border);
-
-    padding: 10px 0;
-
-    z-index: 1000;
-
+.km-main-inner {
+    min-height: 92px;
+    display: flex;
+    align-items: center;
+    gap: 25px;
 }
 
 
-/* =========================================
+/* =========================================================
    LOGO
-========================================= */
+========================================================= */
 
-.navbar-brand {
+.km-logo {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    flex-shrink: 0;
+    min-width: 220px;
+}
 
+.km-logo-img {
+    width: 78px;
+    height: 78px;
+    object-fit: contain;
+    display: block;
+}
+
+.km-logo-text {
+    margin-left: 10px;
+}
+
+.km-logo-text h2 {
+    margin: 0;
+    padding: 0;
+    font-size: 29px;
+    line-height: 1;
+    font-weight: 800;
+    color: #087f3f;
+    letter-spacing: -0.5px;
+}
+
+.km-logo-text h2 span {
+    color: #f4b400;
+}
+
+.km-logo-text small {
+    display: block;
+    margin-top: 7px;
+    font-size: 11px;
+    color: #666;
+    white-space: nowrap;
+}
+
+
+/* =========================================================
+   SEARCH
+========================================================= */
+
+.km-search {
+    flex: 1;
+    height: 48px;
+    display: flex;
+    align-items: stretch;
+    border: 1px solid #dfe3e1;
+    border-radius: 9px;
+    overflow: hidden;
+    background: #f7f9f8;
+    min-width: 250px;
+}
+
+.km-search input {
+    flex: 1;
+    width: 100%;
+    border: none;
+    outline: none;
+    background: transparent;
+    padding: 0 18px;
+    font-size: 14px;
+    color: #333;
+}
+
+.km-search input::placeholder {
+    color: #888;
+}
+
+.km-search button {
+    width: 52px;
+    border: none;
+    background: #087f3f;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.km-search button:hover {
+    background: #066b35;
+}
+
+.km-search button svg {
+    font-size: 17px;
+}
+
+
+/* =========================================================
+   RIGHT ACTIONS
+========================================================= */
+
+.km-main-actions {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    flex-shrink: 0;
+}
+
+.km-action-button {
+    border: none;
+    background: transparent;
+    color: #333;
     text-decoration: none;
 
-    min-width: 180px;
-
-}
-
-.logo-img {
-
-    width: 48px;
-
-    height: 48px;
-
-    object-fit: contain;
-
-    border-radius: 12px;
-
-}
-
-.logo-title {
-
-    color: var(--nav-text);
-
-    font-size: 20px;
-
-    font-weight: 800;
-
-    letter-spacing: -0.3px;
-
-}
-
-.logo-subtitle {
-
-    color: var(--nav-orange);
-
-    font-size: 11px;
-
-    font-weight: 600;
-
-}
-
-
-/* =========================================
-   DELIVERY LOCATION
-========================================= */
-
-.delivery-box {
-
     display: flex;
-
     align-items: center;
+    justify-content: center;
+    gap: 7px;
 
-    gap: 8px;
-
-    min-width: 145px;
-
-    padding: 8px 12px;
-
-    border-radius: 10px;
-
-    background: #fff7e8;
-
-    border: 1px solid #f5dfb9;
-
-}
-
-.delivery-icon {
-
-    color: var(--nav-orange);
-
-    font-size: 18px;
-
-}
-
-.delivery-label {
-
-    display: block;
-
-    color: #999;
-
-    font-size: 10px;
-
-    line-height: 1;
-
-    margin-bottom: 4px;
-
-}
-
-.delivery-city {
-
-    color: var(--nav-text);
-
-    font-size: 13px;
-
-    font-weight: 700;
-
-    line-height: 1;
-
-}
-
-
-/* =========================================
-   CATEGORY SELECT
-========================================= */
-
-.category-select {
-
-    width: 155px;
-
-    height: 44px;
-
-    border: 1px solid var(--nav-border);
-
-    border-radius: 10px;
-
-    background-color: white;
-
-    color: #444;
-
-    font-size: 13px;
-
+    font-size: 14px;
     font-weight: 500;
 
+    padding: 8px 0;
+
     cursor: pointer;
-
-    box-shadow: none !important;
-
-}
-
-.category-select:focus {
-
-    border-color: var(--nav-orange);
-
-    box-shadow: 0 0 0 3px rgba(242, 140, 40, 0.12) !important;
-
-}
-
-
-/* =========================================
-   SEARCH BOX
-========================================= */
-
-.search-box {
-
-    display: flex;
-
-    align-items: center;
-
-    height: 44px;
-
-    max-width: 550px;
-
-    min-width: 220px;
-
-    background: #f8f6f1;
-
-    border: 1px solid #ebe5da;
-
-    border-radius: 10px;
-
-    overflow: hidden;
-
-    transition: all 0.25s ease;
-
-}
-
-.search-box:focus-within {
-
-    background: white;
-
-    border-color: var(--nav-orange);
-
-    box-shadow: 0 0 0 3px rgba(242, 140, 40, 0.1);
-
-}
-
-.search-box input {
-
-    flex: 1;
-
-    height: 100%;
-
-    border: none !important;
-
-    outline: none !important;
-
-    background: transparent !important;
-
-    box-shadow: none !important;
-
-    padding: 0 15px;
-
-    color: #333;
-
-    font-size: 13px;
-
-}
-
-.search-box input::placeholder {
-
-    color: #999;
-
-}
-
-.search-box button {
-
-    width: 48px;
-
-    height: 100%;
-
-    border: none;
-
-    border-radius: 0;
-
-    background: var(--nav-orange);
-
-    color: white;
-
-    display: flex;
-
-    align-items: center;
-
-    justify-content: center;
-
-    transition: background 0.2s ease;
-
-}
-
-.search-box button:hover {
-
-    background: var(--nav-orange-dark);
-
-}
-
-
-/* =========================================
-   RIGHT NAVIGATION
-========================================= */
-
-.navbar-nav {
-
-    gap: 4px;
-
-}
-
-.icon-link {
-
-    position: relative;
-
-    display: flex !important;
-
-    flex-direction: column;
-
-    align-items: center;
-
-    justify-content: center;
-
-    gap: 3px;
-
-    min-width: 62px;
-
-    padding: 6px 8px !important;
-
-    color: #555 !important;
-
-    text-decoration: none;
-
-    border-radius: 10px;
-
-    transition: all 0.2s ease;
-
-}
-
-.icon-link:hover {
-
-    background: #fff3df;
-
-    color: var(--nav-orange) !important;
-
-}
-
-.icon-wrapper {
-
-    position: relative;
-
-    font-size: 20px;
-
-    line-height: 1;
-
-}
-
-.icon-link small {
-
-    font-size: 10px;
-
-    font-weight: 600;
-
     white-space: nowrap;
 
+    transition: 0.2s;
+}
+
+.km-action-button:hover {
+    color: #087f3f;
+}
+
+.km-action-button>svg {
+    color: #087f3f;
+    font-size: 19px;
 }
 
 
-/* =========================================
-   BADGE
-========================================= */
+/* ACCOUNT */
 
-.nav-badge {
+.km-account {
+    position: relative;
+}
 
+.km-account .km-action-button {
+    padding: 8px 0;
+}
+
+
+/* =========================================================
+   ICON + BADGE
+========================================================= */
+
+.km-icon-wrap {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.km-icon-wrap svg {
+    color: #087f3f;
+    font-size: 20px;
+}
+
+.km-badge {
     position: absolute;
+    top: -10px;
+    right: -11px;
 
-    top: -9px;
-
-    right: -10px;
-
-    min-width: 17px;
-
-    height: 17px;
+    min-width: 18px;
+    height: 18px;
 
     padding: 0 4px;
 
-    display: flex;
-
-    align-items: center;
-
-    justify-content: center;
-
-    background: #e85d4a;
-
-    color: white;
-
-    font-size: 9px;
-
-    font-weight: 700;
-
     border-radius: 50%;
 
-    border: 2px solid var(--nav-bg);
+    background: #dc3545;
+    color: #fff;
 
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    font-size: 10px;
+    font-weight: 700;
 }
 
 
-/* =========================================
-   ACCOUNT DROPDOWN
-========================================= */
+/* =========================================================
+   DROPDOWN
+========================================================= */
 
-.dropdown-menu {
-
+.km-dropdown {
     min-width: 190px;
+    margin-top: 10px !important;
 
-    margin-top: 12px !important;
+    border: none;
+    border-radius: 10px;
+
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+
+    padding: 8px;
+}
+
+.km-dropdown .dropdown-item {
+    border-radius: 7px;
+    padding: 10px 12px;
+    font-size: 14px;
+}
+
+.km-dropdown .dropdown-item:hover {
+    background: #f0f8f3;
+    color: #087f3f;
+}
+
+
+/* =========================================================
+   CATEGORY NAVIGATION
+========================================================= */
+
+.km-category-nav {
+    width: 100%;
+    background: #fff;
+    border-bottom: 1px solid #e5e5e5;
+}
+
+.km-category-inner {
+    min-height: 55px;
+    display: flex;
+    align-items: center;
+    gap: 25px;
+}
+
+
+/* ALL CATEGORIES */
+
+.km-all-categories {
+    flex-shrink: 0;
+}
+
+.km-all-category-btn {
+    min-width: 172px;
+    height: 40px;
+
+    border: none;
+    border-radius: 7px;
+
+    background: #087f3f;
+    color: #fff;
+
+    padding: 0 16px;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+
+    font-size: 14px;
+    font-weight: 600;
+
+    cursor: pointer;
+}
+
+.km-all-category-btn:hover {
+    background: #066b35;
+}
+
+.km-all-category-btn svg {
+    font-size: 14px;
+}
+
+
+/* CATEGORY DROPDOWN */
+
+.km-category-dropdown {
+    min-width: 220px;
+
+    margin-top: 8px !important;
+
+    border: none;
+    border-radius: 10px;
 
     padding: 8px;
 
-    background: white;
-
-    border: 1px solid var(--nav-border) !important;
-
-    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.1) !important;
-
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
 }
 
-.dropdown-item {
+.km-category-dropdown .dropdown-item {
+    width: 100%;
+    border: none;
+    background: transparent;
+
+    text-align: left;
+
+    border-radius: 7px;
 
     padding: 10px 12px;
 
-    border-radius: 8px;
+    font-size: 14px;
 
-    color: #444;
-
-    font-size: 13px;
-
+    cursor: pointer;
 }
 
-.dropdown-item:hover {
-
-    background: #fff3df;
-
-    color: var(--nav-orange);
-
+.km-category-dropdown .dropdown-item:hover {
+    background: #eef8f2;
+    color: #087f3f;
 }
 
 
-/* =========================================
-   MOBILE TOGGLE
-========================================= */
+/* =========================================================
+   NAV LINKS
+========================================================= */
 
-.navbar-toggler {
+.km-nav-links {
+    display: flex;
+    align-items: center;
+    gap: 5px;
 
-    border: 1px solid #e7dfd2 !important;
-
-    background: white;
-
-    color: #444;
-
-    padding: 8px 10px;
-
-    border-radius: 8px;
-
-    box-shadow: none !important;
-
+    overflow-x: auto;
+    scrollbar-width: none;
 }
 
-.navbar-toggler:focus {
+.km-nav-links::-webkit-scrollbar {
+    display: none;
+}
 
-    box-shadow: 0 0 0 3px rgba(242, 140, 40, 0.12) !important;
+.km-nav-link {
+    border: none;
+    background: transparent;
 
+    color: #333;
+
+    text-decoration: none;
+
+    font-size: 14px;
+    font-weight: 500;
+
+    padding: 11px 15px;
+
+    border-radius: 6px;
+
+    white-space: nowrap;
+
+    cursor: pointer;
+
+    transition: 0.2s;
+}
+
+.km-nav-link:hover {
+    background: #f0f8f3;
+    color: #087f3f;
+}
+
+.km-nav-link.active {
+    background: #eef8f2;
+    color: #087f3f;
+    font-weight: 600;
 }
 
 
-/* =========================================
-   RESPONSIVE TABLET
-========================================= */
+/* =========================================================
+   MOBILE NAV
+========================================================= */
+
+.km-mobile-nav {
+    display: none;
+}
+
+
+/* =========================================================
+   LARGE SCREEN
+========================================================= */
 
 @media (max-width: 1200px) {
 
-    .navbar-brand {
-
-        min-width: auto;
-
+    .km-container {
+        padding-left: 18px;
+        padding-right: 18px;
     }
 
-    .delivery-box {
-
-        min-width: 125px;
-
+    .km-main-inner {
+        gap: 18px;
     }
 
-    .category-select {
-
-        width: 135px;
-
+    .km-logo {
+        min-width: 200px;
     }
 
-    .icon-link {
-
-        min-width: 55px;
-
+    .km-logo-img {
+        width: 68px;
+        height: 68px;
     }
 
+    .km-logo-text h2 {
+        font-size: 25px;
+    }
+
+    .km-main-actions {
+        gap: 13px;
+    }
+
+    .km-action-button {
+        font-size: 13px;
+    }
+
+    .km-action-button>svg {
+        font-size: 17px;
+    }
 }
 
 
-/* =========================================
-   RESPONSIVE MOBILE
-========================================= */
+/* =========================================================
+   TABLET
+========================================================= */
 
 @media (max-width: 991px) {
 
-    .custom-navbar {
-
-        padding: 10px 15px;
-
+    .km-topbar {
+        overflow: hidden;
     }
 
-    .navbar-collapse {
-
-        margin-top: 15px;
-
-        padding: 15px;
-
-        background: white;
-
-        border: 1px solid var(--nav-border);
-
-        border-radius: 14px;
-
-        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.06);
-
+    .km-topbar-inner {
+        overflow-x: auto;
+        justify-content: flex-start;
+        gap: 25px;
+        scrollbar-width: none;
     }
 
-    .delivery-box {
+    .km-topbar-inner::-webkit-scrollbar {
+        display: none;
+    }
 
+    .km-top-item {
+        font-size: 12px;
+    }
+
+    .km-main-inner {
+        min-height: auto;
+        padding-top: 15px;
+        padding-bottom: 15px;
+
+        flex-wrap: wrap;
+    }
+
+    .km-logo {
+        min-width: auto;
+        flex: 1;
+    }
+
+    .km-logo-img {
+        width: 65px;
+        height: 65px;
+    }
+
+    .km-logo-text h2 {
+        font-size: 25px;
+    }
+
+    .km-logo-text small {
+        font-size: 10px;
+    }
+
+    .km-search {
+        order: 3;
+        flex-basis: 100%;
         width: 100%;
-
-        margin: 0 0 12px 0 !important;
-
+        min-width: 100%;
     }
 
-    .category-select {
-
-        width: 100%;
-
-        margin: 0 0 12px 0 !important;
-
+    .km-main-actions {
+        gap: 12px;
     }
 
-    .search-box {
-
-        max-width: 100%;
-
-        width: 100%;
-
-        margin-bottom: 15px;
-
+    .km-action-button span:not(.km-icon-wrap) {
+        display: none;
     }
 
-    .navbar-nav {
+    .km-action-button>svg {
+        font-size: 21px;
+    }
 
-        flex-direction: row;
+    .km-category-inner {
+        overflow-x: auto;
+        scrollbar-width: none;
+        padding-top: 7px;
+        padding-bottom: 7px;
+    }
 
-        justify-content: center;
+    .km-category-inner::-webkit-scrollbar {
+        display: none;
+    }
 
-        border-top: 1px solid var(--nav-border);
-
-        padding-top: 12px;
-
-        margin-left: 0 !important;
-
+    .km-nav-links {
+        flex-shrink: 0;
     }
 
 }
 
 
-/* =========================================
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 767px) {
+
+    .km-container {
+        padding-left: 12px;
+        padding-right: 12px;
+    }
+
+    /* TOP BAR */
+
+    .km-topbar {
+        min-height: 34px;
+    }
+
+    .km-topbar-inner {
+        min-height: 34px;
+        gap: 20px;
+    }
+
+    .km-top-item {
+        font-size: 10px;
+    }
+
+    /* MAIN HEADER */
+
+    .km-main-inner {
+        padding-top: 10px;
+        padding-bottom: 10px;
+
+        gap: 10px;
+    }
+
+    /* LOGO */
+
+    .km-logo {
+        min-width: 0;
+    }
+
+    .km-logo-img {
+        width: 54px;
+        height: 54px;
+    }
+
+    .km-logo-text {
+        margin-left: 6px;
+    }
+
+    .km-logo-text h2 {
+        font-size: 21px;
+        letter-spacing: -0.3px;
+    }
+
+    .km-logo-text small {
+        font-size: 8px;
+        margin-top: 4px;
+    }
+
+    /* ACTIONS */
+
+    .km-main-actions {
+        gap: 10px;
+    }
+
+    .km-action-button {
+        padding: 5px;
+    }
+
+    .km-action-button>svg {
+        font-size: 19px;
+    }
+
+    .km-account .km-action-button {
+        padding: 5px;
+    }
+
+    /* SEARCH */
+
+    .km-search {
+        height: 44px;
+    }
+
+    .km-search input {
+        font-size: 13px;
+        padding: 0 12px;
+    }
+
+    .km-search button {
+        width: 46px;
+    }
+
+    /* CATEGORY */
+
+    .km-category-nav {
+        border-bottom: none;
+    }
+
+    .km-category-inner {
+        gap: 10px;
+        padding-top: 8px;
+        padding-bottom: 8px;
+    }
+
+    .km-all-category-btn {
+        min-width: 145px;
+        height: 38px;
+        font-size: 12px;
+        padding: 0 12px;
+    }
+
+    .km-nav-link {
+        font-size: 12px;
+        padding: 9px 12px;
+    }
+
+}
+
+
+/* =========================================================
    SMALL MOBILE
-========================================= */
+========================================================= */
 
 @media (max-width: 480px) {
 
-    .logo-img {
-
-        width: 42px;
-
-        height: 42px;
-
+    .km-container {
+        padding-left: 10px;
+        padding-right: 10px;
     }
 
-    .logo-title {
-
-        font-size: 17px;
-
+    .km-logo-img {
+        width: 48px;
+        height: 48px;
     }
 
-    .logo-subtitle {
-
-        font-size: 9px;
-
+    .km-logo-text h2 {
+        font-size: 19px;
     }
 
-    .offer-bar {
-
-        font-size: 11px;
-
-        padding: 7px 8px;
-
+    .km-logo-text small {
+        font-size: 7px;
     }
 
-    .icon-link {
-
-        min-width: 55px;
-
-        padding: 5px 4px !important;
-
+    .km-main-actions {
+        gap: 5px;
     }
 
-    .icon-wrapper {
-
+    .km-action-button>svg {
         font-size: 18px;
-
     }
 
-    .icon-link small {
+    .km-search {
+        height: 42px;
+    }
 
-        font-size: 9px;
+    .km-search input {
+        font-size: 12px;
+    }
 
+    .km-all-category-btn {
+        min-width: 135px;
+        font-size: 11px;
+    }
+
+    .km-nav-link {
+        font-size: 11px;
+        padding: 8px 10px;
+    }
+
+}
+
+
+/* =========================================================
+   VERY SMALL MOBILE
+========================================================= */
+
+@media (max-width: 360px) {
+
+    .km-logo-img {
+        width: 43px;
+        height: 43px;
+    }
+
+    .km-logo-text h2 {
+        font-size: 17px;
+    }
+
+    .km-logo-text small {
+        display: none;
+    }
+
+    .km-main-actions {
+        gap: 2px;
+    }
+
+    .km-action-button>svg {
+        font-size: 17px;
     }
 
 }
