@@ -2,6 +2,8 @@ import User from "../models/User.js";
 import Product from "../models/Product.js";
 import Category from "../models/Category.js";
 import Order from "../models/Order.js";
+import Review from "../models/Review.js";
+
 
 // ======================================
 // Dashboard Statistics
@@ -353,4 +355,127 @@ export const deleteUser = async (req, res) => {
         });
 
     }
+};
+
+export const getAllReviews = async (req, res) => {
+    try {
+        const page = Number(req.query.page) || 1;
+        const limit = Number(req.query.limit) || 10;
+        const search = req.query.search || "";
+
+        const skip = (page - 1) * limit;
+
+        const query = {};
+
+        if (search) {
+            query.$or = [
+                { comment: { $regex: search, $options: "i" } },
+            ];
+        }
+
+        const totalReviews = await Review.countDocuments(query);
+
+        const reviews = await Review.find(query)
+            .populate("user", "name email")
+            .populate("product", "name images")
+            .sort({ createdAt: -1 })
+            .skip(skip)
+            .limit(limit);
+
+        res.status(200).json({
+            success: true,
+            reviews,
+            page,
+            pages: Math.ceil(totalReviews / limit),
+            totalReviews,
+        });
+
+    } catch (error) {
+
+        res.status(500).json({
+            success: false,
+            message: error.message,
+        });
+
+    }
+};
+
+export const getReviewDetails = async (req, res) => {
+
+    try {
+
+        const review = await Review.findById(req.params.id)
+            .populate("user", "name email")
+            .populate("product", "name images");
+
+        if (!review) {
+            return res.status(404).json({
+                success: false,
+                message: "Review not found",
+            });
+        }
+
+        res.status(200).json({
+            success: true,
+            review,
+        });
+
+    } catch (error) {
+
+        res.status(500).json({
+            success: false,
+            message: error.message,
+        });
+
+    }
+
+};
+
+export const deleteReviewByAdmin = async (req, res) => {
+
+    try {
+
+        const review = await Review.findById(req.params.id);
+
+        if (!review) {
+            return res.status(404).json({
+                success: false,
+                message: "Review not found",
+            });
+        }
+
+        const productId = review.product;
+
+        await review.deleteOne();
+
+        const reviews = await Review.find({
+            product: productId,
+        });
+
+        const numReviews = reviews.length;
+
+        const rating =
+            numReviews > 0
+                ? reviews.reduce((sum, item) => sum + item.rating, 0) / numReviews
+                : 0;
+
+        await Product.findByIdAndUpdate(productId, {
+            rating,
+            numReviews,
+        });
+
+        res.status(200).json({
+            success: true,
+            message: "Review deleted successfully",
+        });
+
+    } catch (error) {
+
+        res.status(500).json({
+            success: false,
+            message: error.message,
+        });
+
+    }
+
 };
