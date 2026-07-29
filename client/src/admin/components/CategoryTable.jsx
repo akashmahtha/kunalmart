@@ -17,6 +17,8 @@ import EditCategoryModal from "./EditCategoryModal";
 const CategoryTable = ({
     categories,
     fetchCategories,
+    currentPage,
+    itemsPerPage,
 }) => {
 
     const [search, setSearch] = useState("");
@@ -25,6 +27,7 @@ const CategoryTable = ({
 
     const [selectedCategory, setSelectedCategory] = useState(null);
 
+    // Search (Current Page)
     const filteredCategories = categories.filter((category) =>
         category.name
             .toLowerCase()
@@ -32,7 +35,7 @@ const CategoryTable = ({
     );
 
     // ==========================
-    // Edit
+    // Edit Category
     // ==========================
 
     const editCategory = (category) => {
@@ -44,13 +47,13 @@ const CategoryTable = ({
     };
 
     // ==========================
-    // Delete
+    // Delete Category
     // ==========================
 
     const deleteCategory = async (id) => {
 
         const confirmDelete = window.confirm(
-            "Delete this category?"
+            "Are you sure you want to delete this category?"
         );
 
         if (!confirmDelete) return;
@@ -59,7 +62,7 @@ const CategoryTable = ({
 
             await api.delete(`/categories/${id}`);
 
-            toast.success("Category Deleted");
+            toast.success("Category Deleted Successfully");
 
             fetchCategories();
 
@@ -78,10 +81,14 @@ const CategoryTable = ({
 
         <>
 
+            {/* Search */}
+
             <div className="d-flex justify-content-end mb-3">
 
                 <Form.Control
-                    style={{ maxWidth: "300px" }}
+                    style={{
+                        maxWidth: "300px",
+                    }}
                     placeholder="Search Category..."
                     value={search}
                     onChange={(e) =>
@@ -91,139 +98,144 @@ const CategoryTable = ({
 
             </div>
 
-            <Table
-                bordered
-                hover
-                responsive
-                className="align-middle"
-            >
+            {/* Table */}
 
-                <thead className="table-success">
+            <div className="table-responsive">
 
-                    <tr>
+                <Table
+                    bordered
+                    hover
+                    className="align-middle"
+                >
 
-                        <th width="90">
+                    <thead className="table-success">
 
-                            Image
+                        <tr>
 
-                        </th>
+                            <th width="70">#</th>
 
-                        <th>
+                            <th width="90">Image</th>
 
-                            Name
+                            <th>Name</th>
 
-                        </th>
+                            <th>Description</th>
 
-                        <th>
+                            <th width="150">
+                                Actions
+                            </th>
 
-                            Description
+                        </tr>
 
-                        </th>
+                    </thead>
 
-                        <th width="150">
+                    <tbody>
 
-                            Actions
+                        {
 
-                        </th>
+                            filteredCategories.length > 0 ? (
 
-                    </tr>
+                                filteredCategories.map((category, index) => (
 
-                </thead>
+                                    <tr key={category._id}>
 
-                <tbody>
+                                        <td>
 
-                    {
+                                            {(currentPage - 1) * itemsPerPage + index + 1}
 
-                        filteredCategories.length > 0 ? (
+                                        </td>
 
-                            filteredCategories.map((category) => (
+                                        <td>
 
-                                <tr key={category._id}>
+                                            <Image
+                                                src={
+                                                    category.image ||
+                                                    "https://placehold.co/60x60?text=No+Image"
+                                                }
+                                                width={60}
+                                                height={60}
+                                                rounded
+                                                style={{
+                                                    objectFit: "cover",
+                                                }}
+                                            />
 
-                                    <td>
+                                        </td>
 
-                                        <Image
-                                            src={
-                                                category.image ||
-                                                "https://placehold.co/60x60?text=No+Image"
-                                            }
-                                            width={60}
-                                            height={60}
-                                            rounded
-                                        />
+                                        <td>
 
-                                    </td>
 
-                                    <td>
+                                            {category.name}
 
-                                        {category.name}
 
-                                    </td>
+                                        </td>
 
-                                    <td>
+                                        <td>
 
-                                        {
-                                            category.description ||
-                                            "-"
-                                        }
+                                            {category.description || "-"}
 
-                                    </td>
+                                        </td>
 
-                                    <td>
+                                        <td>
 
-                                        <Button
-                                            size="sm"
-                                            variant="warning"
-                                            className="me-2"
-                                            onClick={() =>
-                                                editCategory(category)
-                                            }
-                                        >
+                                            <Button
+                                                size="sm"
+                                                variant="warning"
+                                                className="me-2"
+                                                onClick={() =>
+                                                    editCategory(category)
+                                                }
+                                            >
 
-                                            <FaEdit />
+                                                <FaEdit />
 
-                                        </Button>
+                                            </Button>
 
-                                        <Button
-                                            size="sm"
-                                            variant="danger"
-                                            onClick={() =>
-                                                deleteCategory(category._id)
-                                            }
-                                        >
+                                            <Button
+                                                size="sm"
+                                                variant="danger"
+                                                onClick={() =>
+                                                    deleteCategory(category._id)
+                                                }
+                                            >
 
-                                            <FaTrash />
+                                                <FaTrash />
 
-                                        </Button>
+                                            </Button>
+
+                                        </td>
+
+                                    </tr>
+
+                                ))
+
+                            ) : (
+
+                                <tr>
+
+                                    <td
+                                        colSpan={5}
+                                        className="text-center py-5"
+                                    >
+
+                                        <h5>
+                                            No Categories Found
+                                        </h5>
 
                                     </td>
 
                                 </tr>
 
-                            ))
+                            )
 
-                        ) : (
+                        }
 
-                            <tr>
+                    </tbody>
 
-                                <td
-                                    colSpan="4"
-                                    className="text-center"
-                                >
+                </Table>
 
-                                    No Categories Found
+            </div>
 
-                                </td>
-
-                            </tr>
-
-                        )
-
-                    }
-
-                </tbody>
-
-            </Table>
+            {/* Edit Modal */}
 
             <EditCategoryModal
                 show={showEdit}

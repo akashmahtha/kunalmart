@@ -13,16 +13,14 @@ import ProductTable from "../components/ProductTable";
 import AddProductModal from "../components/AddProductModal";
 import EditProductModal from "../components/EditProductModal";
 
-import CustomPagination from "../../components/Pagination";
+import CustomPagination from "../components/CustomPagination";
 
 const Products = () => {
 
     const [products, setProducts] = useState([]);
-
     const [loading, setLoading] = useState(true);
 
     const [showAdd, setShowAdd] = useState(false);
-
     const [showEdit, setShowEdit] = useState(false);
 
     const [selectedProduct, setSelectedProduct] = useState(null);
@@ -32,28 +30,35 @@ const Products = () => {
 
     // Pagination
     const [currentPage, setCurrentPage] = useState(1);
+    const [totalPages, setTotalPages] = useState(1);
 
     const itemsPerPage = 10;
 
     useEffect(() => {
 
-        fetchProducts();
+        fetchProducts(currentPage);
 
-    }, []);
+    }, [currentPage, search]);
 
     // ==========================
     // Fetch Products
     // ==========================
 
-    const fetchProducts = async () => {
+    const fetchProducts = async (page = currentPage) => {
 
         try {
 
             setLoading(true);
 
-            const res = await api.get("/products");
+            const res = await api.get(
+                `/products?page=${page}&limit=${itemsPerPage}&search=${search}`
+            );
 
             setProducts(res.data.products);
+
+            setCurrentPage(res.data.page);
+
+            setTotalPages(res.data.pages);
 
         } catch (error) {
 
@@ -66,29 +71,6 @@ const Products = () => {
         }
 
     };
-
-    // ==========================
-    // Search
-    // ==========================
-
-    const filteredProducts = products.filter((product) =>
-        product.name
-            .toLowerCase()
-            .includes(search.toLowerCase())
-    );
-
-    // ==========================
-    // Pagination
-    // ==========================
-
-    const lastIndex = currentPage * itemsPerPage;
-
-    const firstIndex = lastIndex - itemsPerPage;
-
-    const currentProducts = filteredProducts.slice(
-        firstIndex,
-        lastIndex
-    );
 
     // ==========================
     // Delete Product
@@ -104,29 +86,21 @@ const Products = () => {
 
         try {
 
-            const res = await api.delete(
-                `/products/${id}`
-            );
+            const res = await api.delete(`/products/${id}`);
 
             toast.success(res.data.message);
 
-            const updatedProducts = products.filter(
-                (product) => product._id !== id
-            );
-
-            setProducts(updatedProducts);
-
-            const totalPages = Math.ceil(
-                updatedProducts.length /
-                itemsPerPage
-            );
+            let page = currentPage;
 
             if (
-                currentPage > totalPages &&
+                products.length === 1 &&
                 currentPage > 1
             ) {
-                setCurrentPage(totalPages);
+                page = currentPage - 1;
+                setCurrentPage(page);
             }
+
+            fetchProducts(page);
 
         } catch (error) {
 
@@ -165,20 +139,14 @@ const Products = () => {
                     <div className="d-flex justify-content-between align-items-center mb-4">
 
                         <h3 className="mb-0">
-
                             Products
-
                         </h3>
 
                         <Button
                             variant="success"
-                            onClick={() =>
-                                setShowAdd(true)
-                            }
+                            onClick={() => setShowAdd(true)}
                         >
-
                             + Add Product
-
                         </Button>
 
                     </div>
@@ -203,7 +171,7 @@ const Products = () => {
                     </div>
 
                     <ProductTable
-                        products={currentProducts}
+                        products={products}
                         loading={loading}
                         onEdit={editHandler}
                         onDelete={deleteProduct}
@@ -212,8 +180,7 @@ const Products = () => {
                     />
 
                     <CustomPagination
-
-                        totalItems={filteredProducts.length}
+                        totalItems={totalPages * itemsPerPage}
                         itemsPerPage={itemsPerPage}
                         currentPage={currentPage}
                         setCurrentPage={setCurrentPage}
@@ -225,19 +192,15 @@ const Products = () => {
 
             <AddProductModal
                 show={showAdd}
-                handleClose={() =>
-                    setShowAdd(false)
-                }
-                fetchProducts={fetchProducts}
+                handleClose={() => setShowAdd(false)}
+                fetchProducts={() => fetchProducts(currentPage)}
             />
 
             <EditProductModal
                 show={showEdit}
-                handleClose={() =>
-                    setShowEdit(false)
-                }
+                handleClose={() => setShowEdit(false)}
                 product={selectedProduct}
-                fetchProducts={fetchProducts}
+                fetchProducts={() => fetchProducts(currentPage)}
             />
 
         </AdminLayout>

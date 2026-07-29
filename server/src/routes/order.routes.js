@@ -45,4 +45,11 @@ router.patch(
     updateOrderStatus
 );
 
+router.patch(
+    "/admin/status/:id",
+    protect,
+    adminOnly,
+    updateOrderStatus
+);
+
 export default router;

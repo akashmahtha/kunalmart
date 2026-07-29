@@ -75,20 +75,37 @@ export const createCategory = async (req, res) => {
 };
 
 // Get All Categories
+// Get All Categories (Pagination)
 export const getCategories = async (req, res) => {
     try {
-        const categories = await Category.find().sort({ createdAt: -1 });
+
+        const page = Number(req.query.page) || 1;
+        const limit = Number(req.query.limit) || 10;
+
+        const skip = (page - 1) * limit;
+
+        const totalCategories = await Category.countDocuments();
+
+        const categories = await Category.find()
+            .sort({ createdAt: -1 })
+            .skip(skip)
+            .limit(limit);
 
         res.status(200).json({
             success: true,
-            count: categories.length,
             categories,
+            page,
+            pages: Math.ceil(totalCategories / limit),
+            totalCategories,
         });
+
     } catch (error) {
+
         res.status(500).json({
             success: false,
             message: error.message,
         });
+
     }
 };
 

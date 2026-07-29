@@ -1,5 +1,6 @@
 import { NavLink, useNavigate } from "react-router-dom";
 import {
+    FaBars,
     FaTachometerAlt,
     FaUsers,
     FaBoxes,
@@ -10,7 +11,11 @@ import {
     FaSignOutAlt,
 } from "react-icons/fa";
 
-const AdminSidebar = ({ sidebarOpen }) => {
+const AdminSidebar = ({
+    collapsed,
+    mobileOpen,
+    toggleSidebar,
+}) => {
 
     const navigate = useNavigate();
 
@@ -25,77 +30,108 @@ const AdminSidebar = ({ sidebarOpen }) => {
 
     return (
 
-        <aside className={`admin-sidebar ${sidebarOpen ? "show" : ""}`}>
+        <aside
+            className={`
+                admin-sidebar
+                ${collapsed ? "collapsed" : ""}
+                ${mobileOpen ? "mobile-open" : ""}
+            `}
+        >
 
-            <h4 className="sidebar-logo">
+            {/* Sidebar Header */}
 
-                Kunal Mart
+            <div className="sidebar-header">
 
-            </h4>
+                {!collapsed && (
+                    <h4 className="sidebar-logo">
+                        Kunal Mart
+                    </h4>
+                )}
 
-            <NavLink
-                to="/admin/dashboard"
-                className="sidebar-link"
-            >
-                <FaTachometerAlt />
-                <span>Dashboard</span>
-            </NavLink>
+                <button
+                    className="sidebar-toggle"
+                    onClick={toggleSidebar}
+                >
+                    <FaBars />
+                </button>
 
-            <NavLink
-                to="/admin/users"
-                className="sidebar-link"
-            >
-                <FaUsers />
-                <span>Users</span>
-            </NavLink>
+            </div>
 
-            <NavLink
-                to="/admin/categories"
-                className="sidebar-link"
-            >
-                <FaTags />
-                <span>Categories</span>
-            </NavLink>
+            {/* Sidebar Menu */}
 
-            <NavLink
-                to="/admin/products"
-                className="sidebar-link"
-            >
-                <FaBoxes />
-                <span>Products</span>
-            </NavLink>
+            <div className="sidebar-menu">
 
-            <NavLink
-                to="/admin/orders"
-                className="sidebar-link"
-            >
-                <FaShoppingCart />
-                <span>Orders</span>
-            </NavLink>
+                <NavLink
+                    to="/admin/dashboard"
+                    className="sidebar-link"
+                >
+                    <FaTachometerAlt />
+                    {!collapsed && <span>Dashboard</span>}
+                </NavLink>
 
-            <NavLink
-                to="/admin/reviews"
-                className="sidebar-link"
-            >
-                <FaStar />
-                <span>Reviews</span>
-            </NavLink>
+                <NavLink
+                    to="/admin/users"
+                    className="sidebar-link"
+                >
+                    <FaUsers />
+                    {!collapsed && <span>Users</span>}
+                </NavLink>
 
-            <NavLink
-                to="/admin/coupons"
-                className="sidebar-link"
-            >
-                <FaTicketAlt />
-                <span>Coupons</span>
-            </NavLink>
+                <NavLink
+                    to="/admin/categories"
+                    className="sidebar-link"
+                >
+                    <FaTags />
+                    {!collapsed && <span>Categories</span>}
+                </NavLink>
 
-            <button
-                className="sidebar-logout"
-                onClick={logoutHandler}
-            >
-                <FaSignOutAlt />
-                <span>Logout</span>
-            </button>
+                <NavLink
+                    to="/admin/products"
+                    className="sidebar-link"
+                >
+                    <FaBoxes />
+                    {!collapsed && <span>Products</span>}
+                </NavLink>
+
+                <NavLink
+                    to="/admin/orders"
+                    className="sidebar-link"
+                >
+                    <FaShoppingCart />
+                    {!collapsed && <span>Orders</span>}
+                </NavLink>
+
+                <NavLink
+                    to="/admin/reviews"
+                    className="sidebar-link"
+                >
+                    <FaStar />
+                    {!collapsed && <span>Reviews</span>}
+                </NavLink>
+
+                <NavLink
+                    to="/admin/coupons"
+                    className="sidebar-link"
+                >
+                    <FaTicketAlt />
+                    {!collapsed && <span>Coupons</span>}
+                </NavLink>
+
+            </div>
+
+            {/* Sidebar Footer */}
+
+            <div className="sidebar-footer">
+
+                <button
+                    className="sidebar-logout"
+                    onClick={logoutHandler}
+                >
+                    <FaSignOutAlt />
+                    {!collapsed && <span>Logout</span>}
+                </button>
+
+            </div>
 
         </aside>
 

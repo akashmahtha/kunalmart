@@ -2,7 +2,6 @@ import { useState } from "react";
 import {
     Table,
     Button,
-    Form,
     Badge,
 } from "react-bootstrap";
 import { toast } from "react-toastify";
@@ -16,19 +15,16 @@ import {
 import api from "../../services/api";
 import UserDetailsModal from "./UserDetailsModal";
 
-const UserTable = ({ users, fetchUsers }) => {
-
-    const [search, setSearch] = useState("");
+const UserTable = ({
+    users,
+    fetchUsers,
+    currentPage,
+    itemsPerPage,
+}) => {
 
     const [selectedUser, setSelectedUser] = useState(null);
 
     const [showModal, setShowModal] = useState(false);
-
-    const filteredUsers = users.filter((user) =>
-        user.name.toLowerCase().includes(search.toLowerCase()) ||
-        user.email.toLowerCase().includes(search.toLowerCase()) ||
-        user.phone.includes(search)
-    );
 
     // =========================
     // View User
@@ -100,11 +96,7 @@ const UserTable = ({ users, fetchUsers }) => {
 
     const deleteUser = async (id) => {
 
-        const confirmDelete = window.confirm(
-            "Delete this user?"
-        );
-
-        if (!confirmDelete) return;
+        if (!window.confirm("Delete this user?")) return;
 
         try {
 
@@ -129,188 +121,180 @@ const UserTable = ({ users, fetchUsers }) => {
 
         <>
 
-            <div className="d-flex justify-content-end mb-3">
+            <div className="table-responsive">
 
-                <Form.Control
-                    style={{ maxWidth: "300px" }}
-                    placeholder="Search User..."
-                    value={search}
-                    onChange={(e) =>
-                        setSearch(e.target.value)
-                    }
-                />
+                <Table
+                    hover
+                    bordered
+                    className="align-middle order-table mb-0"
+                >
 
-            </div>
+                    <thead className="user-table-header">
 
-            <Table
-                responsive
-                hover
-                bordered
-                className="align-middle"
-            >
+                        <tr>
 
-                <thead className="table-success">
+                            <th width="60">#</th>
 
-                    <tr>
+                            <th>Name</th>
 
-                        <th>Name</th>
+                            <th>Email</th>
 
-                        <th>Email</th>
+                            <th>Phone</th>
 
-                        <th>Phone</th>
+                            <th width="120">Role</th>
 
-                        <th>Role</th>
+                            <th width="120">Status</th>
 
-                        <th>Status</th>
+                            <th width="170">
+                                Actions
+                            </th>
 
-                        <th width="220">
+                        </tr>
 
-                            Actions
+                    </thead>
 
-                        </th>
+                    <tbody>
 
-                    </tr>
+                        {
 
-                </thead>
+                            users.length > 0 ? (
 
-                <tbody>
+                                users.map((user, index) => (
 
-                    {
+                                    <tr key={user._id}>
 
-                        filteredUsers.length > 0 ? (
+                                        <td>
 
-                            filteredUsers.map((user) => (
+                                            {(currentPage - 1) * itemsPerPage + index + 1}
 
-                                <tr key={user._id}>
+                                        </td>
 
-                                    <td>{user.name}</td>
+                                        <td>
 
-                                    <td>{user.email}</td>
+                                            {user.name}
 
-                                    <td>{user.phone}</td>
+                                        </td>
 
-                                    <td>
+                                        <td>
 
-                                        <Badge
-                                            bg={
-                                                user.role === "admin"
-                                                    ? "danger"
-                                                    : "primary"
-                                            }
-                                        >
+                                            {user.email}
 
-                                            {user.role}
+                                        </td>
 
-                                        </Badge>
+                                        <td>
 
-                                    </td>
+                                            {user.phone}
 
-                                    <td>
+                                        </td>
 
-                                        {
+                                        <td>
 
-                                            user.isBlocked ? (
+                                            <Badge
+                                                bg={
+                                                    user.role === "admin"
+                                                        ? "danger"
+                                                        : "primary"
+                                                }
+                                            >
+                                                {user.role}
+                                            </Badge>
 
-                                                <Badge bg="danger">
+                                        </td>
 
-                                                    Blocked
-
-                                                </Badge>
-
-                                            ) : (
-
-                                                <Badge bg="success">
-
-                                                    Active
-
-                                                </Badge>
-
-                                            )
-
-                                        }
-
-                                    </td>
-
-                                    <td>
-
-                                        <Button
-                                            size="sm"
-                                            variant="info"
-                                            className="me-2"
-                                            onClick={() =>
-                                                viewUser(user._id)
-                                            }
-                                        >
-
-                                            <FaEye />
-
-                                        </Button>
-
-                                        <Button
-                                            size="sm"
-                                            variant={
-                                                user.isBlocked
-                                                    ? "success"
-                                                    : "warning"
-                                            }
-                                            className="me-2"
-                                            onClick={() =>
-                                                toggleBlock(user)
-                                            }
-                                        >
+                                        <td>
 
                                             {
 
                                                 user.isBlocked ? (
-                                                    <FaCheck />
+
+                                                    <Badge bg="danger">
+                                                        Blocked
+                                                    </Badge>
+
                                                 ) : (
-                                                    <FaBan />
+
+                                                    <Badge bg="success">
+                                                        Active
+                                                    </Badge>
+
                                                 )
 
                                             }
 
-                                        </Button>
+                                        </td>
 
-                                        <Button
-                                            size="sm"
-                                            variant="danger"
-                                            onClick={() =>
-                                                deleteUser(user._id)
-                                            }
-                                        >
+                                        <td>
 
-                                            <FaTrash />
+                                            <Button
+                                                size="sm"
+                                                variant="info"
+                                                className="me-2"
+                                                onClick={() =>
+                                                    viewUser(user._id)
+                                                }
+                                            >
+                                                <FaEye />
+                                            </Button>
 
-                                        </Button>
+                                            <Button
+                                                size="sm"
+                                                variant={
+                                                    user.isBlocked
+                                                        ? "success"
+                                                        : "warning"
+                                                }
+                                                className="me-2"
+                                                onClick={() =>
+                                                    toggleBlock(user)
+                                                }
+                                            >
+                                                {
+                                                    user.isBlocked
+                                                        ? <FaCheck />
+                                                        : <FaBan />
+                                                }
+                                            </Button>
+
+                                            <Button
+                                                size="sm"
+                                                variant="danger"
+                                                onClick={() =>
+                                                    deleteUser(user._id)
+                                                }
+                                            >
+                                                <FaTrash />
+                                            </Button>
+
+                                        </td>
+
+                                    </tr>
+
+                                ))
+
+                            ) : (
+
+                                <tr>
+
+                                    <td
+                                        colSpan="7"
+                                        className="text-center py-5"
+                                    >
+
+                                        No Users Found
 
                                     </td>
 
                                 </tr>
 
-                            ))
+                            )
 
-                        ) : (
+                        }
 
-                            <tr>
+                    </tbody>
 
-                                <td
-                                    colSpan="6"
-                                    className="text-center"
-                                >
+                </Table>
 
-                                    No Users Found
-
-                                </td>
-
-                            </tr>
-
-                        )
-
-                    }
-
-                </tbody>
-
-            </Table>
+            </div>
 
             <UserDetailsModal
                 show={showModal}

@@ -1,56 +1,153 @@
+/* ======================================================
+   KUNAL MART ADMIN PANEL
+   Premium Admin Dashboard
+====================================================== */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background: #f5f7fb;
+    font-family: Inter, sans-serif;
+}
+
+/* ==========================
+   Wrapper
+========================== */
+
+.admin-wrapper {
+    display: flex;
+    min-height: 100vh;
+    background: #f5f7fb;
+}
+
+/* ==========================
+   Sidebar
+========================== */
+
 .admin-sidebar {
-    width: 260px;
-    height: 100vh;
-    background: #1f2937;
     position: fixed;
     top: 0;
     left: 0;
-    padding: 20px;
-    overflow-y: auto;
-    transition: .3s;
+    width: 260px;
+    height: 100vh;
+    background: #111827;
+    color: #fff;
+    display: flex;
+    flex-direction: column;
+    transition: .35s ease;
     z-index: 1050;
+    overflow: hidden;
+}
+
+.admin-sidebar.collapsed {
+    width: 80px;
+}
+
+.admin-sidebar.mobile-open {
+    left: 0;
+}
+
+.sidebar-header {
+    height: 70px;
+    padding: 0 18px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid rgba(255, 255, 255, .08);
 }
 
 .sidebar-logo {
-    color: #fff;
-    text-align: center;
-    margin-bottom: 30px;
+    font-size: 22px;
     font-weight: 700;
+    color: #fff;
+    white-space: nowrap;
+}
+
+.sidebar-toggle {
+    width: 42px;
+    height: 42px;
+    border: none;
+    border-radius: 10px;
+    background: #16a34a;
+    color: #fff;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: .3s;
+}
+
+.sidebar-toggle:hover {
+    background: #15803d;
+}
+
+/* ==========================
+   Menu
+========================== */
+
+.sidebar-menu {
+    flex: 1;
+    overflow-y: auto;
+    padding: 18px 12px;
 }
 
 .sidebar-link {
     display: flex;
     align-items: center;
-    gap: 12px;
-    color: #d1d5db;
-    text-decoration: none;
-    padding: 12px 15px;
-    border-radius: 10px;
+    gap: 14px;
+    padding: 13px 15px;
     margin-bottom: 8px;
+    text-decoration: none;
+    color: #d1d5db;
+    border-radius: 12px;
     transition: .3s;
+    font-weight: 500;
 }
 
-.sidebar-link:hover {
-    background: #16a34a;
-    color: #fff;
+.sidebar-link svg {
+    min-width: 22px;
+    font-size: 18px;
 }
 
+.sidebar-link:hover,
 .sidebar-link.active {
     background: #16a34a;
     color: #fff;
+}
+
+.admin-sidebar.collapsed .sidebar-link span,
+.admin-sidebar.collapsed .sidebar-logo {
+    display: none;
+}
+
+.admin-sidebar.collapsed .sidebar-link {
+    justify-content: center;
+}
+
+/* ==========================
+   Logout
+========================== */
+
+.sidebar-footer {
+    padding: 16px;
+    border-top: 1px solid rgba(255, 255, 255, .08);
 }
 
 .sidebar-logout {
     width: 100%;
     display: flex;
     align-items: center;
-    gap: 12px;
+    gap: 14px;
     border: none;
     background: #dc3545;
     color: #fff;
-    padding: 12px 15px;
-    border-radius: 10px;
-    margin-top: 30px;
+    padding: 13px;
+    border-radius: 12px;
+    cursor: pointer;
     transition: .3s;
 }
 
@@ -58,42 +155,126 @@
     background: #bb2d3b;
 }
 
-@media(max-width:992px) {
-
-    .admin-sidebar {
-        left: -260px;
-    }
-
-    .admin-sidebar.show {
-        left: 0;
-    }
-
+.admin-sidebar.collapsed .sidebar-logout span {
+    display: none;
 }
 
-/* ===========================
-   Admin Layout
-=========================== */
-
-.admin-wrapper {
-    display: flex;
-    min-height: 100vh;
-    background: #f4f6f9;
+.admin-sidebar.collapsed .sidebar-logout {
+    justify-content: center;
 }
+
+/* ==========================
+   Main
+========================== */
 
 .admin-main {
     flex: 1;
     margin-left: 260px;
-    transition: .3s;
+    transition: .35s ease;
+    min-width: 0;
+}
+
+.admin-main.collapsed {
+    margin-left: 80px;
 }
 
 .admin-content {
     padding: 25px;
 }
 
+/* ==========================
+   Cards
+========================== */
+
+.card {
+    border: none;
+    border-radius: 18px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, .05);
+}
+
+.dashboard-card {
+    transition: .3s;
+}
+
+.dashboard-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 18px 35px rgba(0, 0, 0, .12);
+}
+
+/* ==========================
+   Table
+========================== */
+
+.table-responsive {
+    border-radius: 14px;
+}
+
+.table {
+    margin-bottom: 0;
+}
+
+.table th {
+    white-space: nowrap;
+    background: #f8fafc;
+}
+
+.table td {
+    vertical-align: middle;
+    white-space: nowrap;
+}
+
+/* ==========================
+   Forms
+========================== */
+
+.form-control,
+.form-select {
+    border-radius: 10px;
+}
+
+.form-control:focus,
+.form-select:focus {
+    border-color: #16a34a;
+    box-shadow: none;
+}
+
+/* ==========================
+   Pagination
+========================== */
+
+.pagination {
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 6px;
+}
+
+/* ==========================
+   Overlay
+========================== */
+
+.sidebar-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, .45);
+    z-index: 1040;
+}
+
+/* ==========================
+   Tablet
+========================== */
+
 @media(max-width:992px) {
 
+    .admin-sidebar {
+        left: -260px;
+    }
+
+    .admin-sidebar.mobile-open {
+        left: 0;
+    }
+
     .admin-main {
-        margin-left: 0;
+        margin-left: 0 !important;
     }
 
     .admin-content {
@@ -102,11 +283,179 @@
 
 }
 
-.dashboard-card {
-    border-radius: 15px;
+/* ==========================
+   Mobile
+========================== */
+
+@media(max-width:768px) {
+
+    .admin-content {
+        padding: 15px;
+    }
+
+    .card {
+        border-radius: 14px;
+    }
+
+    .table {
+        font-size: 13px;
+    }
+
+    .table img {
+        width: 50px !important;
+        height: 50px !important;
+    }
+
+    .pagination {
+        gap: 4px;
+    }
+
+}
+
+/* ==========================
+   Small Mobile
+========================== */
+
+@media(max-width:576px) {
+
+    .admin-content {
+        padding: 12px;
+    }
+
+    .card-body {
+        padding: 15px;
+    }
+
+    .table {
+        font-size: 12px;
+    }
+
+    .pagination .page-link {
+        padding: .35rem .6rem;
+        font-size: 13px;
+    }
+
+}
+
+/* ==========================================
+   ADMIN NAVBAR
+========================================== */
+
+.admin-navbar {
+    height: 70px;
+    background: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 25px;
+    border-bottom: 1px solid #e5e7eb;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.navbar-left {
+    display: flex;
+    align-items: center;
+}
+
+.navbar-title {
+    margin: 0;
+    font-size: 22px;
+    font-weight: 700;
+    color: #111827;
+}
+
+.navbar-right {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+}
+
+.navbar-icon {
+    width: 45px;
+    height: 45px;
+    border: none;
+    background: #f3f4f6;
+    border-radius: 12px;
+    cursor: pointer;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 18px;
+}
+
+.notification-dot {
+    width: 10px;
+    height: 10px;
+    background: #ef4444;
+    border-radius: 50%;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+}
+
+.navbar-user {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.user-icon {
+    font-size: 42px;
+    color: #16a34a;
+}
+
+.user-info h6 {
+    margin: 0;
+    font-weight: 600;
+}
+
+.user-info small {
+    color: #6b7280;
+}
+
+.logout-btn {
+    border: none;
+    background: #dc2626;
+    color: #fff;
+    padding: 10px 16px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
     transition: .3s;
 }
 
-.dashboard-card:hover {
-    transform: translateY(-5px);
+.logout-btn:hover {
+    background: #b91c1c;
+}
+
+@media(max-width:768px) {
+
+    .navbar-title {
+        font-size: 18px;
+    }
+
+    .user-info {
+        display: none;
+    }
+
+    .logout-btn span {
+        display: none;
+    }
+
+    .logout-btn {
+        width: 42px;
+        height: 42px;
+        padding: 0;
+        justify-content: center;
+    }
+
+    .admin-navbar {
+        padding: 0 15px;
+    }
+
 }

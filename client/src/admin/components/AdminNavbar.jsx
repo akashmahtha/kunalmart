@@ -1,7 +1,7 @@
-import { Link, useNavigate } from "react-router-dom";
-import { FaBars, FaSignOutAlt, FaUserCircle } from "react-icons/fa";
+import { FaBell, FaUserCircle, FaSignOutAlt } from "react-icons/fa";
+import { useNavigate } from "react-router-dom";
 
-const AdminNavbar = ({ toggleSidebar }) => {
+const AdminNavbar = () => {
 
     const navigate = useNavigate();
 
@@ -18,50 +18,54 @@ const AdminNavbar = ({ toggleSidebar }) => {
 
     return (
 
-        <nav className="navbar navbar-expand-lg navbar-dark bg-success shadow-sm px-3">
+        <nav className="admin-navbar">
 
-            <div className="container-fluid">
+            <div className="navbar-left">
 
-                {/* Sidebar Toggle */}
+                <h5 className="navbar-title">
+                    Admin Dashboard
+                </h5>
 
-                <button
-                    className="btn btn-success border me-3"
-                    onClick={toggleSidebar}
-                >
-                    <FaBars />
+            </div>
+
+            <div className="navbar-right">
+
+                <button className="navbar-icon">
+
+                    <FaBell />
+
+                    <span className="notification-dot"></span>
+
                 </button>
 
-                {/* Logo */}
+                <div className="navbar-user">
 
-                <Link
-                    to="/admin/dashboard"
-                    className="navbar-brand fw-bold"
-                >
-                    Kunal Mart Admin
-                </Link>
+                    <FaUserCircle className="user-icon" />
 
-                <div className="ms-auto d-flex align-items-center">
+                    <div className="user-info">
 
-                    <span className="text-white me-3">
+                        <h6>
+                            {user?.name || "Admin"}
+                        </h6>
 
-                        <FaUserCircle className="me-2" />
+                        <small>
+                            Administrator
+                        </small>
 
-                        {user?.name}
-
-                    </span>
-
-                    <button
-                        className="btn btn-light btn-sm"
-                        onClick={logoutHandler}
-                    >
-
-                        <FaSignOutAlt className="me-2" />
-
-                        Logout
-
-                    </button>
+                    </div>
 
                 </div>
+
+                <button
+                    className="logout-btn"
+                    onClick={logoutHandler}
+                >
+
+                    <FaSignOutAlt />
+
+                    <span>Logout</span>
+
+                </button>
 
             </div>
 
