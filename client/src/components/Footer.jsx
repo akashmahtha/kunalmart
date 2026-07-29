@@ -429,17 +429,7 @@ const Footer = () => {
 
                     </p>
 
-                    <p>
 
-                        Designed & Developed by{" "}
-
-                        <strong>
-
-                            Akash Kumar
-
-                        </strong>
-
-                    </p>
 
                 </div>
 

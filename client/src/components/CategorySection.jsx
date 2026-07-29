@@ -1,55 +1,26 @@
 import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
-import {
-    FaChevronLeft,
-    FaChevronRight,
-} from "react-icons/fa";
+import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 
 import api from "../services/api";
 import CategoryCard from "./CategoryCard";
 
 import "./CategorySection.css";
 
-
 const CategorySection = () => {
 
+    const [categories, setCategories] = useState([]);
+    const [loading, setLoading] = useState(true);
 
-    // =========================
-    // STATES
-    // =========================
+    const sliderRef = useRef(null);
 
-    const [categories, setCategories] =
-        useState([]);
+    const [showArrows, setShowArrows] = useState(false);
+    const [canLeft, setCanLeft] = useState(false);
+    const [canRight, setCanRight] = useState(false);
 
-    const [loading, setLoading] =
-        useState(true);
-
-
-    // =========================
-    // SCROLL REF
-    // =========================
-
-    const categoryScrollRef =
-        useRef(null);
-
-
-    // =========================
-    // ARROW STATES
-    // =========================
-
-    const [isScrollable, setIsScrollable] =
-        useState(false);
-
-    const [canScrollLeft, setCanScrollLeft] =
-        useState(false);
-
-    const [canScrollRight, setCanScrollRight] =
-        useState(false);
-
-
-    // =========================
-    // FETCH CATEGORIES
-    // =========================
+    // ============================
+    // Fetch Categories
+    // ============================
 
     useEffect(() => {
 
@@ -57,14 +28,11 @@ const CategorySection = () => {
 
     }, []);
 
-
     const fetchCategories = async () => {
 
         try {
 
-            const res =
-                await api.get("/categories");
-
+            const res = await api.get("/categories");
 
             setCategories(
 
@@ -78,13 +46,9 @@ const CategorySection = () => {
 
         }
 
-        catch (error) {
+        catch (err) {
 
-            console.error(
-                "Error fetching categories:",
-                error
-            );
-
+            console.log(err);
 
             setCategories([]);
 
@@ -98,154 +62,84 @@ const CategorySection = () => {
 
     };
 
+    // ============================
+    // Check Slider
+    // ============================
 
-    // =========================
-    // CHECK SCROLL POSITION
-    // =========================
+    const checkSlider = () => {
 
-    const checkScrollPosition = () => {
+        const slider = sliderRef.current;
 
-
-        const container =
-            categoryScrollRef.current;
-
-
-        if (!container) return;
-
-
-        // Check whether horizontal scroll exists
+        if (!slider) return;
 
         const hasScroll =
+            slider.scrollWidth >
+            slider.clientWidth + 5;
 
-            container.scrollWidth >
+        setShowArrows(hasScroll);
 
-            container.clientWidth + 1;
-
-
-        setIsScrollable(hasScroll);
-
-
-        // Left arrow state
-
-        setCanScrollLeft(
-
-            container.scrollLeft > 0
-
+        setCanLeft(
+            slider.scrollLeft > 5
         );
 
-
-        // Right arrow state
-
-        setCanScrollRight(
-
-            container.scrollLeft +
-
-            container.clientWidth
-
-            <
-
-            container.scrollWidth - 1
-
+        setCanRight(
+            slider.scrollLeft <
+            slider.scrollWidth -
+            slider.clientWidth - 5
         );
 
     };
 
-
-    // =========================
-    // SCROLL EVENT
-    // =========================
-
     useEffect(() => {
 
+        checkSlider();
 
-        const container =
-            categoryScrollRef.current;
+        const slider = sliderRef.current;
 
+        if (!slider) return;
 
-        if (!container) return;
-
-
-        // Initial check
-
-        checkScrollPosition();
-
-
-        // On scroll
-
-        container.addEventListener(
-
+        slider.addEventListener(
             "scroll",
-
-            checkScrollPosition
-
+            checkSlider
         );
-
-
-        // On window resize
 
         window.addEventListener(
-
             "resize",
-
-            checkScrollPosition
-
+            checkSlider
         );
-
 
         return () => {
 
-
-            container.removeEventListener(
-
+            slider.removeEventListener(
                 "scroll",
-
-                checkScrollPosition
-
+                checkSlider
             );
 
-
             window.removeEventListener(
-
                 "resize",
-
-                checkScrollPosition
-
+                checkSlider
             );
 
         };
 
-
     }, [categories]);
 
+    // ============================
+    // Scroll
+    // ============================
 
-    // =========================
-    // SCROLL CATEGORIES
-    // =========================
+    const scroll = (dir) => {
 
-    const scrollCategories = (direction) => {
+        const slider = sliderRef.current;
 
+        if (!slider) return;
 
-        const container =
-            categoryScrollRef.current;
-
-
-        if (!container) return;
-
-
-        const scrollAmount =
-            container.clientWidth * 0.8;
-
-
-        container.scrollBy({
+        slider.scrollBy({
 
             left:
-
-                direction === "left"
-
-                    ? -scrollAmount
-
-                    : scrollAmount,
-
+                dir === "left"
+                    ? -350
+                    : 350,
 
             behavior: "smooth",
 
@@ -253,13 +147,11 @@ const CategorySection = () => {
 
     };
 
-
-    // =========================
-    // LOADING UI
-    // =========================
+    // ============================
+    // Loading
+    // ============================
 
     if (loading) {
-
 
         return (
 
@@ -267,71 +159,38 @@ const CategorySection = () => {
 
                 <div className="container">
 
-
                     <div className="category-header">
-
 
                         <div>
 
                             <h2>
-
                                 Shop by Category
-
                             </h2>
 
-
                             <p>
-
-                                Everything you need for your daily grocery shopping
-
+                                Loading...
                             </p>
 
                         </div>
 
-
                     </div>
-
 
                     <div className="category-scroll">
 
+                        {
 
-                        {[
+                            [...Array(10)].map((_, i) => (
 
-                            1,
+                                <div
+                                    key={i}
+                                    className="category-skeleton"
+                                />
 
-                            2,
+                            ))
 
-                            3,
-
-                            4,
-
-                            5,
-
-                            6,
-
-                        ].map((item) => (
-
-
-                            <div
-
-                                key={item}
-
-                                className="category-item"
-
-                            >
-
-                                <div className="category-skeleton">
-
-                                </div>
-
-                            </div>
-
-
-                        ))}
-
+                        }
 
                     </div>
-
 
                 </div>
 
@@ -341,30 +200,17 @@ const CategorySection = () => {
 
     }
 
-
-    // =========================
-    // MAIN UI
-    // =========================
-
     return (
-
 
         <section className="category-section">
 
-
             <div className="container">
 
-
-                {/* =========================
-                    HEADER
-                ========================= */}
-
+                {/* HEADER */}
 
                 <div className="category-header">
 
-
                     <div>
-
 
                         <h2>
 
@@ -373,223 +219,102 @@ const CategorySection = () => {
                         </h2>
 
 
-                        <p>
-
-                            Everything you need for your daily grocery shopping
-
-                        </p>
-
 
                     </div>
 
-
                     <Link
-
                         to="/categories"
-
                         className="view-all-link"
-
                     >
 
                         View All →
 
                     </Link>
 
-
                 </div>
 
+                {/* SLIDER */}
 
-                {/* =========================
-                    CATEGORY SLIDER
-                ========================= */}
+                <div className="category-slider">
 
+                    {
 
-                {
+                        showArrows && (
 
-                    categories.length > 0 ? (
+                            <button
 
+                                className="slider-arrow left"
 
-                        <div className="category-slider-wrapper">
+                                onClick={() => scroll("left")}
 
-
-                            {/* LEFT ARROW */}
-
-                            {
-
-                                isScrollable && (
-
-
-                                    <button
-
-                                        className="category-arrow category-arrow-left"
-
-
-                                        onClick={() =>
-
-                                            scrollCategories("left")
-
-                                        }
-
-
-                                        disabled={
-
-                                            !canScrollLeft
-
-                                        }
-
-
-                                        aria-label="Previous categories"
-
-                                    >
-
-
-                                        <FaChevronLeft />
-
-
-                                    </button>
-
-
-                                )
-
-                            }
-
-
-                            {/* CATEGORY LIST */}
-
-
-                            <div
-
-                                className="category-scroll"
-
-                                ref={
-
-                                    categoryScrollRef
-
-                                }
+                                disabled={!canLeft}
 
                             >
 
+                                <FaChevronLeft />
 
-                                {
+                            </button>
 
-                                    categories.map(
+                        )
 
-                                        (category) => (
+                    }
 
+                    <div
 
-                                            <div
+                        className="category-scroll"
 
-                                                key={
+                        ref={sliderRef}
 
-                                                    category._id
+                    >
 
-                                                }
+                        {
 
-                                                className="category-item"
+                            categories.map((category) => (
 
-                                            >
+                                <CategoryCard
 
+                                    key={category._id}
 
-                                                <CategoryCard
+                                    category={category}
 
-                                                    category={
+                                />
 
-                                                        category
+                            ))
 
-                                                    }
+                        }
 
-                                                />
+                    </div>
 
+                    {
 
-                                            </div>
+                        showArrows && (
 
+                            <button
 
-                                        )
+                                className="slider-arrow right"
 
-                                    )
+                                onClick={() => scroll("right")}
 
-                                }
+                                disabled={!canRight}
 
+                            >
 
-                            </div>
+                                <FaChevronRight />
 
+                            </button>
 
-                            {/* RIGHT ARROW */}
+                        )
 
+                    }
 
-                            {
-
-                                isScrollable && (
-
-
-                                    <button
-
-                                        className="category-arrow category-arrow-right"
-
-
-                                        onClick={() =>
-
-                                            scrollCategories("right")
-
-                                        }
-
-
-                                        disabled={
-
-                                            !canScrollRight
-
-                                        }
-
-
-                                        aria-label="Next categories"
-
-                                    >
-
-
-                                        <FaChevronRight />
-
-
-                                    </button>
-
-
-                                )
-
-                            }
-
-
-                        </div>
-
-
-                    ) : (
-
-
-                        <div className="text-center py-4">
-
-
-                            <h5>
-
-                                No Categories Found
-
-                            </h5>
-
-
-                        </div>
-
-
-                    )
-
-                }
-
+                </div>
 
             </div>
 
-
         </section>
-
 
     );
 
 };
-
 
 export default CategorySection;

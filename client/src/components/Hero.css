@@ -5,32 +5,37 @@
 .km-hero {
     width: 100%;
     background: #f2fff6;
-    overflow: hidden;
     position: relative;
+    overflow: hidden;
+    margin: 0;
+    padding: 0;
 }
-
 
 /* =========================================
    CONTAINER
 ========================================= */
 
 .km-hero-container {
+
     width: 100%;
     max-width: 1350px;
+
     min-height: 360px;
 
     margin: 0 auto;
 
+    padding: 0;
+
     display: flex;
     align-items: center;
 }
-
 
 /* =========================================
    LEFT CONTENT
 ========================================= */
 
 .km-hero-content {
+
     width: 48%;
 
     padding: 42px 20px 35px 65px;
@@ -39,15 +44,16 @@
     z-index: 2;
 }
 
-
 /* =========================================
    HEADING
 ========================================= */
 
 .km-hero-content h1 {
+
     margin: 0;
 
     font-size: 43px;
+
     line-height: 1.08;
 
     font-weight: 800;
@@ -58,32 +64,33 @@
 }
 
 .km-hero-content h1 span {
+
     color: #078743;
 }
-
 
 /* =========================================
    DESCRIPTION
 ========================================= */
 
 .km-hero-content>p {
+
     margin: 18px 0 22px;
 
     font-size: 15px;
 
-    line-height: 1.5;
+    line-height: 1.6;
 
     color: #46524a;
 
     font-weight: 500;
 }
 
-
 /* =========================================
    BUTTONS
 ========================================= */
 
 .km-hero-buttons {
+
     display: flex;
 
     align-items: center;
@@ -93,16 +100,14 @@
     margin-bottom: 18px;
 }
 
-
 .km-shop-btn,
 .km-download-btn {
-    min-width: 145px;
+
+    min-width: 150px;
 
     height: 48px;
 
-    padding: 0 20px;
-
-    border-radius: 7px;
+    border-radius: 8px;
 
     display: inline-flex;
 
@@ -116,27 +121,26 @@
 
     font-weight: 700;
 
-    cursor: pointer;
-
     text-decoration: none;
 
-    transition: all 0.25s ease;
+    cursor: pointer;
+
+    transition: .25s;
 }
 
-
-/* =========================================
-   SHOP BUTTON
-========================================= */
+/* SHOP */
 
 .km-shop-btn {
+
     background: #078743;
 
-    border: 1px solid #078743;
-
     color: #fff;
+
+    border: 1px solid #078743;
 }
 
 .km-shop-btn:hover {
+
     background: #056f36;
 
     color: #fff;
@@ -144,40 +148,45 @@
     transform: translateY(-2px);
 }
 
-
-/* =========================================
-   DOWNLOAD BUTTON
-========================================= */
+/* DOWNLOAD */
 
 .km-download-btn {
+
     background: #fff;
 
-    color: #17221b;
-
     border: 1px solid #078743;
+
+    color: #1d1d1d;
 }
 
 .km-download-btn:hover {
-    background: #eafff0;
+
+    background: #e9fff2;
 
     color: #078743;
 
     transform: translateY(-2px);
 }
 
-
 /* =========================================
-   COMING SOON
+   COMING SOON CARD
 ========================================= */
 
 .km-coming-soon {
+
     width: 340px;
 
-    min-height: 70px;
+    min-height: 72px;
+
+    margin-bottom: 18px;
 
     padding: 13px 18px;
 
-    margin: 2px 0 17px;
+    background: #fff;
+
+    border-radius: 12px;
+
+    border: 1px solid #cde8d7;
 
     display: flex;
 
@@ -185,47 +194,48 @@
 
     gap: 13px;
 
-    background: #ffffff;
+    box-shadow: 0 8px 22px rgba(0, 0, 0, .08);
 
-    border: 1px solid #b8dfc6;
-
-    border-radius: 10px;
-
-    box-shadow: 0 5px 18px rgba(0, 80, 40, 0.08);
-
-    animation: comingSoonShow 0.3s ease;
+    animation: comingSoonShow .35s ease;
 }
 
-
 @keyframes comingSoonShow {
+
     from {
+
         opacity: 0;
+
         transform: translateY(-8px);
+
     }
 
     to {
+
         opacity: 1;
+
         transform: translateY(0);
+
     }
+
 }
 
-
 .km-coming-icon {
-    width: 30px;
 
-    height: 30px;
+    width: 32px;
+
+    height: 32px;
 
     border-radius: 50%;
+
+    background: #078743;
+
+    color: #fff;
 
     display: flex;
 
     align-items: center;
 
     justify-content: center;
-
-    background: #078743;
-
-    color: #fff;
 
     font-size: 15px;
 
@@ -234,62 +244,69 @@
     flex-shrink: 0;
 }
 
-
 .km-coming-soon strong {
+
     display: block;
 
-    color: #1c2920;
-
     font-size: 14px;
+
+    color: #1b251f;
 
     margin-bottom: 3px;
 }
 
-
 .km-coming-soon p {
+
     margin: 0;
 
-    color: #6b756e;
+    color: #707a73;
 
     font-size: 11px;
 }
-
 
 /* =========================================
    FEATURES
 ========================================= */
 
 .km-hero-features {
-    display: flex;
 
-    align-items: stretch;
+    display: flex;
 
     gap: 8px;
 
-    flex-wrap: nowrap;
+    align-items: stretch;
 }
 
-
 .km-feature {
-    min-width: 105px;
 
-    padding: 9px 10px;
+    min-width: 108px;
 
     background: #fff;
 
-    border: 1px solid #e0e9e3;
+    border: 1px solid #e3ebe6;
 
-    border-radius: 7px;
+    border-radius: 8px;
+
+    padding: 10px;
 
     display: flex;
 
     align-items: center;
 
     gap: 8px;
+
+    transition: .3s;
 }
 
+.km-feature:hover {
 
-.km-feature>svg {
+    transform: translateY(-3px);
+
+    box-shadow: 0 8px 18px rgba(0, 0, 0, .08);
+}
+
+.km-feature svg {
+
     color: #078743;
 
     font-size: 16px;
@@ -297,37 +314,34 @@
     flex-shrink: 0;
 }
 
-
 .km-feature strong {
-    display: block;
 
-    color: #263029;
+    display: block;
 
     font-size: 10px;
 
-    line-height: 1.2;
+    color: #283128;
 }
 
-
 .km-feature small {
+
     display: block;
 
     margin-top: 2px;
 
-    color: #7a847d;
+    color: #7d857f;
 
     font-size: 8px;
 
     white-space: nowrap;
 }
 
-
 /* =========================================
    RIGHT IMAGE
-   DESKTOP SAME AS BEFORE
 ========================================= */
 
 .km-hero-image {
+
     width: 52%;
 
     height: 360px;
@@ -339,10 +353,12 @@
     justify-content: center;
 
     overflow: hidden;
+
+    position: relative;
 }
 
-
 .km-hero-image img {
+
     width: 100%;
 
     height: 100%;
@@ -352,6 +368,13 @@
     object-fit: cover;
 
     object-position: center;
+
+    transition: transform .35s ease;
+}
+
+.km-hero-image:hover img {
+
+    transform: scale(1.02);
 }
 
 
@@ -360,9 +383,10 @@
 ========================================= */
 
 .km-slider-dots {
+
     position: absolute;
 
-    bottom: 12px;
+    bottom: 14px;
 
     left: 50%;
 
@@ -372,85 +396,103 @@
 
     align-items: center;
 
-    gap: 7px;
+    gap: 8px;
+
+    z-index: 5;
 }
 
-
 .km-slider-dots span {
+
     width: 8px;
 
     height: 8px;
 
     border-radius: 50%;
 
-    background: #c9d2cc;
+    background: #cfd8d2;
+
+    transition: .3s;
 }
 
-
 .km-slider-dots span.active {
-    width: 9px;
 
-    height: 9px;
+    width: 10px;
+
+    height: 10px;
 
     background: #078743;
 }
 
 
 /* =========================================
-   LARGE SCREEN
+   LARGE DESKTOP
 ========================================= */
 
-@media (min-width: 1400px) {
+@media (min-width:1400px) {
 
     .km-hero-container {
+
         max-width: 1400px;
     }
 
     .km-hero-content {
+
         padding-left: 75px;
     }
 
     .km-hero-content h1 {
+
         font-size: 48px;
     }
 
+    .km-hero-content>p {
+
+        font-size: 16px;
+    }
+
     .km-hero-image {
+
         height: 390px;
     }
 }
 
 
 /* =========================================
-   LAPTOP / TABLET LANDSCAPE
+   LAPTOP
 ========================================= */
 
-@media (max-width: 1100px) {
+@media (max-width:1200px) {
 
     .km-hero-content {
-        padding-left: 35px;
-        padding-right: 15px;
+
+        padding: 38px 18px 30px 40px;
     }
 
     .km-hero-content h1 {
-        font-size: 36px;
+
+        font-size: 38px;
     }
 
     .km-hero-content>p {
-        font-size: 13px;
+
+        font-size: 14px;
+    }
+
+    .km-hero-image {
+
+        height: 330px;
     }
 
     .km-feature {
+
         min-width: auto;
 
         padding: 8px;
     }
 
     .km-feature small {
-        display: none;
-    }
 
-    .km-hero-image {
-        height: 320px;
+        display: none;
     }
 }
 
@@ -459,100 +501,99 @@
    TABLET
 ========================================= */
 
-@media (max-width: 900px) {
+@media (max-width:992px) {
 
     .km-hero-container {
+
         min-height: 320px;
     }
 
     .km-hero-content {
+
         width: 48%;
 
-        padding: 30px 15px 30px 25px;
+        padding: 30px 15px 25px 25px;
     }
 
     .km-hero-content h1 {
+
         font-size: 31px;
     }
 
     .km-hero-content>p {
-        font-size: 12px;
 
-        margin: 13px 0 17px;
+        font-size: 13px;
+
+        margin: 14px 0 18px;
     }
 
     .km-shop-btn,
     .km-download-btn {
-        min-width: 125px;
+
+        min-width: 130px;
 
         height: 43px;
-
-        padding: 0 14px;
 
         font-size: 12px;
     }
 
-    .km-hero-features {
-        gap: 5px;
+    .km-coming-soon {
+
+        width: 300px;
     }
 
     .km-feature {
-        padding: 7px;
 
-        gap: 5px;
+        gap: 6px;
+
+        padding: 8px;
     }
 
-    .km-feature>svg {
-        font-size: 13px;
+    .km-feature svg {
+
+        font-size: 14px;
     }
 
     .km-feature strong {
+
         font-size: 9px;
     }
 
     .km-hero-image {
+
         width: 52%;
 
         height: 300px;
     }
 }
 
-
 /* =========================================
-   MOBILE
+   MOBILE (768px)
 ========================================= */
 
-@media (max-width: 768px) {
+@media (max-width:768px) {
 
     .km-hero {
         width: 100%;
+        overflow: hidden;
     }
 
-
-    /*
-       Content first
-       Image second
-    */
-
     .km-hero-container {
-        width: 100%;
-
-        min-height: auto;
-
-        display: flex;
 
         flex-direction: column;
+
+        min-height: auto;
 
         align-items: stretch;
     }
 
-
-    /* ==============================
-       CONTENT
-    ============================== */
+    /* CONTENT */
 
     .km-hero-content {
+
         width: 100%;
+
+        order: 1;
 
         padding: 30px 18px 20px;
 
@@ -565,150 +606,127 @@
         align-items: center;
     }
 
-
     .km-hero-content h1 {
-        font-size: 31px;
 
-        line-height: 1.1;
+        font-size: 30px;
 
-        letter-spacing: -0.8px;
+        line-height: 1.15;
+
+        letter-spacing: -.8px;
     }
 
-
     .km-hero-content>p {
-        max-width: 500px;
-
-        margin: 13px auto 18px;
 
         font-size: 13px;
 
-        line-height: 1.45;
+        line-height: 1.5;
+
+        max-width: 520px;
+
+        margin: 14px auto 18px;
     }
 
-
-    /* ==============================
-       BUTTONS
-    ============================== */
+    /* BUTTONS */
 
     .km-hero-buttons {
+
         width: 100%;
 
         justify-content: center;
 
         flex-wrap: wrap;
 
-        gap: 9px;
+        gap: 10px;
 
         margin-bottom: 16px;
     }
 
-
     .km-shop-btn,
     .km-download-btn {
-        min-width: 135px;
+
+        min-width: 140px;
 
         height: 44px;
 
-        padding: 0 15px;
-
         font-size: 12px;
+
+        padding: 0 16px;
     }
 
-
-    /* ==============================
-       COMING SOON
-    ============================== */
+    /* COMING SOON */
 
     .km-coming-soon {
+
         width: 100%;
 
         max-width: 380px;
 
-        margin: 0 auto 17px;
-
-        text-align: left;
+        margin: 0 auto 18px;
     }
 
-
-    /* ==============================
-       FEATURES
-    ============================== */
+    /* FEATURES */
 
     .km-hero-features {
-        width: 100%;
 
-        max-width: 520px;
+        width: 100%;
 
         display: grid;
 
         grid-template-columns: repeat(2, 1fr);
 
-        gap: 7px;
+        gap: 8px;
+
+        max-width: 520px;
     }
 
-
     .km-feature {
-        width: 100%;
 
         min-width: 0;
 
-        padding: 8px;
+        width: 100%;
+
+        padding: 9px;
 
         justify-content: flex-start;
-
-        text-align: left;
     }
 
+    .km-feature svg {
 
-    .km-feature>svg {
         font-size: 14px;
     }
 
-
     .km-feature strong {
+
         font-size: 9px;
     }
 
-
     .km-feature small {
+
         display: block;
 
         font-size: 7px;
 
         white-space: normal;
-
-        line-height: 1.2;
     }
 
-
-    /* ==============================
-       IMAGE
-       KEEP IMAGE DESIGN SAME
-    ============================== */
+    /* IMAGE */
 
     .km-hero-image {
+
+        order: 2;
+
         width: 100%;
 
         height: auto;
 
         min-height: 240px;
-
-        display: flex;
-
-        align-items: center;
-
-        justify-content: center;
-
-        overflow: hidden;
     }
 
-
     .km-hero-image img {
+
         width: 100%;
 
         height: auto;
-
-        min-height: 240px;
 
         display: block;
 
@@ -717,207 +735,158 @@
         object-position: center;
     }
 
-
-    /* Hide dots on mobile */
+    /* DOTS */
 
     .km-slider-dots {
+
         display: none;
     }
 }
 
 
 /* =========================================
-   SMALL MOBILE
+   SMALL MOBILE (480px)
 ========================================= */
 
-@media (max-width: 480px) {
+@media (max-width:480px) {
 
     .km-hero-content {
-        padding: 24px 12px 16px;
-    }
 
+        padding: 24px 14px 18px;
+    }
 
     .km-hero-content h1 {
-        font-size: 27px;
 
-        line-height: 1.08;
+        font-size: 26px;
 
-        letter-spacing: -0.5px;
+        line-height: 1.1;
     }
-
 
     .km-hero-content>p {
+
         font-size: 11px;
 
-        line-height: 1.45;
-
-        margin: 11px auto 15px;
+        margin: 12px auto 16px;
     }
-
-
-    /* ==============================
-       BUTTONS
-    ============================== */
-
-    .km-hero-buttons {
-        width: 100%;
-
-        gap: 7px;
-    }
-
 
     .km-shop-btn,
     .km-download-btn {
-        min-width: 125px;
 
-        height: 41px;
+        width: 100%;
 
-        padding: 0 12px;
+        max-width: 170px;
+
+        height: 42px;
 
         font-size: 11px;
-
-        gap: 6px;
     }
 
-
-    /* ==============================
-       COMING SOON
-    ============================== */
-
     .km-coming-soon {
-        min-height: 60px;
 
         padding: 10px 12px;
 
-        gap: 9px;
+        min-height: 60px;
     }
-
 
     .km-coming-icon {
-        width: 26px;
 
-        height: 26px;
+        width: 28px;
+
+        height: 28px;
 
         font-size: 12px;
     }
-
 
     .km-coming-soon strong {
+
         font-size: 12px;
     }
 
-
     .km-coming-soon p {
+
         font-size: 9px;
     }
 
-
-    /* ==============================
-       FEATURES
-    ============================== */
-
-    .km-hero-features {
-        grid-template-columns: repeat(2, 1fr);
-
-        gap: 6px;
-    }
-
-
     .km-feature {
-        padding: 7px 6px;
 
-        gap: 5px;
+        padding: 8px 7px;
     }
 
+    .km-feature svg {
 
-    .km-feature>svg {
         font-size: 12px;
     }
 
-
     .km-feature strong {
+
         font-size: 8px;
     }
 
-
     .km-feature small {
-        font-size: 6.5px;
+
+        font-size: 6px;
     }
-
-
-    /* ==============================
-       IMAGE
-       SAME IMAGE, ONLY RESPONSIVE
-    ============================== */
 
     .km-hero-image {
-        width: 100%;
 
         min-height: 190px;
     }
 
-
     .km-hero-image img {
-        width: 100%;
 
         min-height: 190px;
-
-        object-fit: cover;
-
-        object-position: center;
     }
 }
 
 
 /* =========================================
-   VERY SMALL PHONES
+   EXTRA SMALL (360px)
 ========================================= */
 
-@media (max-width: 360px) {
+@media (max-width:360px) {
 
     .km-hero-content {
-        padding-left: 10px;
 
-        padding-right: 10px;
+        padding: 20px 10px 15px;
     }
-
 
     .km-hero-content h1 {
-        font-size: 24px;
-    }
 
+        font-size: 22px;
+    }
 
     .km-hero-content>p {
+
         font-size: 10px;
     }
-
 
     .km-shop-btn,
     .km-download-btn {
-        min-width: 115px;
 
-        height: 39px;
+        max-width: 150px;
+
+        height: 38px;
 
         font-size: 10px;
     }
 
-
     .km-feature strong {
-        font-size: 7.5px;
-    }
 
+        font-size: 7px;
+    }
 
     .km-feature small {
-        font-size: 6px;
-    }
 
+        font-size: 5px;
+    }
 
     .km-hero-image {
-        min-height: 175px;
+
+        min-height: 170px;
     }
 
-
     .km-hero-image img {
-        min-height: 175px;
+
+        min-height: 170px;
     }
 }

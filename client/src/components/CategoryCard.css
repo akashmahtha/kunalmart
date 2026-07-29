@@ -1,32 +1,41 @@
+/* ==========================================
+   CATEGORY CARD
+========================================== */
+
 .category-card-link {
-
     text-decoration: none;
-
+    color: inherit;
     display: block;
-
+    flex-shrink: 0;
 }
-
 
 .category-card {
 
+    width: 105px;
+
     text-align: center;
 
+    transition: .28s ease;
+
     cursor: pointer;
-
-    transition: all 0.3s ease;
-
 }
 
 
+/* ==========================================
+   IMAGE BOX
+========================================== */
+
 .category-image-box {
 
-    width: 145px;
+    width: 96px;
 
-    height: 145px;
+    height: 96px;
 
-    background: #f6f8f6;
+    margin: auto;
 
     border-radius: 18px;
+
+    border: 1px solid #ececec;
 
     display: flex;
 
@@ -36,99 +45,183 @@
 
     overflow: hidden;
 
-    transition: all 0.3s ease;
+    transition: .28s ease;
 
+    background: #f6f8f6;
 }
 
+
+/* ==========================================
+   IMAGE
+========================================== */
 
 .category-image {
 
-    width: 100%;
+    width: 68%;
 
-    height: 100%;
+    height: 68%;
 
-    object-fit: cover;
+    object-fit: contain;
 
-    transition: transform 0.35s ease;
-
+    transition: .3s;
 }
 
+
+/* ==========================================
+   NAME
+========================================== */
 
 .category-name {
 
+    margin-top: 10px;
+
+    margin-bottom: 2px;
+
+    font-size: 13px;
+
+    font-weight: 600;
+
     color: #222;
 
-    font-size: 15px;
+    line-height: 1.3;
 
-    font-weight: 700;
-
-    margin-top: 12px;
-
-    margin-bottom: 4px;
-
+    min-height: 34px;
 }
 
+
+/* ==========================================
+   PRODUCT COUNT
+========================================== */
 
 .category-product-count {
 
-    color: #777;
+    display: block;
 
-    font-size: 12px;
+    font-size: 11px;
 
+    color: #8b8b8b;
 }
 
 
-/* Hover Effect */
+/* ==========================================
+   HOVER
+========================================== */
 
 .category-card:hover {
 
-    transform: translateY(-6px);
-
+    transform: translateY(-5px);
 }
-
 
 .category-card:hover .category-image-box {
 
+    border-color: #16a34a;
+
     box-shadow:
-
-        0 10px 25px rgba(0, 0, 0, 0.12);
-
+        0 10px 24px rgba(0, 0, 0, .08);
 }
-
 
 .category-card:hover .category-image {
 
     transform: scale(1.08);
-
 }
-
 
 .category-card:hover .category-name {
 
-    color: #0e8a3e;
+    color: #078743;
+}
+
+
+/* ==========================================
+   TABLET
+========================================== */
+
+@media(max-width:992px) {
+
+    .category-card {
+
+        width: 95px;
+    }
+
+    .category-image-box {
+
+        width: 88px;
+
+        height: 88px;
+    }
+
+    .category-name {
+
+        font-size: 12px;
+    }
 
 }
 
 
-/* Mobile */
+/* ==========================================
+   MOBILE
+========================================== */
 
-@media (max-width: 768px) {
+@media(max-width:768px) {
+
+    .category-card {
+
+        width: 85px;
+    }
 
     .category-image-box {
 
-        width: 110px;
+        width: 78px;
 
-        height: 110px;
+        height: 78px;
 
-        border-radius: 15px;
-
+        border-radius: 16px;
     }
 
+    .category-image {
+
+        width: 66%;
+
+        height: 66%;
+    }
 
     .category-name {
 
-        font-size: 13px;
+        font-size: 11px;
 
+        margin-top: 8px;
+
+        min-height: 28px;
+    }
+
+    .category-product-count {
+
+        display: none;
+    }
+
+}
+
+
+/* ==========================================
+   SMALL MOBILE
+========================================== */
+
+@media(max-width:480px) {
+
+    .category-card {
+
+        width: 76px;
+    }
+
+    .category-image-box {
+
+        width: 70px;
+
+        height: 70px;
+    }
+
+    .category-name {
+
+        font-size: 10px;
     }
 
 }

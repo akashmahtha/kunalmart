@@ -18,115 +18,84 @@ const ProductCard = ({ product }) => {
     const navigate = useNavigate();
 
 
-    // =========================
-    // Product Image
-    // =========================
+    // =========================================
+    // PRODUCT IMAGE
+    // =========================================
 
     const image =
-
         product.images?.length > 0
-
-            ? product.images[0].url
-
+            ? (
+                product.images[0]?.url ||
+                product.images[0]
+            )
             : "https://placehold.co/300x300?text=No+Image";
 
 
-    // =========================
-    // Price
-    // =========================
+    // =========================================
+    // PRICE
+    // =========================================
 
     const finalPrice =
-
         product.discountPrice > 0
-
             ? product.discountPrice
-
             : product.price;
 
 
-    // =========================
-    // Discount
-    // =========================
+    // =========================================
+    // DISCOUNT
+    // =========================================
 
     const discount =
-
-        product.discountPrice > 0
-
+        product.discountPrice > 0 && product.price > 0
             ? Math.round(
-
                 (
-
-                    (product.price -
-                        product.discountPrice)
-
-                    /
-
+                    (product.price - product.discountPrice) /
                     product.price
-
                 ) * 100
-
             )
-
             : 0;
 
 
-    // =========================
-    // Add To Cart
-    // =========================
+    // =========================================
+    // ADD TO CART
+    // =========================================
 
     const addToCart = async () => {
 
-        const token = localStorage.getItem(
-            "token"
-        );
-
+        const token = localStorage.getItem("token");
 
         if (!token) {
 
-            toast.error(
-                "Please login first"
-            );
+            toast.error("Please login first");
 
             navigate("/login");
 
             return;
-
         }
 
 
         try {
 
             const res = await api.post(
-
                 "/cart",
-
                 {
-
                     productId: product._id,
-
                     quantity: 1,
-
                 }
-
             );
 
 
             toast.success(
-
                 res.data.message ||
                 "Product added to cart"
-
             );
 
 
         } catch (error) {
 
             toast.error(
-
                 error.response?.data?.message ||
-
                 "Failed to add product"
-
             );
 
         }
@@ -134,62 +103,46 @@ const ProductCard = ({ product }) => {
     };
 
 
-    // =========================
-    // Add To Wishlist
-    // =========================
+    // =========================================
+    // ADD TO WISHLIST
+    // =========================================
 
     const addToWishlist = async () => {
 
-        const token = localStorage.getItem(
-            "token"
-        );
+        const token = localStorage.getItem("token");
 
 
         if (!token) {
 
-            toast.error(
-                "Please login first"
-            );
+            toast.error("Please login first");
 
             navigate("/login");
 
             return;
-
         }
 
 
         try {
 
             const res = await api.post(
-
                 "/wishlist",
-
                 {
-
                     productId: product._id,
-
                 }
-
             );
 
 
             toast.success(
-
                 res.data.message ||
-
                 "Added to wishlist"
-
             );
 
 
         } catch (error) {
 
             toast.error(
-
                 error.response?.data?.message ||
-
                 "Failed to add wishlist"
-
             );
 
         }
@@ -197,40 +150,39 @@ const ProductCard = ({ product }) => {
     };
 
 
+    // =========================================
+    // RENDER
+    // =========================================
+
     return (
 
-        <div className="card product-card">
+        <div className="product-card">
 
 
-            {/* =========================
-                DISCOUNT
-            ========================= */}
+            {/* =================================
+                DISCOUNT BADGE
+            ================================= */}
 
-            {
+            {discount > 0 && (
 
-                discount > 0 && (
+                <span className="discount-badge">
 
-                    <span className="discount-badge">
+                    {discount}% OFF
 
-                        {discount}% OFF
+                </span>
 
-                    </span>
-
-                )
-
-            }
+            )}
 
 
-            {/* =========================
+            {/* =================================
                 WISHLIST
-            ========================= */}
+            ================================= */}
 
             <button
-
+                type="button"
                 className="wishlist-btn"
-
                 onClick={addToWishlist}
-
+                aria-label="Add to wishlist"
             >
 
                 <FaHeart />
@@ -238,41 +190,33 @@ const ProductCard = ({ product }) => {
             </button>
 
 
-            {/* =========================
-                IMAGE
-            ========================= */}
+            {/* =================================
+                PRODUCT IMAGE
+            ================================= */}
 
             <Link
-
                 to={`/product/${product._id}`}
-
                 className="product-image-link"
-
             >
 
                 <img
-
                     src={image}
-
                     alt={product.name}
-
                     className="product-image"
-
                     loading="lazy"
-
                 />
 
             </Link>
 
 
-            {/* =========================
-                CARD BODY
-            ========================= */}
+            {/* =================================
+                PRODUCT BODY
+            ================================= */}
 
             <div className="product-card-body">
 
 
-                {/* Delivery */}
+                {/* DELIVERY */}
 
                 <div className="delivery-time">
 
@@ -281,31 +225,24 @@ const ProductCard = ({ product }) => {
                 </div>
 
 
-                {/* Category */}
+                {/* CATEGORY */}
 
-                {
+                {product.category?.name && (
 
-                    product.category?.name && (
+                    <small className="product-category">
 
-                        <small className="product-category">
+                        {product.category.name}
 
-                            {product.category.name}
+                    </small>
 
-                        </small>
-
-                    )
-
-                }
+                )}
 
 
-                {/* Product Name */}
+                {/* PRODUCT NAME */}
 
                 <Link
-
                     to={`/product/${product._id}`}
-
                     className="product-name"
-
                 >
 
                     {product.name}
@@ -313,28 +250,24 @@ const ProductCard = ({ product }) => {
                 </Link>
 
 
-                {/* Rating */}
+                {/* RATING */}
 
                 <div className="product-rating">
 
                     <FaStar />
 
                     <span>
-
-                        {product.rating?.toFixed(1) || 0}
-
+                        {product.rating?.toFixed(1) || "0.0"}
                     </span>
 
                     <small>
-
                         ({product.numReviews || 0})
-
                     </small>
 
                 </div>
 
 
-                {/* Quantity */}
+                {/* QUANTITY */}
 
                 <div className="product-quantity">
 
@@ -345,7 +278,9 @@ const ProductCard = ({ product }) => {
                 </div>
 
 
-                {/* Bottom */}
+                {/* =================================
+                    PRICE + ADD
+                ================================= */}
 
                 <div className="product-bottom">
 
@@ -354,41 +289,39 @@ const ProductCard = ({ product }) => {
 
                         <strong>
 
-                            ₹{finalPrice}
+                            ₹{Number(finalPrice || 0).toLocaleString("en-IN")}
 
                         </strong>
 
 
-                        {
+                        {product.discountPrice > 0 && (
 
-                            product.discountPrice > 0 && (
+                            <del>
 
-                                <del>
+                                ₹{Number(product.price || 0).toLocaleString("en-IN")}
 
-                                    ₹{product.price}
+                            </del>
 
-                                </del>
-
-                            )
-
-                        }
+                        )}
 
                     </div>
 
 
+                    {/* COMPACT ADD BUTTON */}
+
                     <button
-
-                        className="add-cart-btn"
-
+                        type="button"
+                        className="km-add-btn"
                         disabled={product.stock === 0}
-
                         onClick={addToCart}
-
                     >
 
                         <FaShoppingCart />
 
-                        ADD
+                        {product.stock === 0
+                            ? "OUT"
+                            : "ADD"
+                        }
 
                     </button>
 

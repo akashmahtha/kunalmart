@@ -1,11 +1,9 @@
 import Navbar from "../components/Navbar";
 import Hero from "../components/Hero";
 import CategorySection from "../components/CategorySection";
-import FlashSale from "../components/FlashSale";
 import ProductSection from "../components/ProductSection";
-import OfferBanner from "../components/OfferBanner";
 import WhyChooseUs from "../components/WhyChooseUs";
-import Newsletter from "../components/Newsletter";
+// import Newsletter from "../components/Newsletter";
 import Footer from "../components/Footer";
 
 const Home = () => {
@@ -19,11 +17,14 @@ const Home = () => {
                 {/* Hero */}
                 <Hero />
 
-                {/* Shop By Category */}
+                {/* Shop by Category */}
                 <CategorySection />
 
-                {/* Flash Sale */}
-                <FlashSale />
+                {/* Best Sellers */}
+                <ProductSection
+                    title="Best Sellers"
+                    endpoint="/products/bestseller"
+                />
 
                 {/* Popular Products */}
                 <ProductSection
@@ -31,19 +32,10 @@ const Home = () => {
                     endpoint="/products/featured"
                 />
 
-                {/* Offer */}
-                <OfferBanner />
-
                 {/* Trending Products */}
                 <ProductSection
                     title="Trending Products"
                     endpoint="/products/trending"
-                />
-
-                {/* Best Sellers */}
-                <ProductSection
-                    title="Best Sellers"
-                    endpoint="/products/bestseller"
                 />
 
                 {/* Fresh Arrivals */}
@@ -56,7 +48,7 @@ const Home = () => {
                 <WhyChooseUs />
 
                 {/* Newsletter */}
-                <Newsletter />
+                {/* <Newsletter /> */}
 
             </main>
 

@@ -10,47 +10,42 @@ import ProductCard from "./ProductCard";
 
 import "./ProductSection.css";
 
-
 const ProductSection = ({ title, endpoint }) => {
 
     const [products, setProducts] = useState([]);
-
     const [loading, setLoading] = useState(true);
 
     const scrollRef = useRef(null);
 
     const [canScrollLeft, setCanScrollLeft] = useState(false);
-
     const [canScrollRight, setCanScrollRight] = useState(false);
 
-
-    // =========================
-    // Fetch Products
-    // =========================
+    // ==========================
+    // FETCH PRODUCTS
+    // ==========================
 
     useEffect(() => {
-
         fetchProducts();
-
     }, [endpoint]);
-
 
     const fetchProducts = async () => {
 
         try {
 
+            setLoading(true);
+
             const res = await api.get(endpoint);
 
             setProducts(
-                res.data.products || []
+                res.data.products ||
+                res.data.data ||
+                []
             );
 
-        } catch (error) {
+        } catch (err) {
 
-            console.error(
-                "Error fetching products:",
-                error
-            );
+            console.error(err);
+            setProducts([]);
 
         } finally {
 
@@ -60,69 +55,51 @@ const ProductSection = ({ title, endpoint }) => {
 
     };
 
-
-    // =========================
-    // Check Scroll Position
-    // =========================
+    // ==========================
+    // SCROLL
+    // ==========================
 
     const checkScroll = () => {
 
-        const element = scrollRef.current;
+        const slider = scrollRef.current;
 
-        if (!element) return;
-
+        if (!slider) return;
 
         setCanScrollLeft(
-
-            element.scrollLeft > 5
-
+            slider.scrollLeft > 5
         );
 
-
         setCanScrollRight(
-
-            element.scrollLeft +
-            element.clientWidth <
-            element.scrollWidth - 5
-
+            slider.scrollLeft + slider.clientWidth <
+            slider.scrollWidth - 5
         );
 
     };
 
-
-    // =========================
-    // Scroll Event
-    // =========================
-
     useEffect(() => {
 
-        const element = scrollRef.current;
+        const slider = scrollRef.current;
 
-        if (!element) return;
-
+        if (!slider) return;
 
         checkScroll();
 
-
-        element.addEventListener(
+        slider.addEventListener(
             "scroll",
             checkScroll
         );
-
 
         window.addEventListener(
             "resize",
             checkScroll
         );
 
-
         return () => {
 
-            element.removeEventListener(
+            slider.removeEventListener(
                 "scroll",
                 checkScroll
             );
-
 
             window.removeEventListener(
                 "resize",
@@ -133,19 +110,16 @@ const ProductSection = ({ title, endpoint }) => {
 
     }, [products]);
 
-
-    // =========================
-    // Left Scroll
-    // =========================
-
-    const scrollLeft = () => {
+    const scroll = (direction) => {
 
         if (!scrollRef.current) return;
 
-
         scrollRef.current.scrollBy({
 
-            left: -650,
+            left:
+                direction === "left"
+                    ? -700
+                    : 700,
 
             behavior: "smooth",
 
@@ -153,30 +127,9 @@ const ProductSection = ({ title, endpoint }) => {
 
     };
 
-
-    // =========================
-    // Right Scroll
-    // =========================
-
-    const scrollRight = () => {
-
-        if (!scrollRef.current) return;
-
-
-        scrollRef.current.scrollBy({
-
-            left: 650,
-
-            behavior: "smooth",
-
-        });
-
-    };
-
-
-    // =========================
-    // Loading
-    // =========================
+    // ==========================
+    // LOADING
+    // ==========================
 
     if (loading) {
 
@@ -186,9 +139,34 @@ const ProductSection = ({ title, endpoint }) => {
 
                 <div className="container">
 
-                    <div className="product-loading">
+                    <div className="product-header">
 
-                        <div className="spinner-border text-success"></div>
+                        <div>
+
+                            <h2>{title}</h2>
+
+                            <p>
+                                Fresh products specially selected for you
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                    <div className="product-carousel">
+
+                        {[1, 2, 3, 4, 5, 6].map((item) => (
+
+                            <div
+                                className="product-slide"
+                                key={item}
+                            >
+
+                                <div className="product-skeleton"></div>
+
+                            </div>
+
+                        ))}
 
                     </div>
 
@@ -200,17 +178,7 @@ const ProductSection = ({ title, endpoint }) => {
 
     }
 
-
-    // =========================
-    // No Products
-    // =========================
-
-    if (!products.length) {
-
-        return null;
-
-    }
-
+    if (!products.length) return null;
 
     return (
 
@@ -218,126 +186,80 @@ const ProductSection = ({ title, endpoint }) => {
 
             <div className="container">
 
+                {/* HEADER */}
 
-                {/* =========================
-                    Section Header
-                ========================= */}
-
-                <div className="product-section-header">
-
+                <div className="product-header">
 
                     <div>
 
-                        <h2 className="product-section-title">
+                        <h2>{title}</h2>
 
-                            {title}
-
-                        </h2>
-
-
-                        <p className="product-section-subtitle">
-
+                        <p>
                             Fresh products specially selected for you
-
                         </p>
 
                     </div>
-
 
                     <Link
                         to="/products"
                         className="view-all-btn"
                     >
-
-                        View All
-
+                        View All →
                     </Link>
 
                 </div>
 
+                {/* SLIDER */}
 
-                {/* =========================
-                    Product Carousel
-                ========================= */}
+                <div className="product-slider">
 
-                <div className="product-carousel-wrapper">
+                    {canScrollLeft && (
 
+                        <button
+                            className="product-arrow left"
+                            onClick={() => scroll("left")}
+                        >
 
-                    {/* LEFT ARROW */}
+                            <FaChevronLeft />
 
-                    {
+                        </button>
 
-                        canScrollLeft && (
-
-                            <button
-                                className="
-                                    product-arrow
-                                    product-arrow-left
-                                "
-                                onClick={scrollLeft}
-                                aria-label="Previous products"
-                            >
-
-                                <FaChevronLeft />
-
-                            </button>
-
-                        )
-
-                    }
-
-
-                    {/* PRODUCTS */}
+                    )}
 
                     <div
                         className="product-carousel"
                         ref={scrollRef}
                     >
 
-                        {
+                        {products.map((product) => (
 
-                            products.map((product) => (
+                            <div
+                                key={product._id}
+                                className="product-slide"
+                            >
 
-                                <div
-                                    className="product-slide"
-                                    key={product._id}
-                                >
+                                <ProductCard
+                                    product={product}
+                                />
 
-                                    <ProductCard
-                                        product={product}
-                                    />
+                            </div>
 
-                                </div>
-
-                            ))
-
-                        }
+                        ))}
 
                     </div>
 
+                    {canScrollRight && (
 
-                    {/* RIGHT ARROW */}
+                        <button
+                            className="product-arrow right"
+                            onClick={() => scroll("right")}
+                        >
 
-                    {
+                            <FaChevronRight />
 
-                        canScrollRight && (
+                        </button>
 
-                            <button
-                                className="
-                                    product-arrow
-                                    product-arrow-right
-                                "
-                                onClick={scrollRight}
-                                aria-label="Next products"
-                            >
-
-                                <FaChevronRight />
-
-                            </button>
-
-                        )
-
-                    }
+                    )}
 
                 </div>
 
@@ -348,6 +270,5 @@ const ProductSection = ({ title, endpoint }) => {
     );
 
 };
-
 
 export default ProductSection;
