@@ -20,15 +20,22 @@ import ownerImage from "../assets/owner.png";
 
 import "./Footer.css";
 
+
 const Footer = () => {
 
     const [categories, setCategories] = useState([]);
+
+
+    // =========================================
+    // FETCH CATEGORIES
+    // =========================================
 
     useEffect(() => {
 
         fetchCategories();
 
     }, []);
+
 
     const fetchCategories = async () => {
 
@@ -42,23 +49,126 @@ const Footer = () => {
 
         } catch (error) {
 
-            console.log(error);
+            console.error(
+                "Error fetching categories:",
+                error
+            );
 
         }
 
     };
 
+
     return (
 
         <footer className="modern-footer">
 
-            {/* ================= NEWSLETTER ================= */}
 
-            <div className="container">
+            {/* =========================================
+                OWNER / FOUNDER SECTION - TOP
+            ========================================= */}
+
+            <section className="footer-owner-section">
+
+                <div className="footer-owner-container">
+
+
+                    {/* OWNER IMAGE */}
+
+                    <div className="footer-owner-image">
+
+                        <img
+                            src={ownerImage}
+                            alt="Kunal - Founder of KunalMart"
+                        />
+
+                    </div>
+
+
+                    {/* OWNER CONTENT */}
+
+                    <div className="footer-owner-content">
+
+                        <span className="footer-owner-label">
+
+                            MEET THE FOUNDER
+
+                        </span>
+
+
+                        <h2>
+
+                            Kunal
+
+                        </h2>
+
+
+                        <p>
+
+                            Founder of KunalMart. Our mission is to
+                            provide fresh groceries, daily essentials
+                            and fast delivery with the best customer
+                            experience.
+
+                        </p>
+
+
+                        <div className="footer-owner-socials">
+
+                            <a
+                                href="https://facebook.com"
+                                target="_blank"
+                                rel="noreferrer"
+                                aria-label="Facebook"
+                            >
+
+                                <FaFacebookF />
+
+                            </a>
+
+
+                            <a
+                                href="https://instagram.com"
+                                target="_blank"
+                                rel="noreferrer"
+                                aria-label="Instagram"
+                            >
+
+                                <FaInstagram />
+
+                            </a>
+
+
+                            <a
+                                href="https://twitter.com"
+                                target="_blank"
+                                rel="noreferrer"
+                                aria-label="Twitter"
+                            >
+
+                                <FaTwitter />
+
+                            </a>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+
+            {/* =========================================
+                NEWSLETTER
+            ========================================= */}
+
+            <div className="footer-container">
 
                 <div className="footer-newsletter">
 
-                    <div>
+                    <div className="footer-newsletter-content">
 
                         <span className="footer-small-title">
 
@@ -66,20 +176,23 @@ const Footer = () => {
 
                         </span>
 
+
                         <h2>
 
                             Fresh Grocery Delivered Daily
 
                         </h2>
 
+
                         <p>
 
-                            Subscribe now to receive exclusive offers,
+                            Subscribe to receive exclusive offers,
                             discounts and grocery updates.
 
                         </p>
 
                     </div>
+
 
                     <div className="newsletter-form">
 
@@ -88,7 +201,8 @@ const Footer = () => {
                             placeholder="Enter your email"
                         />
 
-                        <button>
+
+                        <button type="button">
 
                             Subscribe
 
@@ -100,36 +214,35 @@ const Footer = () => {
 
                 </div>
 
-            </div>
 
-            {/* ================= MAIN FOOTER ================= */}
 
-            <div className="container">
+                {/* =========================================
+                    MAIN FOOTER
+                ========================================= */}
 
-                <div className="row gy-5">
+                <div className="footer-main-grid">
 
-                    {/* ================= BRAND ================= */}
 
-                    <div className="col-lg-4 col-md-6">
+                    {/* BRAND */}
 
-                        <div className="footer-brand">
+                    <div className="footer-brand">
 
-                            <h2 className="footer-logo">
+                        <h2 className="footer-logo">
 
-                                🛒 Kunal Mart
+                            🛒 <span>Kunal</span>Mart
 
-                            </h2>
+                        </h2>
 
-                            <p>
 
-                                Fresh fruits, vegetables, dairy products,
-                                snacks and daily essentials delivered to
-                                your doorstep with the best quality and
-                                affordable prices.
+                        <p>
 
-                            </p>
+                            Fresh fruits, vegetables, dairy products,
+                            snacks and daily essentials delivered to
+                            your doorstep with the best quality and
+                            affordable prices.
 
-                        </div>
+                        </p>
+
 
                         <div className="footer-socials">
 
@@ -138,167 +251,178 @@ const Footer = () => {
                                 target="_blank"
                                 rel="noreferrer"
                             >
+
                                 <FaFacebookF />
+
                             </a>
+
 
                             <a
                                 href="https://instagram.com"
                                 target="_blank"
                                 rel="noreferrer"
                             >
+
                                 <FaInstagram />
+
                             </a>
+
 
                             <a
                                 href="https://twitter.com"
                                 target="_blank"
                                 rel="noreferrer"
                             >
+
                                 <FaTwitter />
+
                             </a>
 
                         </div>
 
                     </div>
 
-                    {/* ================= QUICK LINKS ================= */}
 
-                    <div className="col-lg-2 col-md-6">
 
-                        <h5 className="footer-heading">
+                    {/* QUICK LINKS */}
 
-                            Quick Links
+                    <div className="footer-column">
+
+                        <h5>
+
+                            Customer Service
 
                         </h5>
 
-                        <ul className="footer-links">
+
+                        <ul>
 
                             <li>
-
-                                <Link to="/">
-
-                                    Home
-
+                                <Link to="/about">
+                                    About Us
                                 </Link>
-
                             </li>
 
                             <li>
-
-                                <Link to="/products">
-
-                                    Products
-
+                                <Link to="/contact">
+                                    Contact Us
                                 </Link>
-
                             </li>
 
                             <li>
-
-                                <Link to="/cart">
-
-                                    Cart
-
+                                <Link to="/faq">
+                                    FAQs
                                 </Link>
-
                             </li>
 
                             <li>
-
-                                <Link to="/wishlist">
-
-                                    Wishlist
-
+                                <Link to="/shipping">
+                                    Shipping Policy
                                 </Link>
-
                             </li>
 
                             <li>
+                                <Link to="/returns">
+                                    Return & Refund
+                                </Link>
+                            </li>
 
+                        </ul>
+
+                    </div>
+
+
+
+                    {/* ACCOUNT */}
+
+                    <div className="footer-column">
+
+                        <h5>
+
+                            My Account
+
+                        </h5>
+
+
+                        <ul>
+
+                            <li>
                                 <Link to="/orders">
-
                                     My Orders
-
                                 </Link>
+                            </li>
 
+                            <li>
+                                <Link to="/wishlist">
+                                    Wishlist
+                                </Link>
+                            </li>
+
+                            <li>
+                                <Link to="/track-order">
+                                    Track Order
+                                </Link>
+                            </li>
+
+                            <li>
+                                <Link to="/login">
+                                    Login / Signup
+                                </Link>
                             </li>
 
                         </ul>
 
                     </div>
 
-                    {/* ================= CATEGORIES ================= */}
 
-                    <div className="col-lg-2 col-md-6">
 
-                        <h5 className="footer-heading">
+                    {/* INFORMATION */}
 
-                            Categories
+                    <div className="footer-column">
+
+                        <h5>
+
+                            Information
 
                         </h5>
 
-                        <ul className="footer-links">
 
-                            {
+                        <ul>
 
-                                categories.length > 0 ? (
+                            <li>
+                                <Link to="/privacy-policy">
+                                    Privacy Policy
+                                </Link>
+                            </li>
 
-                                    categories.map((category) => (
+                            <li>
+                                <Link to="/terms">
+                                    Terms & Conditions
+                                </Link>
+                            </li>
 
-                                        <li
-                                            key={category._id}
-                                        >
-
-                                            <Link
-                                                to={`/products?category=${category._id}`}
-                                            >
-
-                                                {category.name}
-
-                                            </Link>
-
-                                        </li>
-
-                                    ))
-
-                                ) : (
-
-                                    <li>
-
-                                        No Categories Found
-
-                                    </li>
-
-                                )
-
-                            }
+                            <li>
+                                <Link to="/cancellation">
+                                    Cancellation Policy
+                                </Link>
+                            </li>
 
                         </ul>
 
                     </div>
 
-                    {/* ================= CONTACT ================= */}
 
-                    <div className="col-lg-4 col-md-6">
 
-                        <h5 className="footer-heading">
+                    {/* CONTACT */}
+
+                    <div className="footer-column footer-contact">
+
+                        <h5>
 
                             Contact Us
 
                         </h5>
 
-                        <div className="contact-item">
-
-                            <FaMapMarkerAlt />
-
-                            <span>
-
-                                35/3 NS Road, Rishra,
-                                Hooghly, West Bengal
-
-                            </span>
-
-                        </div>
 
                         <div className="contact-item">
 
@@ -306,11 +430,12 @@ const Footer = () => {
 
                             <span>
 
-                                +91 81008 95700
+                                81008 95700
 
                             </span>
 
                         </div>
+
 
                         <div className="contact-item">
 
@@ -324,13 +449,15 @@ const Footer = () => {
 
                         </div>
 
+
                         <div className="contact-item">
 
                             <FaMapMarkerAlt />
 
                             <span>
 
-                                Kolkata & Nearby Areas
+                                Rishra, Serampore,
+                                Hooghly, West Bengal - 712101
 
                             </span>
 
@@ -340,68 +467,94 @@ const Footer = () => {
 
                 </div>
 
-                {/* ================= OWNER ================= */}
 
-                <div className="owner-section">
 
-                    <div className="owner-image-wrapper">
+                {/* =========================================
+                    CATEGORIES
+                ========================================= */}
 
-                        <img
-                            src={ownerImage}
-                            alt="Owner"
-                        />
+                <div className="footer-categories">
 
-                    </div>
+                    <h5>
 
-                    <div className="owner-content">
+                        Popular Categories
 
-                        <span>
+                    </h5>
 
-                            FOUNDER
 
-                        </span>
+                    <div className="footer-category-list">
 
-                        <h3>
+                        {
 
-                            Kunal
+                            categories.length > 0
 
-                        </h3>
+                                ? categories.map((category) => (
 
-                        <p>
+                                    <Link
+                                        key={category._id}
+                                        to={`/products?category=${category._id}`}
+                                    >
 
-                            Our mission is to provide fresh groceries,
-                            daily essentials and the fastest delivery
-                            service with the best customer experience.
+                                        {category.name}
 
-                        </p>
+                                    </Link>
+
+                                ))
+
+                                : (
+
+                                    <span>
+
+                                        Fresh Groceries
+
+                                    </span>
+
+                                )
+
+                        }
 
                     </div>
 
                 </div>
 
-                {/* ================= PAYMENT ================= */}
 
-                <div className="payment-section">
+
+                {/* =========================================
+                    PAYMENT
+                ========================================= */}
+
+                <div className="footer-payment">
 
                     <div>
 
-                        <span>
+                        <span className="payment-title">
 
                             SECURE PAYMENT METHODS
 
                         </span>
 
+
                         <div className="payment-icons">
+
+                            <span className="payment-box">
+
+                                UPI
+
+                            </span>
+
 
                             <FaCcVisa />
 
+
                             <FaCcMastercard />
+
 
                             <FaCcPaypal />
 
                         </div>
 
                     </div>
+
 
                     <div className="delivery-badge">
 
@@ -411,7 +564,11 @@ const Footer = () => {
 
                 </div>
 
-                {/* ================= BOTTOM ================= */}
+
+
+                {/* =========================================
+                    COPYRIGHT
+                ========================================= */}
 
                 <div className="footer-bottom">
 
@@ -419,17 +576,11 @@ const Footer = () => {
 
                         © {new Date().getFullYear()}{" "}
 
-                        <strong>
-
-                            Kunal Mart
-
-                        </strong>
+                        <strong>KunalMart</strong>
 
                         . All Rights Reserved.
 
                     </p>
-
-
 
                 </div>
 
@@ -440,5 +591,6 @@ const Footer = () => {
     );
 
 };
+
 
 export default Footer;

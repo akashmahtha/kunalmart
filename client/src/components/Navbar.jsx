@@ -283,7 +283,7 @@ const Navbar = () => {
 
                         <span>
 
-                            Customer Support: 6291234567
+                            Customer Support: 81008 95700
 
                         </span>
 
@@ -739,8 +739,8 @@ const Navbar = () => {
                         <Link
                             to="/"
                             className={`km-nav-link ${location.pathname === "/"
-                                    ? "active"
-                                    : ""
+                                ? "active"
+                                : ""
                                 }`}
                         >
 
@@ -763,9 +763,9 @@ const Navbar = () => {
                                             key={category._id}
                                             type="button"
                                             className={`km-nav-link ${activeCategoryId ===
-                                                    category._id
-                                                    ? "active"
-                                                    : ""
+                                                category._id
+                                                ? "active"
+                                                : ""
                                                 }`}
                                             onClick={() =>
                                                 handleCategoryClick(
@@ -790,10 +790,10 @@ const Navbar = () => {
                         <Link
                             to="/products"
                             className={`km-nav-link ${location.pathname ===
-                                    "/products" &&
-                                    !activeCategoryId
-                                    ? "active"
-                                    : ""
+                                "/products" &&
+                                !activeCategoryId
+                                ? "active"
+                                : ""
                                 }`}
                         >
 

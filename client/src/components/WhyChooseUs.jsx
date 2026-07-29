@@ -1,85 +1,105 @@
 import {
     FaTruck,
     FaLeaf,
-    FaHeadset,
+    FaTag,
     FaShieldAlt,
+    FaUndo,
 } from "react-icons/fa";
 
 import "./WhyChooseUs.css";
 
+
 const WhyChooseUs = () => {
 
     const features = [
+
         {
             icon: <FaTruck />,
-            title: "Free Delivery",
-            text: "Free delivery on all orders above ₹499.",
+            title: "Fast Delivery",
+            text: "Get your order in 30–45 minutes",
         },
+
         {
             icon: <FaLeaf />,
-            title: "Fresh Products",
-            text: "Fresh fruits, vegetables and groceries every day.",
+            title: "Farm Fresh",
+            text: "Carefully selected fresh products",
         },
+
+        {
+            icon: <FaTag />,
+            title: "Best Prices",
+            text: "Best quality at best prices",
+        },
+
         {
             icon: <FaShieldAlt />,
-            title: "Quality Guarantee",
-            text: "100% quality checked products from trusted brands.",
+            title: "Secure Payments",
+            text: "100% safe & secure payments",
         },
+
         {
-            icon: <FaHeadset />,
-            title: "24/7 Support",
-            text: "Friendly customer support whenever you need help.",
+            icon: <FaTag />,
+            title: "Daily Offers",
+            text: "Exciting offers everyday",
         },
+
+        {
+            icon: <FaUndo />,
+            title: "Easy Returns",
+            text: "Hassle-free returns policy",
+        },
+
     ];
+
 
     return (
 
         <section className="why-section">
 
-            <div className="container">
+            <div className="why-container">
 
-                <div className="text-center mb-5">
+                {/* TITLE */}
 
-                    <h2 className="fw-bold">
-                        Why Choose Kunal Mart?
+                <div className="why-header">
+
+                    <h2>
+                        Why Choose KunalMart?
                     </h2>
-
-                    <p className="text-muted">
-                        We deliver freshness, quality and convenience.
-                    </p>
 
                 </div>
 
-                <div className="row">
 
-                    {
+                {/* FEATURES */}
 
-                        features.map((item, index) => (
+                <div className="why-features">
 
-                            <div
-                                className="col-lg-3 col-md-6 mb-4"
-                                key={index}
-                            >
+                    {features.map((item, index) => (
 
-                                <div className="feature-card">
+                        <div
+                            className="why-feature-card"
+                            key={index}
+                        >
 
-                                    <div className="feature-icon">
+                            <div className="why-feature-icon">
+                                {item.icon}
+                            </div>
 
-                                        {item.icon}
 
-                                    </div>
+                            <div className="why-feature-content">
 
-                                    <h5>{item.title}</h5>
+                                <h4>
+                                    {item.title}
+                                </h4>
 
-                                    <p>{item.text}</p>
-
-                                </div>
+                                <p>
+                                    {item.text}
+                                </p>
 
                             </div>
 
-                        ))
+                        </div>
 
-                    }
+                    ))}
 
                 </div>
 
@@ -90,5 +110,6 @@ const WhyChooseUs = () => {
     );
 
 };
+
 
 export default WhyChooseUs;
