@@ -12,6 +12,7 @@ import {
     bestSellerProducts,
     latestProducts,
     relatedProducts,
+    getProductsByCategory,
 } from "../controllers/product.controller.js";
 
 import { protect } from "../middleware/auth.middleware.js";
@@ -80,4 +81,10 @@ router.delete(
     deleteProduct
 );
 
+
+// Products By Category
+router.get(
+    "/category/:categoryId",
+    getProductsByCategory
+);
 export default router;

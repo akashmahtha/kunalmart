@@ -16,7 +16,7 @@ import Checkout from "./pages/Checkout";
 import Profile from "./pages/Profile";
 import Orders from "./pages/Orders";
 import OrderDetails from "./pages/OrderDetails";
-
+import CategoriesPage from "./pages/CategoriesPage";
 // =========================
 // Protected Route
 // =========================
@@ -141,7 +141,10 @@ function App() {
             </ProtectedRoute>
           }
         />
-
+        <Route
+          path="/categories"
+          element={<CategoriesPage />}
+        />
         {/* ========================= */}
         {/* Admin Routes */}
         {/* ========================= */}
