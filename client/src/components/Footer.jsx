@@ -1,4 +1,3 @@
-import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
 import {
@@ -8,217 +7,23 @@ import {
     FaPhoneAlt,
     FaEnvelope,
     FaMapMarkerAlt,
-    FaArrowRight,
-    FaCcVisa,
-    FaCcMastercard,
-    FaCcPaypal,
 } from "react-icons/fa";
-
-import api from "../services/api";
 
 import ownerImage from "../assets/owner.png";
 
 import "./Footer.css";
 
-
 const Footer = () => {
-
-    const [categories, setCategories] = useState([]);
-
-
-    // =========================================
-    // FETCH CATEGORIES
-    // =========================================
-
-    useEffect(() => {
-
-        fetchCategories();
-
-    }, []);
-
-
-    const fetchCategories = async () => {
-
-        try {
-
-            const res = await api.get("/categories");
-
-            setCategories(
-                res.data?.categories || []
-            );
-
-        } catch (error) {
-
-            console.error(
-                "Error fetching categories:",
-                error
-            );
-
-        }
-
-    };
-
 
     return (
 
         <footer className="modern-footer">
 
-
-            {/* =========================================
-                OWNER / FOUNDER SECTION - TOP
-            ========================================= */}
-
-            <section className="footer-owner-section">
-
-                <div className="footer-owner-container">
-
-
-                    {/* OWNER IMAGE */}
-
-                    <div className="footer-owner-image">
-
-                        <img
-                            src={ownerImage}
-                            alt="Kunal - Founder of KunalMart"
-                        />
-
-                    </div>
-
-
-                    {/* OWNER CONTENT */}
-
-                    <div className="footer-owner-content">
-
-                        <span className="footer-owner-label">
-
-                            MEET THE FOUNDER
-
-                        </span>
-
-
-                        <h2>
-
-                            Kunal
-
-                        </h2>
-
-
-                        <p>
-
-                            Founder of KunalMart. Our mission is to
-                            provide fresh groceries, daily essentials
-                            and fast delivery with the best customer
-                            experience.
-
-                        </p>
-
-
-                        <div className="footer-owner-socials">
-
-                            <a
-                                href="https://facebook.com"
-                                target="_blank"
-                                rel="noreferrer"
-                                aria-label="Facebook"
-                            >
-
-                                <FaFacebookF />
-
-                            </a>
-
-
-                            <a
-                                href="https://instagram.com"
-                                target="_blank"
-                                rel="noreferrer"
-                                aria-label="Instagram"
-                            >
-
-                                <FaInstagram />
-
-                            </a>
-
-
-                            <a
-                                href="https://twitter.com"
-                                target="_blank"
-                                rel="noreferrer"
-                                aria-label="Twitter"
-                            >
-
-                                <FaTwitter />
-
-                            </a>
-
-                        </div>
-
-                    </div>
-
-                </div>
-
-            </section>
-
-
-
-            {/* =========================================
-                NEWSLETTER
-            ========================================= */}
-
             <div className="footer-container">
 
-                <div className="footer-newsletter">
-
-                    <div className="footer-newsletter-content">
-
-                        <span className="footer-small-title">
-
-                            STAY CONNECTED
-
-                        </span>
-
-
-                        <h2>
-
-                            Fresh Grocery Delivered Daily
-
-                        </h2>
-
-
-                        <p>
-
-                            Subscribe to receive exclusive offers,
-                            discounts and grocery updates.
-
-                        </p>
-
-                    </div>
-
-
-                    <div className="newsletter-form">
-
-                        <input
-                            type="email"
-                            placeholder="Enter your email"
-                        />
-
-
-                        <button type="button">
-
-                            Subscribe
-
-                            <FaArrowRight />
-
-                        </button>
-
-                    </div>
-
-                </div>
-
-
-
-                {/* =========================================
+                {/* ===============================
                     MAIN FOOTER
-                ========================================= */}
+                =============================== */}
 
                 <div className="footer-main-grid">
 
@@ -233,16 +38,15 @@ const Footer = () => {
 
                         </h2>
 
-
                         <p>
 
-                            Fresh fruits, vegetables, dairy products,
-                            snacks and daily essentials delivered to
-                            your doorstep with the best quality and
-                            affordable prices.
+                            KunalMart delivers fresh groceries,
+                            fruits, vegetables, dairy products,
+                            beverages and daily essentials directly
+                            to your doorstep with trusted quality,
+                            affordable pricing and fast delivery.
 
                         </p>
-
 
                         <div className="footer-socials">
 
@@ -251,31 +55,23 @@ const Footer = () => {
                                 target="_blank"
                                 rel="noreferrer"
                             >
-
                                 <FaFacebookF />
-
                             </a>
-
 
                             <a
                                 href="https://instagram.com"
                                 target="_blank"
                                 rel="noreferrer"
                             >
-
                                 <FaInstagram />
-
                             </a>
-
 
                             <a
                                 href="https://twitter.com"
                                 target="_blank"
                                 rel="noreferrer"
                             >
-
                                 <FaTwitter />
-
                             </a>
 
                         </div>
@@ -283,8 +79,7 @@ const Footer = () => {
                     </div>
 
 
-
-                    {/* QUICK LINKS */}
+                    {/* CUSTOMER SERVICE */}
 
                     <div className="footer-column">
 
@@ -294,86 +89,61 @@ const Footer = () => {
 
                         </h5>
 
-
                         <ul>
 
                             <li>
+
                                 <Link to="/about">
+
                                     About Us
+
                                 </Link>
+
                             </li>
 
                             <li>
+
                                 <Link to="/contact">
+
                                     Contact Us
+
                                 </Link>
+
                             </li>
 
                             <li>
+
                                 <Link to="/faq">
+
                                     FAQs
+
                                 </Link>
+
                             </li>
 
                             <li>
+
                                 <Link to="/shipping">
+
                                     Shipping Policy
+
                                 </Link>
+
                             </li>
 
                             <li>
+
                                 <Link to="/returns">
+
                                     Return & Refund
+
                                 </Link>
+
                             </li>
 
                         </ul>
 
                     </div>
-
-
-
-                    {/* ACCOUNT */}
-
-                    <div className="footer-column">
-
-                        <h5>
-
-                            My Account
-
-                        </h5>
-
-
-                        <ul>
-
-                            <li>
-                                <Link to="/orders">
-                                    My Orders
-                                </Link>
-                            </li>
-
-                            <li>
-                                <Link to="/wishlist">
-                                    Wishlist
-                                </Link>
-                            </li>
-
-                            <li>
-                                <Link to="/track-order">
-                                    Track Order
-                                </Link>
-                            </li>
-
-                            <li>
-                                <Link to="/login">
-                                    Login / Signup
-                                </Link>
-                            </li>
-
-                        </ul>
-
-                    </div>
-
 
 
                     {/* INFORMATION */}
@@ -386,31 +156,61 @@ const Footer = () => {
 
                         </h5>
 
-
                         <ul>
 
                             <li>
+
                                 <Link to="/privacy-policy">
+
                                     Privacy Policy
+
                                 </Link>
+
                             </li>
 
                             <li>
+
                                 <Link to="/terms">
+
                                     Terms & Conditions
+
                                 </Link>
+
                             </li>
 
                             <li>
+
                                 <Link to="/cancellation">
+
                                     Cancellation Policy
+
                                 </Link>
+
+                            </li>
+
+                            <li>
+
+                                <Link to="/careers">
+
+                                    Careers
+
+                                </Link>
+
+                            </li>
+
+                            <li>
+
+                                <Link to="/blogs">
+
+                                    Blogs
+
+                                </Link>
+
                             </li>
 
                         </ul>
 
                     </div>
-
 
 
                     {/* CONTACT */}
@@ -423,19 +223,17 @@ const Footer = () => {
 
                         </h5>
 
-
                         <div className="contact-item">
 
                             <FaPhoneAlt />
 
                             <span>
 
-                                81008 95700
+                                +91 81008 95700
 
                             </span>
 
                         </div>
-
 
                         <div className="contact-item">
 
@@ -449,7 +247,6 @@ const Footer = () => {
 
                         </div>
 
-
                         <div className="contact-item">
 
                             <FaMapMarkerAlt />
@@ -457,7 +254,8 @@ const Footer = () => {
                             <span>
 
                                 Rishra, Serampore,
-                                Hooghly, West Bengal - 712101
+                                Hooghly,
+                                West Bengal - 712101
 
                             </span>
 
@@ -468,119 +266,120 @@ const Footer = () => {
                 </div>
 
 
+                {/* ===============================
+                    FOUNDER SECTION
+                    (Inside Footer)
+                =============================== */}
 
-                {/* =========================================
-                    CATEGORIES
-                ========================================= */}
+                <div className="footer-founder">
 
-                <div className="footer-categories">
+                    <div className="footer-founder-image">
 
-                    <h5>
-
-                        Popular Categories
-
-                    </h5>
-
-
-                    <div className="footer-category-list">
-
-                        {
-
-                            categories.length > 0
-
-                                ? categories.map((category) => (
-
-                                    <Link
-                                        key={category._id}
-                                        to={`/products?category=${category._id}`}
-                                    >
-
-                                        {category.name}
-
-                                    </Link>
-
-                                ))
-
-                                : (
-
-                                    <span>
-
-                                        Fresh Groceries
-
-                                    </span>
-
-                                )
-
-                        }
+                        <img
+                            src={ownerImage}
+                            alt="Founder"
+                        />
 
                     </div>
 
-                </div>
+                    <div className="footer-founder-content">
 
+                        <span className="footer-founder-tag">
 
-
-                {/* =========================================
-                    PAYMENT
-                ========================================= */}
-
-                <div className="footer-payment">
-
-                    <div>
-
-                        <span className="payment-title">
-
-                            SECURE PAYMENT METHODS
+                            MEET THE FOUNDER
 
                         </span>
 
+                        <h3>
 
-                        <div className="payment-icons">
+                            Kunal
 
-                            <span className="payment-box">
+                        </h3>
 
-                                UPI
+                        <p>
 
-                            </span>
+                            Founder of KunalMart. Our vision is to
+                            simplify grocery shopping by delivering
+                            fresh products, daily essentials and a
+                            seamless shopping experience with quality,
+                            affordability and customer satisfaction.
 
+                        </p>
 
-                            <FaCcVisa />
+                        <div className="footer-socials">
 
+                            <a
+                                href="https://facebook.com"
+                                target="_blank"
+                                rel="noreferrer"
+                            >
+                                <FaFacebookF />
+                            </a>
 
-                            <FaCcMastercard />
+                            <a
+                                href="https://instagram.com"
+                                target="_blank"
+                                rel="noreferrer"
+                            >
+                                <FaInstagram />
+                            </a>
 
-
-                            <FaCcPaypal />
+                            <a
+                                href="https://twitter.com"
+                                target="_blank"
+                                rel="noreferrer"
+                            >
+                                <FaTwitter />
+                            </a>
 
                         </div>
 
                     </div>
 
-
-                    <div className="delivery-badge">
-
-                        🚚 Fast Delivery • Fresh Products
-
-                    </div>
-
                 </div>
-
-
-
-                {/* =========================================
+                {/* ===============================
                     COPYRIGHT
-                ========================================= */}
+                =============================== */}
 
                 <div className="footer-bottom">
 
-                    <p>
+                    <div className="footer-bottom-left">
 
-                        © {new Date().getFullYear()}{" "}
+                        <p>
 
-                        <strong>KunalMart</strong>
+                            © {new Date().getFullYear()}{" "}
 
-                        . All Rights Reserved.
+                            <strong>KunalMart</strong>. All Rights Reserved.
 
-                    </p>
+                        </p>
+
+                    </div>
+
+                    <div className="footer-bottom-right">
+
+                        <Link to="/privacy-policy">
+
+                            Privacy Policy
+
+                        </Link>
+
+                        <span>|</span>
+
+                        <Link to="/terms">
+
+                            Terms & Conditions
+
+                        </Link>
+
+                        <span>|</span>
+
+                        <Link to="/contact">
+
+                            Contact Us
+
+                        </Link>
+
+                    </div>
 
                 </div>
 
@@ -591,6 +390,5 @@ const Footer = () => {
     );
 
 };
-
 
 export default Footer;
