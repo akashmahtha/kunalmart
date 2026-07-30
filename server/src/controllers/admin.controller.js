@@ -479,3 +479,54 @@ export const deleteReviewByAdmin = async (req, res) => {
     }
 
 };
+
+// ======================================
+// Admin - Get Categories (Pagination)
+// ======================================
+
+export const getAdminCategories = async (req, res) => {
+
+    try {
+
+        const page = Number(req.query.page) || 1;
+        const limit = Number(req.query.limit) || 10;
+        const search = req.query.search || "";
+
+        const skip = (page - 1) * limit;
+
+        const query = {};
+
+        if (search) {
+            query.name = {
+                $regex: search,
+                $options: "i",
+            };
+        }
+
+        const totalCategories =
+            await Category.countDocuments(query);
+
+        const categories =
+            await Category.find(query)
+                .sort({ createdAt: -1 })
+                .skip(skip)
+                .limit(limit);
+
+        res.status(200).json({
+            success: true,
+            categories,
+            page,
+            pages: Math.ceil(totalCategories / limit),
+            totalCategories,
+        });
+
+    } catch (error) {
+
+        res.status(500).json({
+            success: false,
+            message: error.message,
+        });
+
+    }
+
+};

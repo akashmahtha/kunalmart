@@ -12,6 +12,7 @@ import {
     deleteUser,
     getAllReviews,
     getReviewDetails,
+    getAdminCategories,
     deleteReviewByAdmin,
 } from "../controllers/admin.controller.js";
 
@@ -125,5 +126,6 @@ router.delete(
     adminOnly,
     deleteReviewByAdmin
 );
+router.get("/categories", protect, adminOnly, getAdminCategories);
 
 export default router;

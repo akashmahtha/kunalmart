@@ -44,7 +44,7 @@ const Categories = () => {
             setLoading(true);
 
             const res = await api.get(
-                `/categories?page=${currentPage}&limit=${itemsPerPage}`
+                `/admin/categories?page=${currentPage}&limit=${itemsPerPage}`
             );
 
             setCategories(res.data.categories);

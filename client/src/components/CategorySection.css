@@ -188,9 +188,11 @@
    SLIDER WRAPPER
 ====================================================== */
 
-.category-slider-wrapper {
+.category-slider {
     position: relative;
     width: 100%;
+    display: flex;
+    align-items: center;
 }
 
 
@@ -198,30 +200,50 @@
    CATEGORY SCROLL
 ====================================================== */
 
-.category-scroll {
+.slider-arrow {
+
+    position: absolute;
+
+    top: 45%;
+
+    transform: translateY(-50%);
+
+    width: 40px;
+    height: 40px;
+
+    border: none;
+    border-radius: 50%;
+
+    background: #fff;
 
     display: flex;
+    justify-content: center;
+    align-items: center;
 
-    align-items: flex-start;
+    cursor: pointer;
 
-    gap: 16px;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, .15);
 
-    overflow-x: auto;
-
-    overflow-y: hidden;
-
-    scroll-behavior: smooth;
-
-    scrollbar-width: none;
-
-    -ms-overflow-style: none;
-
-    padding: 4px 2px 8px;
+    z-index: 10;
 }
 
-.category-scroll::-webkit-scrollbar {
-    display: none;
+.slider-arrow.left {
+
+    left: -18px;
 }
+
+.slider-arrow.right {
+
+    right: -18px;
+}
+
+.slider-arrow:disabled {
+
+    opacity: .35;
+    cursor: not-allowed;
+}
+
+
 
 .category-item {
     flex: 0 0 auto;

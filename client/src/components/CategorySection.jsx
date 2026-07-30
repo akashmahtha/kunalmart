@@ -224,7 +224,7 @@ const CategorySection = () => {
 
                     <Link
                         to="/categories"
-                        className="view-all-link"
+                        className="view-all-btn"
                     >
 
                         View All →
@@ -235,77 +235,40 @@ const CategorySection = () => {
 
                 {/* SLIDER */}
 
+                {/* SLIDER */}
                 <div className="category-slider">
 
-                    {
-
-                        showArrows && (
-
-                            <button
-
-                                className="slider-arrow left"
-
-                                onClick={() => scroll("left")}
-
-                                disabled={!canLeft}
-
-                            >
-
-                                <FaChevronLeft />
-
-                            </button>
-
-                        )
-
-                    }
+                    {showArrows && (
+                        <button
+                            className="slider-arrow left"
+                            onClick={() => scroll("left")}
+                            disabled={!canLeft}
+                        >
+                            <FaChevronLeft />
+                        </button>
+                    )}
 
                     <div
-
                         className="category-scroll"
-
                         ref={sliderRef}
-
                     >
-
-                        {
-
-                            categories.map((category) => (
-
-                                <CategoryCard
-
-                                    key={category._id}
-
-                                    category={category}
-
-                                />
-
-                            ))
-
-                        }
-
+                        {categories.map((category) => (
+                            <CategoryCard
+                                key={category._id}
+                                category={category}
+                            />
+                        ))}
                     </div>
 
-                    {
-
-                        showArrows && (
-
-                            <button
-
-                                className="slider-arrow right"
-
-                                onClick={() => scroll("right")}
-
-                                disabled={!canRight}
-
-                            >
-
-                                <FaChevronRight />
-
-                            </button>
-
-                        )
-
-                    }
+                    {showArrows && (
+                        <button
+                            className="slider-arrow right"
+                            onClick={() => scroll("right")}
+                            disabled={!canRight}
+                        >
+                            <FaChevronRight />
+                        </button>
+                    )}
 
                 </div>
 
