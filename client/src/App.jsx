@@ -37,7 +37,7 @@ import Categories from "./admin/pages/Categories";
 import AdminProducts from "./admin/pages/Products";
 import AdminOrders from "./admin/pages/Orders";
 import Reviews from "./admin/pages/Reviews";
-// import Coupons from "./admin/pages/Coupons";
+import Coupons from "./admin/pages/Coupons";
 
 function App() {
 
@@ -204,16 +204,16 @@ function App() {
             </AdminRoute>
           }
         />
-        {/*
-                <Route
-                    path="/admin/coupons"
-                    element={
-                        <AdminRoute>
-                            <Coupons />
-                        </AdminRoute>
-                    }
-                />
-                */}
+
+        <Route
+          path="/admin/coupons"
+          element={
+            <AdminRoute>
+              <Coupons />
+            </AdminRoute>
+          }
+        />
+
 
         {/* ========================= */}
         {/* 404 */}
