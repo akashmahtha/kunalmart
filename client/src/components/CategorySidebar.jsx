@@ -1,17 +1,28 @@
 import { useEffect, useState } from "react";
+import { useSearchParams } from "react-router-dom";
 import axios from "axios";
 import "./CategorySidebar.css";
 
-const CategorySidebar = ({ selectedCategory, setSelectedCategory }) => {
+const CategorySidebar = ({
+    selectedCategory,
+    setSelectedCategory,
+}) => {
+
     const [categories, setCategories] = useState([]);
     const [loading, setLoading] = useState(true);
+
+    const [searchParams] = useSearchParams();
+
+    const categoryId = searchParams.get("category");
 
     useEffect(() => {
         getCategories();
     }, []);
 
     const getCategories = async () => {
+
         try {
+
             const { data } = await axios.get(
                 `${import.meta.env.VITE_API_URL}/categories`
             );
@@ -20,25 +31,57 @@ const CategorySidebar = ({ selectedCategory, setSelectedCategory }) => {
 
             setCategories(list);
 
-            if (list.length > 0) {
-                setSelectedCategory(list[0]);
+            // ==========================
+            // If category comes from Home
+            // ==========================
+
+            if (categoryId) {
+
+                const selected = list.find(
+                    (cat) =>
+                        cat._id === categoryId ||
+                        cat.slug === categoryId
+                );
+
+                if (selected) {
+                    setSelectedCategory(selected);
+                } else if (list.length > 0) {
+                    setSelectedCategory(list[0]);
+                }
+
+            } else {
+
+                // View All
+                if (list.length > 0) {
+                    setSelectedCategory(list[0]);
+                }
+
             }
+
         } catch (err) {
+
             console.log(err);
+
         } finally {
+
             setLoading(false);
+
         }
+
     };
 
     if (loading) {
+
         return (
             <div className="category-loading">
                 Loading Categories...
             </div>
         );
+
     }
 
     return (
+
         <div className="category-sidebar">
 
             <div className="sidebar-header">
@@ -51,7 +94,9 @@ const CategorySidebar = ({ selectedCategory, setSelectedCategory }) => {
 
                     <div
                         key={category._id}
-                        className={`sidebar-item ${selectedCategory?._id === category._id ? "active" : ""
+                        className={`sidebar-item ${selectedCategory?._id === category._id
+                                ? "active"
+                                : ""
                             }`}
                         onClick={() => setSelectedCategory(category)}
                     >
@@ -74,7 +119,9 @@ const CategorySidebar = ({ selectedCategory, setSelectedCategory }) => {
             </div>
 
         </div>
+
     );
+
 };
 
 export default CategorySidebar;

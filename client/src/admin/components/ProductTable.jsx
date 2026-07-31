@@ -25,7 +25,16 @@ const ProductTable = ({
 
             <div className="text-center py-5">
 
-                Loading Products...
+                <div
+                    className="spinner-border text-success mb-3"
+                    role="status"
+                >
+                    <span className="visually-hidden">
+                        Loading...
+                    </span>
+                </div>
+
+                <h6>Loading Products...</h6>
 
             </div>
 
@@ -46,23 +55,49 @@ const ProductTable = ({
 
                 <tr>
 
-                    <th>#</th>
+                    <th style={{ width: "60px" }}>
+                        #
+                    </th>
 
-                    <th>Image</th>
+                    <th style={{ width: "110px" }}>
+                        Images
+                    </th>
 
-                    <th>Name</th>
+                    <th>
+                        Product
+                    </th>
 
-                    <th>Category</th>
+                    <th>
+                        Category
+                    </th>
 
-                    <th>Brand</th>
+                    <th>
+                        Price
+                    </th>
 
-                    <th>Price</th>
+                    <th>
+                        Pack
+                    </th>
 
-                    <th>Stock</th>
+                    <th>
+                        Stock
+                    </th>
 
-                    <th>Status</th>
+                    <th>
+                        Badge
+                    </th>
 
-                    <th>Actions</th>
+                    <th>
+                        Status
+                    </th>
+
+                    <th
+                        style={{
+                            width: "130px",
+                        }}
+                    >
+                        Actions
+                    </th>
 
                 </tr>
 
@@ -78,59 +113,295 @@ const ProductTable = ({
 
                             <tr key={product._id}>
 
+                                {/* Serial */}
+
                                 <td>
 
-                                    {(currentPage - 1) * itemsPerPage + index + 1}
+                                    {
+
+                                        (currentPage - 1) *
+                                        itemsPerPage +
+                                        index +
+                                        1
+
+                                    }
 
                                 </td>
 
+                                {/* Images */}
+
                                 <td>
 
-                                    <Image
-                                        src={
-                                            product.images?.length > 0
-                                                ? product.images[0].url
-                                                : "https://placehold.co/60x60"
+                                    <div className="d-flex gap-1 flex-wrap">
+
+                                        {
+
+                                            product.images?.length ? (
+
+                                                product.images
+                                                    .slice(0, 2)
+                                                    .map((img, i) => (
+
+                                                        <Image
+                                                            key={i}
+                                                            src={img.url}
+                                                            rounded
+                                                            width={45}
+                                                            height={45}
+                                                            style={{
+                                                                objectFit:
+                                                                    "cover",
+                                                                border:
+                                                                    "1px solid #ddd",
+                                                            }}
+                                                        />
+
+                                                    ))
+
+                                            ) : (
+
+                                                <Image
+                                                    src="https://placehold.co/45x45?text=No"
+                                                    rounded
+                                                    width={45}
+                                                    height={45}
+                                                />
+
+                                            )
+
                                         }
-                                        width={60}
-                                        height={60}
-                                        rounded
-                                        style={{
-                                            objectFit: "cover",
-                                        }}
-                                    />
+
+                                    </div>
 
                                 </td>
+
+                                {/* Product */}
 
                                 <td>
 
-                                    {product.name}
+                                    <div className="fw-bold">
+
+                                        {product.name}
+
+                                    </div>
+
+                                    <small className="text-muted d-block">
+
+                                        {product.brand || "No Brand"}
+
+                                    </small>
+
+                                    <div className="mt-2">
+
+                                        {
+
+                                            product.isFeatured && (
+
+                                                <Badge
+                                                    bg="warning"
+                                                    text="dark"
+                                                    className="me-1"
+                                                >
+
+                                                    Featured
+
+                                                </Badge>
+
+                                            )
+
+                                        }
+
+                                        {
+
+                                            product.isTrending && (
+
+                                                <Badge
+                                                    bg="info"
+                                                    className="me-1"
+                                                >
+
+                                                    Trending
+
+                                                </Badge>
+
+                                            )
+
+                                        }
+
+                                        {
+
+                                            product.isBestSeller && (
+
+                                                <Badge
+                                                    bg="success"
+                                                >
+
+                                                    Best Seller
+
+                                                </Badge>
+
+                                            )
+
+                                        }
+
+                                    </div>
 
                                 </td>
+
+                                {/* Category */}
 
                                 <td>
 
-                                    {product.category?.name}
+                                    {
+
+                                        product.category?.name ||
+
+                                        "-"
+
+                                    }
 
                                 </td>
+
+                                {/* Price */}
 
                                 <td>
 
-                                    {product.brand || "-"}
+                                    {
+
+                                        product.discountPrice >
+
+                                            0 ? (
+
+                                            <>
+
+                                                <div className="fw-bold text-success">
+
+                                                    ₹
+
+                                                    {
+
+                                                        product.discountPrice
+
+                                                    }
+
+                                                </div>
+
+                                                <small className="text-decoration-line-through text-muted">
+
+                                                    ₹
+
+                                                    {
+
+                                                        product.price
+
+                                                    }
+
+                                                </small>
+
+                                                {
+
+                                                    product.offerPercentage >
+
+                                                    0 && (
+
+                                                        <div className="mt-1">
+
+                                                            <Badge bg="danger">
+
+                                                                {
+
+                                                                    product.offerPercentage
+
+                                                                }
+
+                                                                % OFF
+
+                                                            </Badge>
+
+                                                        </div>
+
+                                                    )
+
+                                                }
+
+                                            </>
+
+                                        ) : (
+
+                                            <span className="fw-bold">
+
+                                                ₹
+
+                                                {
+
+                                                    product.price
+
+                                                }
+
+                                            </span>
+
+                                        )
+
+                                    }
 
                                 </td>
+                                {/* Pack */}
 
                                 <td>
 
-                                    ₹{product.price}
+                                    <Badge bg="primary">
+
+                                        {product.packSize} {product.unit}
+
+                                    </Badge>
 
                                 </td>
+
+                                {/* Stock */}
 
                                 <td>
 
-                                    {product.stock}
+                                    <Badge
+                                        bg={
+                                            product.stock > 50
+                                                ? "success"
+                                                : product.stock > 10
+                                                    ? "warning"
+                                                    : "danger"
+                                        }
+                                    >
+
+                                        {product.stock} {product.unit}
+
+                                    </Badge>
 
                                 </td>
+
+                                {/* Badge */}
+
+                                <td>
+
+                                    {product.badge ? (
+
+                                        <Badge bg="dark">
+
+                                            {product.badge}
+
+                                        </Badge>
+
+                                    ) : (
+
+                                        <span className="text-muted">
+
+                                            -
+
+                                        </span>
+
+                                    )}
+
+                                </td>
+
+                                {/* Status */}
 
                                 <td>
 
@@ -142,15 +413,15 @@ const ProductTable = ({
                                         }
                                     >
 
-                                        {
-                                            product.status
-                                                ? "Active"
-                                                : "Inactive"
-                                        }
+                                        {product.status
+                                            ? "Active"
+                                            : "Inactive"}
 
                                     </Badge>
 
                                 </td>
+
+                                {/* Actions */}
 
                                 <td>
 
@@ -190,11 +461,28 @@ const ProductTable = ({
                         <tr>
 
                             <td
-                                colSpan="9"
-                                className="text-center py-4"
+                                colSpan={10}
+                                className="text-center py-5"
                             >
 
-                                No Products Found
+                                <Image
+                                    src="https://placehold.co/120x120?text=📦"
+                                    width={120}
+                                    height={120}
+                                    className="mb-3"
+                                />
+
+                                <h5 className="fw-bold">
+
+                                    No Products Found
+
+                                </h5>
+
+                                <p className="text-muted mb-0">
+
+                                    No products have been added yet.
+
+                                </p>
 
                             </td>
 

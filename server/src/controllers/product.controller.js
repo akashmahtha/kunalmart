@@ -36,21 +36,31 @@ export const createProduct = async (req, res) => {
 
         console.log("Body:", req.body);
         console.log("Files:", req.files);
+
         const {
             name,
             description,
             category,
             brand,
+
             price,
             discountPrice,
-            stock,
+
+            packSize,
             unit,
+
+            stock,
+
+            badge,
+
             isFeatured,
             isTrending,
             isBestSeller,
         } = req.body;
 
+        // ==========================
         // Check Category
+        // ==========================
 
         const categoryExists = await Category.findById(category);
 
@@ -61,48 +71,106 @@ export const createProduct = async (req, res) => {
             });
         }
 
+        // ==========================
         // Upload Images
-        console.log("Files:", req.files);
+        // ==========================
 
         let images = [];
 
         if (req.files && req.files.length > 0) {
+
             for (const file of req.files) {
-                console.log("Uploading Image...");
 
                 const uploadedImage = await uploadToCloudinary(file.buffer);
-
-                console.log("Cloudinary Response:", uploadedImage);
 
                 images.push({
                     public_id: uploadedImage.public_id,
                     url: uploadedImage.secure_url,
                 });
+
             }
+
         }
 
+        // ==========================
+        // Auto Offer Percentage
+        // ==========================
+
+        let offerPercentage = 0;
+        let offerLabel = "";
+
+        if (
+            Number(discountPrice) > 0 &&
+            Number(discountPrice) < Number(price)
+        ) {
+
+            offerPercentage = Math.round(
+                ((price - discountPrice) / price) * 100
+            );
+
+            offerLabel = `${offerPercentage}% OFF`;
+
+        }
+
+        // ==========================
+        // Create Product
+        // ==========================
+
         const product = await Product.create({
+
             name,
-            slug: name.toLowerCase().replace(/\s+/g, "-"),
+
+            slug: name
+                .toLowerCase()
+                .replace(/\s+/g, "-"),
+
             description,
+
             category,
+
             brand,
+
             images,
+
             price,
+
             discountPrice,
-            stock,
+
+            offerPercentage,
+
+            offerLabel,
+
+            packSize,
+
             unit,
+
+            stock,
+
+            badge,
+
             isFeatured,
+
             isTrending,
+
             isBestSeller,
+
         });
 
         res.status(201).json({
+
             success: true,
+
             message: "Product created successfully",
+
             product,
+
         });
+
     } catch (error) {
+        console.error("========== CREATE PRODUCT ERROR ==========");
+        console.error(error);
+        console.error(error.stack);
+
         res.status(500).json({
             success: false,
             message: error.message,
@@ -198,8 +266,13 @@ export const getProduct = async (req, res) => {
 // Update Product
 // ==============================
 
+// ==============================
+// Update Product
+// ==============================
+
 export const updateProduct = async (req, res) => {
     try {
+
         const product = await Product.findById(req.params.id);
 
         if (!product) {
@@ -209,8 +282,12 @@ export const updateProduct = async (req, res) => {
             });
         }
 
+        // ==========================
         // Check Category
+        // ==========================
+
         if (req.body.category) {
+
             const categoryExists = await Category.findById(req.body.category);
 
             if (!categoryExists) {
@@ -219,10 +296,15 @@ export const updateProduct = async (req, res) => {
                     message: "Category not found",
                 });
             }
+
         }
 
+        // ==========================
         // Upload New Images
+        // ==========================
+
         if (req.files && req.files.length > 0) {
+
             // Delete Old Images
             for (const image of product.images) {
                 if (image.public_id) {
@@ -233,43 +315,89 @@ export const updateProduct = async (req, res) => {
             let images = [];
 
             for (const file of req.files) {
+
                 const uploadedImage = await uploadToCloudinary(file.buffer);
 
                 images.push({
                     public_id: uploadedImage.public_id,
                     url: uploadedImage.secure_url,
                 });
+
             }
 
             req.body.images = images;
+
         }
 
+        // ==========================
         // Update Slug
+        // ==========================
+
         if (req.body.name) {
+
             req.body.slug = req.body.name
                 .toLowerCase()
                 .replace(/\s+/g, "-");
+
         }
+
+        // ==========================
+        // Auto Offer Calculation
+        // ==========================
+
+        const price = Number(
+            req.body.price ?? product.price
+        );
+
+        const discountPrice = Number(
+            req.body.discountPrice ?? product.discountPrice
+        );
+
+        if (
+            discountPrice > 0 &&
+            discountPrice < price
+        ) {
+
+            req.body.offerPercentage = Math.round(
+                ((price - discountPrice) / price) * 100
+            );
+
+            req.body.offerLabel =
+                `${req.body.offerPercentage}% OFF`;
+
+        } else {
+
+            req.body.offerPercentage = 0;
+            req.body.offerLabel = "";
+
+        }
+
+        // ==========================
+        // Update Product
+        // ==========================
 
         const updatedProduct = await Product.findByIdAndUpdate(
             req.params.id,
             req.body,
             {
-                new: true,
+                returnDocument: "after",
                 runValidators: true,
             }
-        );
+        ).populate("category", "name");
 
         res.status(200).json({
             success: true,
             message: "Product updated successfully",
             product: updatedProduct,
         });
+
     } catch (error) {
+
         res.status(500).json({
             success: false,
             message: error.message,
         });
+
     }
 };
 
