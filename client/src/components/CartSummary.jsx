@@ -2,32 +2,84 @@ import { Link } from "react-router-dom";
 
 const CartSummary = ({ cart }) => {
 
-    const subtotal = cart.totalPrice;
+    // ==========================
+    // Safe Cart Items
+    // ==========================
 
-    const deliveryCharge = subtotal >= 499 ? 0 : 40;
+    const items =
+        cart?.items?.filter(
+            (item) => item?.product
+        ) || [];
 
-    const platformFee = subtotal > 0 ? 5 : 0;
+    // ==========================
+    // Subtotal
+    // ==========================
 
-    const total = subtotal + deliveryCharge + platformFee;
+    const subtotal = items.reduce((total, item) => {
 
-    const savings = cart.items.reduce((sum, item) => {
+        const product = item.product;
+
+        const price =
+            product.discountPrice > 0
+                ? product.discountPrice
+                : product.price;
+
+        return total + price * item.quantity;
+
+    }, 0);
+
+    // ==========================
+    // Delivery Charge
+    // ==========================
+
+    const deliveryCharge =
+        subtotal >= 499 || subtotal === 0
+            ? 0
+            : 40;
+
+    // ==========================
+    // Platform Fee
+    // ==========================
+
+    const platformFee =
+        subtotal > 0
+            ? 5
+            : 0;
+
+    // ==========================
+    // Savings
+    // ==========================
+
+    const savings = items.reduce((total, item) => {
+
+        const product = item.product;
 
         if (
-            item.product.discountPrice &&
-            item.product.discountPrice < item.product.price
+            product.discountPrice > 0 &&
+            product.discountPrice < product.price
         ) {
 
             return (
-                sum +
-                (item.product.price - item.product.discountPrice) *
+                total +
+                (product.price -
+                    product.discountPrice) *
                 item.quantity
             );
 
         }
 
-        return sum;
+        return total;
 
     }, 0);
+
+    // ==========================
+    // Grand Total
+    // ==========================
+
+    const grandTotal =
+        subtotal +
+        deliveryCharge +
+        platformFee;
 
     return (
 
@@ -43,21 +95,15 @@ const CartSummary = ({ cart }) => {
 
                 <div className="d-flex justify-content-between mb-3">
 
-                    <span>Subtotal</span>
+                    <span>
 
-                    <strong>₹{subtotal}</strong>
+                        Subtotal
 
-                </div>
-
-                <div className="d-flex justify-content-between mb-3">
-
-                    <span>Delivery Charge</span>
+                    </span>
 
                     <strong>
 
-                        {deliveryCharge === 0
-                            ? "FREE"
-                            : `₹${deliveryCharge}`}
+                        ₹{subtotal}
 
                     </strong>
 
@@ -65,9 +111,41 @@ const CartSummary = ({ cart }) => {
 
                 <div className="d-flex justify-content-between mb-3">
 
-                    <span>Platform Fee</span>
+                    <span>
 
-                    <strong>₹{platformFee}</strong>
+                        Delivery Charge
+
+                    </span>
+
+                    <strong>
+
+                        {
+
+                            deliveryCharge === 0
+
+                                ? "FREE"
+
+                                : `₹${deliveryCharge}`
+
+                        }
+
+                    </strong>
+
+                </div>
+
+                <div className="d-flex justify-content-between mb-3">
+
+                    <span>
+
+                        Platform Fee
+
+                    </span>
+
+                    <strong>
+
+                        ₹{platformFee}
+
+                    </strong>
 
                 </div>
 
@@ -99,7 +177,7 @@ const CartSummary = ({ cart }) => {
 
                     <h4 className="fw-bold text-success mb-0">
 
-                        ₹{total}
+                        ₹{grandTotal}
 
                     </h4>
 
@@ -107,23 +185,37 @@ const CartSummary = ({ cart }) => {
 
                 {
 
-                    subtotal < 499 ? (
+                    subtotal > 0 && subtotal < 499 ? (
 
                         <div className="alert alert-warning mt-4">
 
-                            Add products worth{" "}
+                            Add products worth
 
                             <strong>
 
-                                ₹{499 - subtotal}
+                                {" "}₹{499 - subtotal}{" "}
 
-                            </strong>{" "}
+                            </strong>
 
-                            more to get{" "}
+                            more to get
 
                             <strong>
 
-                                FREE Delivery 🚚
+                                {" "}FREE Delivery 🚚
+
+                            </strong>
+
+                        </div>
+
+                    ) : subtotal >= 499 ? (
+
+                        <div className="alert alert-success mt-4">
+
+                            🎉 Congratulations!
+
+                            <strong>
+
+                                {" "}FREE Delivery Unlocked
 
                             </strong>
 
@@ -131,15 +223,9 @@ const CartSummary = ({ cart }) => {
 
                     ) : (
 
-                        <div className="alert alert-success mt-4">
+                        <div className="alert alert-secondary mt-4">
 
-                            🎉 Congratulations! You have unlocked{" "}
-
-                            <strong>
-
-                                FREE Delivery
-
-                            </strong>
+                            Your cart is empty.
 
                         </div>
 
@@ -149,7 +235,10 @@ const CartSummary = ({ cart }) => {
 
                 <Link
                     to="/checkout"
-                    className="btn btn-success w-100 mt-3 py-3 fw-bold"
+                    className={`btn btn-success w-100 mt-3 py-3 fw-bold ${subtotal === 0
+                            ? "disabled"
+                            : ""
+                        }`}
                 >
 
                     Proceed To Checkout

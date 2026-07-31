@@ -150,19 +150,17 @@ const Cart = () => {
 
                         {
 
-                            cartItems.map((item) => (
+                            cartItems
+                                .filter((item) => item.product)
+                                .map((item) => (
 
-                                <CartItem
+                                    <CartItem
+                                        key={item._id || item.product._id}
+                                        item={item}
+                                        fetchCart={fetchCart}
+                                    />
 
-                                    key={item.product?._id}
-
-                                    item={item}
-
-                                    fetchCart={fetchCart}
-
-                                />
-
-                            ))
+                                ))
 
                         }
 

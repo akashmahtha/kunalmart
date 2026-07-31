@@ -43,7 +43,7 @@ const EmptyCart = () => {
                             </p>
 
                             <Link
-                                to="/products"
+                                to="/categories"
                                 className="btn btn-success btn-lg px-5"
                             >
 

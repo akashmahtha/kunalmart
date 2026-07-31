@@ -144,20 +144,61 @@ export const addToCart = async (req, res) => {
 // Get User Cart
 // ===============================
 
+// ===============================
+// Get User Cart
+// ===============================
+
 export const getCart = async (req, res) => {
+
     try {
 
-        const cart = await Cart.findOne({
+        let cart = await Cart.findOne({
             user: req.user._id,
         }).populate("items.product");
 
+        // If cart doesn't exist
         if (!cart) {
+
             return res.status(200).json({
                 success: true,
-                cart: [],
-                totalPrice: 0,
+                cart: {
+                    items: [],
+                    totalPrice: 0,
+                },
             });
+
         }
+
+        // ===============================
+        // Remove deleted/null products
+        // ===============================
+
+        cart.items = cart.items.filter(
+            (item) => item.product
+        );
+
+        // ===============================
+        // Recalculate total price
+        // ===============================
+
+        cart.totalPrice = cart.items.reduce((total, item) => {
+
+            const product = item.product;
+
+            const price =
+                product.discountPrice > 0
+                    ? product.discountPrice
+                    : product.price;
+
+            return total + price * item.quantity;
+
+        }, 0);
+
+        // Save updated cart
+        await cart.save();
+
+        // Populate again after save
+        await cart.populate("items.product");
 
         res.status(200).json({
             success: true,
@@ -166,12 +207,15 @@ export const getCart = async (req, res) => {
 
     } catch (error) {
 
+        console.error("Get Cart Error:", error);
+
         res.status(500).json({
             success: false,
             message: error.message,
         });
 
     }
+
 };
 
 
