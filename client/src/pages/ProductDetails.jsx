@@ -455,33 +455,11 @@ const ProductDetails = () => {
 
                         </div>
 
-                        {/* Delivery Information */}
-
-                        <DeliveryInfo />
-
                     </div>
 
                 </div>
 
-                <hr className="my-5" />
 
-                <ProductInfoCard
-
-                    product={product}
-
-                />
-
-                <hr className="my-5" />
-
-                {/* Reviews */}
-
-                <ReviewSection
-
-                    productId={product._id}
-
-                />
-
-                <hr className="my-5" />
 
                 {/* Related Products */}
 
