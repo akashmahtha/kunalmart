@@ -21,9 +21,7 @@ import Footer from "../components/Footer";
 import Breadcrumb from "../components/Breadcrumb";
 import ProductImageGallery from "../components/ProductImageGallery";
 import QuantitySelector from "../components/QuantitySelector";
-import DeliveryInfo from "../components/DeliveryInfo";
-import ProductInfoCard from "../components/ProductInfoCard";
-import ReviewSection from "../components/ReviewSection";
+
 import RelatedProducts from "../components/RelatedProducts";
 
 const ProductDetails = () => {

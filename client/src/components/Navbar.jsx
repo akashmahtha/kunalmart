@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-
 import {
     Link,
     useNavigate,
@@ -24,17 +23,14 @@ import logo from "../assets/logo.png";
 
 import "./Navbar.css";
 
-
 const Navbar = () => {
 
     const navigate = useNavigate();
-
     const location = useLocation();
 
-
-    // =====================================================
-    // STATES
-    // =====================================================
+    // ==========================================
+    // STATE
+    // ==========================================
 
     const [search, setSearch] = useState("");
 
@@ -42,34 +38,40 @@ const Navbar = () => {
 
     const [cartCount, setCartCount] = useState(0);
 
-    const [wishlistCount] = useState(0);
-
-
-    // =====================================================
-    // LOGIN CHECK
-    // =====================================================
+    const [wishlistCount, setWishlistCount] = useState(0);
 
     const token = localStorage.getItem("token");
 
     const user = !!token;
 
+    // ==========================================
+    // ACTIVE CATEGORY
+    // ==========================================
 
-    // =====================================================
-    // FETCH DATA
-    // =====================================================
+    const activeCategoryId =
+        new URLSearchParams(location.search).get("category");
+
+    // ==========================================
+    // LOAD DATA
+    // ==========================================
 
     useEffect(() => {
 
         fetchCategories();
 
-        fetchCartCount();
+        if (token) {
+
+            fetchCartCount();
+
+            fetchWishlistCount();
+
+        }
 
     }, []);
 
-
-    // =====================================================
+    // ==========================================
     // FETCH CATEGORIES
-    // =====================================================
+    // ==========================================
 
     const fetchCategories = async () => {
 
@@ -78,15 +80,14 @@ const Navbar = () => {
             const res = await api.get("/categories");
 
             setCategories(
-                res.data?.categories || []
+                res.data?.categories ||
+                res.data?.data ||
+                []
             );
 
-        } catch (error) {
+        } catch (err) {
 
-            console.log(
-                "Category Error:",
-                error
-            );
+            console.log(err);
 
             setCategories([]);
 
@@ -94,10 +95,9 @@ const Navbar = () => {
 
     };
 
-
-    // =====================================================
+    // ==========================================
     // FETCH CART COUNT
-    // =====================================================
+    // ==========================================
 
     const fetchCartCount = async () => {
 
@@ -108,26 +108,21 @@ const Navbar = () => {
             const items =
                 res.data?.cart?.items || [];
 
+            const total = items.reduce(
 
-            const totalQuantity = items.reduce(
+                (sum, item) =>
 
-                (total, item) =>
-
-                    total + (item.quantity || 0),
+                    sum + (item.quantity || 0),
 
                 0
 
             );
 
+            setCartCount(total);
 
-            setCartCount(totalQuantity);
+        } catch (err) {
 
-        } catch (error) {
-
-            console.log(
-                "Cart Count Error:",
-                error
-            );
+            console.log(err);
 
             setCartCount(0);
 
@@ -135,10 +130,34 @@ const Navbar = () => {
 
     };
 
+    // ==========================================
+    // FETCH WISHLIST COUNT
+    // ==========================================
 
-    // =====================================================
+    const fetchWishlistCount = async () => {
+
+        try {
+
+            const res = await api.get("/wishlist");
+
+            const items =
+                res.data?.wishlist?.items || [];
+
+            setWishlistCount(items.length);
+
+        } catch (err) {
+
+            console.log(err);
+
+            setWishlistCount(0);
+
+        }
+
+    };
+
+    // ==========================================
     // SEARCH
-    // =====================================================
+    // ==========================================
 
     const handleSearch = (e) => {
 
@@ -146,13 +165,10 @@ const Navbar = () => {
 
         const keyword = search.trim();
 
-
         if (keyword) {
 
             navigate(
-                `/products?keyword=${encodeURIComponent(
-                    keyword
-                )}`
+                `/products?keyword=${encodeURIComponent(keyword)}`
             );
 
         } else {
@@ -163,43 +179,21 @@ const Navbar = () => {
 
     };
 
-
-    // =====================================================
+    // ==========================================
     // CATEGORY CLICK
-    // =====================================================
+    // ==========================================
 
     const handleCategoryClick = (categoryId) => {
 
-        if (categoryId) {
-
-            navigate(
-                `/products?category=${categoryId}`
-            );
-
-        } else {
-
-            navigate("/products");
-
-        }
+        navigate(
+            `/categories?category=${categoryId}`
+        );
 
     };
 
-
-    // =====================================================
-    // ACTIVE CATEGORY
-    // =====================================================
-
-    const params = new URLSearchParams(
-        location.search
-    );
-
-    const activeCategoryId =
-        params.get("category");
-
-
-    // =====================================================
+    // ==========================================
     // LOGOUT
-    // =====================================================
+    // ==========================================
 
     const handleLogout = () => {
 
@@ -213,20 +207,17 @@ const Navbar = () => {
 
     };
 
-
     return (
 
         <header className="km-header">
 
-
-            {/* =====================================================
-                TOP GREEN BAR
-            ===================================================== */}
+            {/* ==========================================
+                TOP BAR
+            ========================================== */}
 
             <div className="km-topbar">
 
                 <div className="km-container km-topbar-inner">
-
 
                     <div className="km-top-item">
 
@@ -241,72 +232,44 @@ const Navbar = () => {
 
                     </div>
 
-
-                    <div className="km-top-item km-launch-offer">
-
-                        <span>
-
-                            🎉
-
-                        </span>
-
-                        <span>
-
-                            Launch Offer:
-                            Potatoes @ $1/kg*
-
-                        </span>
-
-                    </div>
-
-
                     <div className="km-top-item">
 
                         <FaTruck />
 
                         <span>
 
-                            Free Delivery on orders above $499
+                            Free Delivery on orders above ₹499
 
                         </span>
 
                     </div>
-
 
                     <div className="km-top-item">
 
-                        <span>
-
-                            ☎
-
-                        </span>
+                        <span>☎</span>
 
                         <span>
 
-                            Customer Support: 81008 95700
+                            Customer Support:
+                            81008 95700
 
                         </span>
 
                     </div>
-
 
                 </div>
 
             </div>
 
-
-            {/* =====================================================
+            {/* ==========================================
                 MAIN HEADER
-            ===================================================== */}
+            ========================================== */}
 
             <div className="km-main-header">
 
                 <div className="km-container km-main-inner">
 
-
-                    {/* =================================================
-                        LOGO
-                    ================================================= */}
+                    {/* Logo */}
 
                     <Link
                         to="/"
@@ -319,15 +282,14 @@ const Navbar = () => {
                             className="km-logo-img"
                         />
 
-
                         <div className="km-logo-text">
 
                             <h2>
 
-                                Kunal<span>Mart</span>
+                                Kunal
+                                <span>Mart</span>
 
                             </h2>
-
 
                             <small>
 
@@ -339,10 +301,7 @@ const Navbar = () => {
 
                     </Link>
 
-
-                    {/* =================================================
-                        SEARCH
-                    ================================================= */}
+                    {/* Search */}
 
                     <form
                         className="km-search"
@@ -358,7 +317,6 @@ const Navbar = () => {
                             }
                         />
 
-
                         <button type="submit">
 
                             <FaSearch />
@@ -366,24 +324,21 @@ const Navbar = () => {
                         </button>
 
                     </form>
-
-
-                    {/* =================================================
-                        RIGHT MENU
-                    ================================================= */}
+                    {/* ==========================================
+                        RIGHT ACTIONS
+                    ========================================== */}
 
                     <div className="km-main-actions">
 
-
-                        {/* =================================================
+                        {/* ===============================
                             ACCOUNT
-                        ================================================= */}
+                        =============================== */}
 
-                        <div className="km-account dropdown">
+                        <div className="dropdown">
 
                             <button
-                                type="button"
                                 className="km-action-button"
+                                type="button"
                                 data-bs-toggle="dropdown"
                                 aria-expanded="false"
                             >
@@ -392,28 +347,19 @@ const Navbar = () => {
 
                                 <span>
 
-                                    {
-                                        user
-                                            ? "Account"
-                                            : "Login / Signup"
-                                    }
+                                    {user ? "My Account" : "Login / Signup"}
 
                                 </span>
 
                             </button>
 
-
                             <ul className="dropdown-menu dropdown-menu-end km-dropdown">
-
 
                                 {
 
                                     user ? (
 
                                         <>
-
-
-                                            {/* PROFILE */}
 
                                             <li>
 
@@ -430,9 +376,6 @@ const Navbar = () => {
 
                                             </li>
 
-
-                                            {/* ORDERS */}
-
                                             <li>
 
                                                 <Link
@@ -448,15 +391,11 @@ const Navbar = () => {
 
                                             </li>
 
-
                                             <li>
 
                                                 <hr className="dropdown-divider" />
 
                                             </li>
-
-
-                                            {/* LOGOUT */}
 
                                             <li>
 
@@ -474,15 +413,11 @@ const Navbar = () => {
 
                                             </li>
 
-
                                         </>
 
                                     ) : (
 
                                         <>
-
-
-                                            {/* LOGIN */}
 
                                             <li>
 
@@ -497,9 +432,6 @@ const Navbar = () => {
 
                                             </li>
 
-
-                                            {/* REGISTER */}
-
                                             <li>
 
                                                 <Link
@@ -513,22 +445,19 @@ const Navbar = () => {
 
                                             </li>
 
-
                                         </>
 
                                     )
 
                                 }
 
-
                             </ul>
 
                         </div>
 
-
-                        {/* =================================================
+                        {/* ===============================
                             ORDERS
-                        ================================================= */}
+                        =============================== */}
 
                         <Link
                             to="/orders"
@@ -545,10 +474,9 @@ const Navbar = () => {
 
                         </Link>
 
-
-                        {/* =================================================
+                        {/* ===============================
                             WISHLIST
-                        ================================================= */}
+                        =============================== */}
 
                         <Link
                             to="/wishlist"
@@ -558,7 +486,6 @@ const Navbar = () => {
                             <span className="km-icon-wrap">
 
                                 <FaHeart />
-
 
                                 {
 
@@ -576,7 +503,6 @@ const Navbar = () => {
 
                             </span>
 
-
                             <span>
 
                                 Wishlist
@@ -585,10 +511,9 @@ const Navbar = () => {
 
                         </Link>
 
-
-                        {/* =================================================
+                        {/* ===============================
                             CART
-                        ================================================= */}
+                        =============================== */}
 
                         <Link
                             to="/cart"
@@ -598,7 +523,6 @@ const Navbar = () => {
                             <span className="km-icon-wrap">
 
                                 <FaShoppingCart />
-
 
                                 {
 
@@ -616,7 +540,6 @@ const Navbar = () => {
 
                             </span>
 
-
                             <span>
 
                                 Cart
@@ -625,26 +548,22 @@ const Navbar = () => {
 
                         </Link>
 
-
                     </div>
 
                 </div>
 
             </div>
-
-
-            {/* =====================================================
+            {/* ==========================================
                 CATEGORY NAVIGATION
-            ===================================================== */}
+            ========================================== */}
 
             <nav className="km-category-nav">
 
                 <div className="km-container km-category-inner">
 
-
-                    {/* =================================================
+                    {/* ===========================
                         ALL CATEGORIES
-                    ================================================= */}
+                    =========================== */}
 
                     <div className="km-all-categories dropdown">
 
@@ -667,17 +586,13 @@ const Navbar = () => {
 
                         </button>
 
-
                         <ul className="dropdown-menu km-category-dropdown">
-
-
-                            {/* ALL PRODUCTS */}
 
                             <li>
 
                                 <Link
                                     to="/products"
-                                    className="dropdown-item"
+                                    className="dropdown-item fw-bold"
                                 >
 
                                     All Products
@@ -686,26 +601,25 @@ const Navbar = () => {
 
                             </li>
 
+                            <li>
 
-                            {/* DATABASE CATEGORIES */}
+                                <hr className="dropdown-divider" />
+
+                            </li>
 
                             {
 
-                                categories.map(
+                                categories.length > 0 ? (
 
-                                    (category) => (
+                                    categories.map((category) => (
 
-                                        <li
-                                            key={category._id}
-                                        >
+                                        <li key={category._id}>
 
                                             <button
                                                 type="button"
                                                 className="dropdown-item"
                                                 onClick={() =>
-                                                    handleCategoryClick(
-                                                        category._id
-                                                    )
+                                                    handleCategoryClick(category._id)
                                                 }
                                             >
 
@@ -715,26 +629,35 @@ const Navbar = () => {
 
                                         </li>
 
-                                    )
+                                    ))
+
+                                ) : (
+
+                                    <li>
+
+                                        <span className="dropdown-item text-muted">
+
+                                            No Categories Found
+
+                                        </span>
+
+                                    </li>
 
                                 )
 
                             }
 
-
                         </ul>
 
                     </div>
 
-
-                    {/* =================================================
+                    {/* ===========================
                         NAV LINKS
-                    ================================================= */}
+                    =========================== */}
 
                     <div className="km-nav-links">
 
-
-                        {/* HOME */}
+                        {/* Home */}
 
                         <Link
                             to="/"
@@ -748,71 +671,48 @@ const Navbar = () => {
 
                         </Link>
 
-
-                        {/* CATEGORIES */}
+                        {/* First 5 Categories */}
 
                         {
 
                             categories
-                                .slice(0, 6)
-                                .map(
+                                .slice(0, 5)
+                                .map((category) => (
 
-                                    (category) => (
+                                    <button
+                                        key={category._id}
+                                        type="button"
+                                        className={`km-nav-link ${activeCategoryId === category._id
+                                            ? "active"
+                                            : ""
+                                            }`}
+                                        onClick={() =>
+                                            handleCategoryClick(category._id)
+                                        }
+                                    >
 
-                                        <button
-                                            key={category._id}
-                                            type="button"
-                                            className={`km-nav-link ${activeCategoryId ===
-                                                category._id
-                                                ? "active"
-                                                : ""
-                                                }`}
-                                            onClick={() =>
-                                                handleCategoryClick(
-                                                    category._id
-                                                )
-                                            }
-                                        >
+                                        {category.name}
 
-                                            {category.name}
+                                    </button>
 
-                                        </button>
-
-                                    )
-
-                                )
+                                ))
 
                         }
 
+                        {/* More */}
 
-                        {/* OFFERS */}
-
-                        <Link
+                        {/* <Link
                             to="/products"
-                            className={`km-nav-link ${location.pathname ===
-                                "/products" &&
-                                !activeCategoryId
-                                ? "active"
-                                : ""
+                            className={`km-nav-link ${location.pathname === "/products" &&
+                                    !activeCategoryId
+                                    ? "active"
+                                    : ""
                                 }`}
-                        >
-
-                            Offers
-
-                        </Link>
-
-
-                        {/* MORE */}
-
-                        <Link
-                            to="/products"
-                            className="km-nav-link"
                         >
 
                             More
 
-                        </Link>
-
+                        </Link> */}
 
                     </div>
 
@@ -820,13 +720,11 @@ const Navbar = () => {
 
             </nav>
 
-
-            {/* =====================================================
-                MOBILE NAV
-            ===================================================== */}
+            {/* ==========================================
+                MOBILE NAVIGATION
+            ========================================== */}
 
             <div className="km-mobile-nav">
-
 
                 <Link
                     to="/"
@@ -841,12 +739,10 @@ const Navbar = () => {
 
                 </Link>
 
-
                 <Link
                     to="/products"
                     className={
-                        location.pathname === "/products" &&
-                            !activeCategoryId
+                        location.pathname === "/products"
                             ? "active"
                             : ""
                     }
@@ -856,33 +752,38 @@ const Navbar = () => {
 
                 </Link>
 
-
                 <Link
                     to="/wishlist"
+                    className={
+                        location.pathname === "/wishlist"
+                            ? "active"
+                            : ""
+                    }
                 >
 
                     Wishlist
 
                 </Link>
 
-
                 <Link
                     to="/cart"
+                    className={
+                        location.pathname === "/cart"
+                            ? "active"
+                            : ""
+                    }
                 >
 
                     Cart
 
                 </Link>
 
-
             </div>
-
 
         </header>
 
     );
 
 };
-
 
 export default Navbar;
