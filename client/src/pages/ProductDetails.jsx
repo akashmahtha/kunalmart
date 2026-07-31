@@ -1,11 +1,17 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
+
 import { useNavigate, useParams } from "react-router-dom";
+
 import {
     FaStar,
     FaShoppingCart,
     FaHeart,
+    FaBolt,
+    FaBoxOpen,
+    FaCheckCircle,
 } from "react-icons/fa";
 
+import { Badge } from "react-bootstrap";
 import { toast } from "react-toastify";
 
 import api from "../services/api";
@@ -32,15 +38,15 @@ const ProductDetails = () => {
 
     const [quantity, setQuantity] = useState(1);
 
-    useEffect(() => {
+    // ==========================
+    // Fetch Product
+    // ==========================
 
-        fetchProduct();
-
-    }, [id]);
-
-    const fetchProduct = async () => {
+    const fetchProduct = useCallback(async () => {
 
         try {
+
+            setLoading(true);
 
             const res = await api.get(`/products/${id}`);
 
@@ -50,74 +56,149 @@ const ProductDetails = () => {
 
             console.log(error);
 
+            toast.error(
+                error.response?.data?.message ||
+                "Failed to load product"
+            );
+
         } finally {
 
             setLoading(false);
 
         }
 
+    }, [id]);
+
+    useEffect(() => {
+
+        fetchProduct();
+
+    }, [fetchProduct]);
+
+    // ==========================
+    // Prices
+    // ==========================
+
+    const finalPrice =
+        product?.discountPrice > 0
+            ? product.discountPrice
+            : product?.price;
+
+    const discount =
+        product?.offerPercentage ||
+        (
+            product?.discountPrice > 0
+                ? Math.round(
+                    (
+                        (product.price - product.discountPrice) /
+                        product.price
+                    ) * 100
+                )
+                : 0
+        );
+
+    // ==========================
+    // Stock Status
+    // ==========================
+
+    const getStockBadge = () => {
+
+        if (!product)
+            return null;
+
+        if (product.stock <= 0) {
+
+            return (
+                <Badge bg="danger">
+                    Out Of Stock
+                </Badge>
+            );
+
+        }
+
+        if (product.stock <= 10) {
+
+            return (
+                <Badge bg="warning" text="dark">
+                    Only {product.stock} Left
+                </Badge>
+            );
+
+        }
+
+        return (
+            <Badge bg="success">
+                In Stock
+            </Badge>
+        );
+
     };
-    // ===========================
+
+    // ==========================
     // Add To Cart
-    // ===========================
+    // ==========================
 
     const addToCart = async () => {
-        console.log("Button Clicked");
 
         const token = localStorage.getItem("token");
-        console.log("Token:", token);
 
         if (!token) {
+
             toast.error("Please login first");
+
             navigate("/login");
+
             return;
+
         }
 
         try {
-            console.log({
-                productId: product._id,
-                quantity,
-            });
 
             const res = await api.post("/cart", {
-                productId: product._id,
-                quantity,
-            });
 
-            console.log("Response:", res.data);
+                productId: product._id,
+
+                quantity,
+
+            });
 
             toast.success(res.data.message);
 
         } catch (error) {
 
-            console.log("ERROR:", error);
-
-            console.log("Response:", error.response);
-
             toast.error(
-                error.response?.data?.message || "Failed to add product"
+                error.response?.data?.message ||
+                "Failed to add product"
             );
+
         }
+
     };
 
-    // ===========================
-    // Add To Wishlist
-    // ===========================
+    // ==========================
+    // Wishlist
+    // ==========================
 
     const addToWishlist = async () => {
 
         const token = localStorage.getItem("token");
 
         if (!token) {
+
             toast.error("Please login first");
+
             navigate("/login");
+
             return;
+
         }
 
         try {
 
             const res = await api.post("/wishlist", {
+
                 productId: product._id,
+
             });
 
             toast.success(res.data.message);
@@ -133,9 +214,9 @@ const ProductDetails = () => {
 
     };
 
-    // ===========================
+    // ==========================
     // Buy Now
-    // ===========================
+    // ==========================
 
     const buyNow = async () => {
 
@@ -166,42 +247,14 @@ const ProductDetails = () => {
         } catch (error) {
 
             toast.error(
-
                 error.response?.data?.message ||
-
                 "Something went wrong"
-
             );
 
         }
 
     };
 
-    const finalPrice =
-
-        product?.discountPrice > 0
-
-            ? product.discountPrice
-
-            : product?.price;
-
-    const discount =
-
-        product?.discountPrice > 0
-
-            ? Math.round(
-
-                (
-
-                    (product.price - product.discountPrice)
-
-                    / product.price
-
-                ) * 100
-
-            )
-
-            : 0;
     if (loading) {
 
         return (
@@ -212,7 +265,18 @@ const ProductDetails = () => {
 
                 <div className="container py-5 text-center">
 
-                    <div className="spinner-border text-success"></div>
+                    <div
+                        className="spinner-border text-success"
+                        role="status"
+                    >
+                        <span className="visually-hidden">
+                            Loading...
+                        </span>
+                    </div>
+
+                    <h5 className="mt-3">
+                        Loading Product...
+                    </h5>
 
                 </div>
 
@@ -234,7 +298,9 @@ const ProductDetails = () => {
 
                 <div className="container py-5 text-center">
 
-                    <h2>Product Not Found</h2>
+                    <h2>
+                        Product Not Found
+                    </h2>
 
                 </div>
 
@@ -263,9 +329,7 @@ const ProductDetails = () => {
                     <div className="col-lg-6">
 
                         <ProductImageGallery
-
                             images={product.images}
-
                         />
 
                     </div>
@@ -273,6 +337,7 @@ const ProductDetails = () => {
                     {/* Right Side */}
 
                     <div className="col-lg-6">
+                        {/* Category */}
 
                         <small className="text-success fw-semibold">
 
@@ -280,13 +345,17 @@ const ProductDetails = () => {
 
                         </small>
 
+                        {/* Product Name */}
+
                         <h2 className="fw-bold mt-2">
 
                             {product.name}
 
                         </h2>
 
-                        <p className="text-muted">
+                        {/* Brand */}
+
+                        <p className="text-muted mb-2">
 
                             Brand :
 
@@ -298,15 +367,70 @@ const ProductDetails = () => {
 
                         </p>
 
+                        {/* Product Badge */}
+
+                        {product.badge && (
+
+                            <div className="mb-3">
+
+                                <Badge bg="primary">
+
+                                    {product.badge}
+
+                                </Badge>
+
+                            </div>
+
+                        )}
+
+                        {/* Featured / Trending / Best Seller */}
+
+                        <div className="mb-3">
+
+                            {product.isFeatured && (
+
+                                <Badge
+                                    bg="warning"
+                                    text="dark"
+                                    className="me-2"
+                                >
+                                    ⭐ Featured
+                                </Badge>
+
+                            )}
+
+                            {product.isTrending && (
+
+                                <Badge
+                                    bg="info"
+                                    className="me-2"
+                                >
+                                    🔥 Trending
+                                </Badge>
+
+                            )}
+
+                            {product.isBestSeller && (
+
+                                <Badge bg="success">
+
+                                    🏆 Best Seller
+
+                                </Badge>
+
+                            )}
+
+                        </div>
+
                         {/* Rating */}
 
-                        <div className="d-flex align-items-center mb-3">
+                        <div className="d-flex align-items-center mb-4">
 
                             <FaStar className="text-warning" />
 
                             <span className="fw-bold ms-2">
 
-                                {product.rating?.toFixed(1) || 0}
+                                {product.rating?.toFixed(1) || "0.0"}
 
                             </span>
 
@@ -322,35 +446,55 @@ const ProductDetails = () => {
 
                         <div className="mb-4">
 
-                            <span className="display-6 fw-bold text-success">
+                            <span className="display-5 fw-bold text-success">
 
                                 ₹{finalPrice}
 
                             </span>
 
-                            {
+                            {product.discountPrice > 0 && (
 
-                                product.discountPrice > 0 && (
+                                <>
 
-                                    <>
+                                    <span className="ms-3 text-decoration-line-through text-muted fs-5">
 
-                                        <span className="text-decoration-line-through text-muted ms-3">
+                                        ₹{product.price}
 
-                                            ₹{product.price}
+                                    </span>
 
-                                        </span>
+                                    <Badge
+                                        bg="danger"
+                                        className="ms-3"
+                                    >
 
-                                        <span className="badge bg-danger ms-3">
+                                        {product.offerLabel ||
+                                            `${discount}% OFF`}
 
-                                            {discount}% OFF
+                                    </Badge>
 
-                                        </span>
+                                </>
 
-                                    </>
+                            )}
 
-                                )
+                        </div>
 
-                            }
+                        {/* Pack Size */}
+
+                        <div className="mb-3">
+
+                            <FaBoxOpen className="me-2 text-success" />
+
+                            <strong>
+
+                                Pack :
+
+                            </strong>
+
+                            <span className="ms-2">
+
+                                {product.packSize} {product.unit}
+
+                            </span>
 
                         </div>
 
@@ -358,25 +502,7 @@ const ProductDetails = () => {
 
                         <div className="mb-4">
 
-                            {
-
-                                product.stock > 0 ? (
-
-                                    <span className="badge bg-success">
-                                        In Stock
-                                    </span>
-
-                                ) : (
-
-                                    <span className="badge bg-danger fs-6">
-
-                                        Out Of Stock
-
-                                    </span>
-
-                                )
-
-                            }
+                            {getStockBadge()}
 
                         </div>
 
@@ -409,23 +535,22 @@ const ProductDetails = () => {
                             </h6>
 
                             <QuantitySelector
-
                                 stock={product.stock}
-
                                 value={quantity}
-
                                 onChange={setQuantity}
-
+                                disabled={product.stock === 0}
                             />
 
                         </div>
-                        {/* Buttons */}
 
-                        <div className="d-grid gap-3">
+
+                        {/* Action Buttons */}
+
+                        <div className="d-grid gap-3 mt-4">
 
                             <button
                                 className="btn btn-success btn-lg"
-                                disabled={product.stock === 0}
+                                disabled={product.stock <= 0}
                                 onClick={addToCart}
                             >
 
@@ -437,9 +562,11 @@ const ProductDetails = () => {
 
                             <button
                                 className="btn btn-warning btn-lg fw-bold"
-                                disabled={product.stock === 0}
+                                disabled={product.stock <= 0}
                                 onClick={buyNow}
                             >
+
+                                <FaBolt className="me-2" />
 
                                 Buy Now
 
@@ -449,25 +576,47 @@ const ProductDetails = () => {
                                 className="btn btn-outline-danger btn-lg"
                                 onClick={addToWishlist}
                             >
+
                                 <FaHeart className="me-2" />
+
                                 Add To Wishlist
+
                             </button>
 
                         </div>
+
+                        {/* Stock Note */}
+
+                        {
+
+                            product.stock > 0 && (
+
+                                <div className="mt-4 text-success">
+
+                                    <FaCheckCircle className="me-2" />
+
+                                    Ready for fast delivery
+
+                                </div>
+
+                            )
+
+                        }
 
                     </div>
 
                 </div>
 
 
-
                 {/* Related Products */}
 
-                <RelatedProducts
+                <div className="mt-5">
 
-                    productId={product._id}
+                    <RelatedProducts
+                        productId={product._id}
+                    />
 
-                />
+                </div>
 
             </div>
 
